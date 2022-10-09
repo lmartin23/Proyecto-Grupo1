@@ -10,8 +10,16 @@ import javax.persistence.*;
 public class ImagenProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private String id;
     private String url;
+
+    @ManyToOne
+    private Producto producto;
+
+    public ImagenProducto(String id, String url, Producto producto) {
+        this.id = id;
+        this.url = url;
+        this.producto = producto;
+    }
 
 }
