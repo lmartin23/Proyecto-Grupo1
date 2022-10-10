@@ -5,16 +5,23 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import java.util.Date;
 
 @Entity
 @Getter @Setter @ToString
 public class Envio extends MetodoEntrega{
     private boolean confirmado;
 
-    public Envio() {
+    public Envio(String id, Date fechaDesde, Date fechaHasta, boolean confirmado) {
+        super(id, fechaDesde, fechaHasta);
+        this.confirmado = confirmado;
     }
 
     public Envio(boolean confirmado) {
         this.confirmado = confirmado;
+    }
+
+    public Envio() {
+
     }
 }

@@ -26,4 +26,14 @@ public abstract class MetodoEntrega {
     @JoinColumn(name = "id")
     private Compra compra;
 
+    public MetodoEntrega(String id, Date fechaDesde, Date fechaHasta) {
+        this.id = id;
+        this.fechaDesde = fechaDesde;
+        this.fechaHasta = fechaHasta;
+    }
+
+
+    public MetodoEntrega() {
+
+    }
 }

@@ -9,15 +9,15 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "Usuario", indexes = {
-        @Index(name = "idx_usuario_correo", columnList = "correo"),
+        @Index(name = "idx_usuario_correo", columnList = "correo", unique= true),
         @Index(name = "idx_usuario_id", columnList = "id")
 })
-@Getter
-@Setter
+@Getter @Setter
 public abstract class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private String documento;
     private String tipoDocumento;

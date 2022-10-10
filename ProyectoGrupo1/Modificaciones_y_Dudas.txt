@@ -1,0 +1,16 @@
+Cambios y dudas que tenemos que modificar:
+
+Dudas:
+Los id, van a ser String al final?
+
+En cuanto al mapeo, vi que los hiciste unidireccionales, hay casos en los que me parece mejor hacerlos bidireccionales o cambiar el lado desde 
+donde se hace el "link".
+
+Cambios que hice:
+Como es abstracta me parece innecesario que se generen registros en la base de esa clase, por lo que le puse el tipo de herencia con 
+estrategia "table_per_class" asi genera tablas por las clases hijas.
+Si no te parece lo charlamos, y si estas de acuerdo me parece que lo mismo tendriamos que aplicar en metodo de entrega, para que sean 
+o "envios" o "retiros".
+
+En usuario al usar el tipo de @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+se tuvo que cambiar el tipo de estrategia para generar el id, por tipo AUTO, ya que Identity da error con ese tipo de herencia
