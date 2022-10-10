@@ -5,13 +5,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "idx_vendedor_id", columnList = "id")
+        @Index(name = "idx_vendedor_idvendedor", columnList = "id")
 })
 @Getter @Setter @ToString
+@PrimaryKeyJoinColumn(name="cliente_id", referencedColumnName = "id")
 public class Vendedor extends Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +23,19 @@ public class Vendedor extends Cliente {
     private boolean habilitaEnvio;
     private double saldo;
 
-    public Vendedor(String id, String documento, String tipoDocumento, String nombre, String apellido, Date fechaNacimiento, String correo, String contraseña, boolean bloqueado, boolean correoValidado, boolean envioDomicilio) {
-        super(id, documento, tipoDocumento, nombre, apellido, fechaNacimiento, correo, contraseña, bloqueado, correoValidado, envioDomicilio);
-    }
+    @OneToMany(mappedBy = "vendedor", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    private List<Calificacion> calificacionesVendedor = new ArrayList<Calificacion>();;
 
     public Vendedor() {
         super();
+    }
+
+    public Vendedor(String idVendedor, String nombreComercial, boolean habilitado, boolean habilitaEnvio, double saldo, List<Calificacion> calificacionesVendedor) {
+        this.id = idVendedor;
+        this.nombreComercial = nombreComercial;
+        this.habilitado = habilitado;
+        this.habilitaEnvio = habilitaEnvio;
+        this.saldo = saldo;
+        this.calificacionesVendedor = calificacionesVendedor;
     }
 }

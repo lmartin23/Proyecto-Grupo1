@@ -27,6 +27,11 @@ public class Producto {
     @ManyToOne(optional = false)
     private Vendedor vendedor;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProductoCarrito productoCarrito;
+
     public Producto() {
     }
 

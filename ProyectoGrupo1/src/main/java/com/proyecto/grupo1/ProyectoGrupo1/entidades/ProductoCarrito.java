@@ -23,10 +23,13 @@ public class ProductoCarrito {
     private int cantidad;
     private double total;
 
-    @OneToOne
+    @ManyToOne
     private Cliente cliente;
 
-    @OneToOne
+    @OneToOne(mappedBy = "productoCarrito", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    private Compra compra;
+
+    @OneToOne(mappedBy = "productoCarrito", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Producto producto;
 
     public ProductoCarrito() {

@@ -21,17 +21,19 @@ public class Compra {
     private boolean pagoConfirmado;
     private EstadoCompra estado;
 
-    @OneToOne
-    private ProductoCarrito productoCarrito;
-
-    @OneToOne
+    @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Reclamo reclamo;
 
-    @OneToOne
+    @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    private MetodoEntrega metodoEntrega;
+
+    @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Pago pago;
 
     @OneToOne
-    private MetodoEntrega metodoEntrega;
+    @MapsId
+    @JoinColumn(name = "id")
+    private ProductoCarrito productoCarrito;
 
     public Compra() {
     }

@@ -23,6 +23,10 @@ public class Pago {
     private TipoPago metodo;
     private boolean liberado;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Compra compra;
     public Pago() {
     }
 

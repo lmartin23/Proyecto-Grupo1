@@ -24,6 +24,11 @@ public class Reclamo {
     private Date fechaInicio;
     private Date fechaUltEstado;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Compra compra;
+
     public Reclamo() {
     }
 

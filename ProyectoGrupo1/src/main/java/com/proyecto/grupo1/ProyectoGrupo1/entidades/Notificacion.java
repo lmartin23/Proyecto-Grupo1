@@ -22,16 +22,16 @@ public class Notificacion {
     private Date fecha;
 
     @ManyToOne
-    private Usuario usuario;
+    private Cliente cliente;
 
     public Notificacion() {
     }
 
-    public Notificacion(String id, TipoNotificacion tipo, String descripcion, Date fecha, Usuario usuario) {
+    public Notificacion(String id, TipoNotificacion tipo, String descripcion, Date fecha, Cliente cliente) {
         this.id = id;
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.fecha = fecha;
-        this.usuario = usuario;
+        this.cliente = cliente;
     }
 }

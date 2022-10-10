@@ -5,15 +5,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "Calificacion", indexes = {
         @Index(name = "idx_calificacion_id", columnList = "id")
 })
-@Getter
-@Setter
-@ToString
+@Getter @Setter @ToString
 public class Calificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +23,6 @@ public class Calificacion {
 
     @ManyToOne
     private Cliente cliente;
-
     @ManyToOne
     private Vendedor vendedor;
 }

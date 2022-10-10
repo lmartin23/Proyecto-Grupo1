@@ -21,4 +21,9 @@ public abstract class MetodoEntrega {
     private Date fechaDesde;
     private Date fechaHasta;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Compra compra;
+
 }
