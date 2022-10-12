@@ -11,11 +11,10 @@ import java.util.List;
 
 @Entity
 @Getter @Setter @ToString
-@DiscriminatorValue("Cliente")
 public class Cliente  extends Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private boolean envioDomicilio;
 
     @OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
@@ -29,7 +28,7 @@ public class Cliente  extends Usuario {
 
     public Cliente() { super(); }
 
-    public Cliente(String id, String documento, String tipoDocumento, String nombre, String apellido, Date fechaNacimiento, String correo, String contraseña, boolean bloqueado, boolean correoValidado, String id1, boolean envioDomicilio, List<Calificacion> calificacionesCliente) {
+    public Cliente(Long id, String documento, String tipoDocumento, String nombre, String apellido, Date fechaNacimiento, String correo, String contraseña, boolean bloqueado, boolean correoValidado, Long id1, boolean envioDomicilio, List<Calificacion> calificacionesCliente) {
         super(id, documento, tipoDocumento, nombre, apellido, fechaNacimiento, correo, contraseña, bloqueado, correoValidado);
         this.id = id1;
         this.envioDomicilio = envioDomicilio;

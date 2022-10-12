@@ -17,25 +17,25 @@ import javax.persistence.*;
 public class ProductoCarrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private EstadoProdCarrito estado;
     private int moneda;
     private int cantidad;
     private double total;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Cliente cliente;
+
+    @ManyToOne(optional = false)
+    private Producto producto;
 
     @OneToOne(mappedBy = "productoCarrito", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Compra compra;
 
-    @OneToOne(mappedBy = "productoCarrito", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
-    private Producto producto;
-
     public ProductoCarrito() {
     }
 
-    public ProductoCarrito(String id, EstadoProdCarrito estado, int moneda, int cantidad, double total, Cliente cliente, Producto producto) {
+    public ProductoCarrito(Long id, EstadoProdCarrito estado, int moneda, int cantidad, double total, Cliente cliente, Producto producto) {
         this.id = id;
         this.estado = estado;
         this.moneda = moneda;

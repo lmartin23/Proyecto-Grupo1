@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Producto", indexes = {
@@ -15,7 +17,7 @@ import javax.persistence.*;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String nombre;
     private String descripcion;
     private double precio;
@@ -27,15 +29,17 @@ public class Producto {
     @ManyToOne(optional = false)
     private Vendedor vendedor;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private ProductoCarrito productoCarrito;
+    @OneToMany(mappedBy = "producto", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    private List<ProductoCarrito> productoCarritos = new ArrayList<ProductoCarrito>();
+
+    @OneToMany(mappedBy = "producto", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    private List<ImagenProducto> imagenProductos = new ArrayList<ImagenProducto>();
+
 
     public Producto() {
     }
 
-    public Producto(String id, String nombre, String descripcion, double precio, int moneda, int stock, CategoProd categoria, boolean activo, Vendedor vendedor) {
+    public Producto(Long id, String nombre, String descripcion, double precio, int moneda, int stock, CategoProd categoria, boolean activo, Vendedor vendedor) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;

@@ -16,7 +16,7 @@ import java.util.Date;
 public class Notificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private TipoNotificacion tipo;
     private String descripcion;
     private Date fecha;
@@ -27,7 +27,7 @@ public class Notificacion {
     public Notificacion() {
     }
 
-    public Notificacion(String id, TipoNotificacion tipo, String descripcion, Date fecha, Cliente cliente) {
+    public Notificacion(Long id, TipoNotificacion tipo, String descripcion, Date fecha, Cliente cliente) {
         this.id = id;
         this.tipo = tipo;
         this.descripcion = descripcion;

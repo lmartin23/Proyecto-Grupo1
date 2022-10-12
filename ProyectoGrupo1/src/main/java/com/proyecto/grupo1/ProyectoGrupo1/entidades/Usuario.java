@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -18,7 +16,7 @@ import java.util.List;
 public abstract class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
     private String documento;
     private String tipoDocumento;
     private String nombre;
@@ -29,7 +27,7 @@ public abstract class Usuario {
     private boolean bloqueado;
     private boolean correoValidado;
 
-    public Usuario(String id, String documento, String tipoDocumento, String nombre, String apellido, Date fechaNacimiento, String correo, String contraseña, boolean bloqueado, boolean correoValidado) {
+    public Usuario(Long id, String documento, String tipoDocumento, String nombre, String apellido, Date fechaNacimiento, String correo, String contraseña, boolean bloqueado, boolean correoValidado) {
         this.id = id;
         this.documento = documento;
         this.tipoDocumento = tipoDocumento;

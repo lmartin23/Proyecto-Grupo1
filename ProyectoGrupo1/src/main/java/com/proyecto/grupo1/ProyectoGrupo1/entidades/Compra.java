@@ -16,7 +16,7 @@ import java.util.Date;
 public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private Date fecha;
     private boolean pagoConfirmado;
     private EstadoCompra estado;
@@ -25,20 +25,21 @@ public class Compra {
     private Reclamo reclamo;
 
     @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
-    private MetodoEntrega metodoEntrega;
+    private Retiro retiro;
+
+    @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    private Envio envio;
 
     @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Pago pago;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
     private ProductoCarrito productoCarrito;
 
     public Compra() {
     }
 
-    public Compra(String id, Date fecha, boolean pagoConfirmado, EstadoCompra estado, ProductoCarrito productoCarrito, Reclamo reclamo, Pago pago, MetodoEntrega metodoEntrega) {
+    public Compra(Long id, Date fecha, boolean pagoConfirmado, EstadoCompra estado, ProductoCarrito productoCarrito, Reclamo reclamo, Pago pago) {
         this.id = id;
         this.fecha = fecha;
         this.pagoConfirmado = pagoConfirmado;
@@ -46,6 +47,5 @@ public class Compra {
         this.productoCarrito = productoCarrito;
         this.reclamo = reclamo;
         this.pago = pago;
-        this.metodoEntrega = metodoEntrega;
     }
 }

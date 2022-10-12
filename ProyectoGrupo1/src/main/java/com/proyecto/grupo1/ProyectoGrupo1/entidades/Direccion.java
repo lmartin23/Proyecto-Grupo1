@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Direccion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String calle;
     private int numero;
     private String apto;
@@ -34,7 +34,7 @@ public class Direccion {
     public Direccion() {
     }
 
-    public Direccion(String id, String calle, int numero, String apto, String barrio, String ciudad, String departamento, boolean principal, Cliente cliente, Vendedor vendedor) {
+    public Direccion(Long id, String calle, int numero, String apto, String barrio, String ciudad, String departamento, boolean principal, Cliente cliente, Vendedor vendedor) {
         this.id = id;
         this.calle = calle;
         this.numero = numero;

@@ -16,7 +16,7 @@ import java.util.Date;
 public class Calificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private int estrellas;
     private String comentario;
     private Date fecha;
@@ -25,5 +25,18 @@ public class Calificacion {
     private Cliente cliente;
     @ManyToOne
     private Vendedor vendedor;
+
+    public Calificacion() {
+    }
+
+    public Calificacion(Long id, int estrellas, String comentario, Date fecha, Cliente cliente, Vendedor vendedor) {
+        this.id = id;
+        this.estrellas = estrellas;
+        this.comentario = comentario;
+        this.fecha = fecha;
+        this.cliente = cliente;
+        this.vendedor = vendedor;
+    }
+
 }
 

@@ -17,22 +17,20 @@ import java.util.Date;
 public class Reclamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private EstadoReclamo estado;
     private EstadoResolucion resolucion;
     private String descripcion;
     private Date fechaInicio;
     private Date fechaUltEstado;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @OneToOne(optional = false)
     private Compra compra;
 
     public Reclamo() {
     }
 
-    public Reclamo(String id, EstadoReclamo estado, EstadoResolucion resolucion, String descripcion, Date fechaInicio, Date fechaUltEstado) {
+    public Reclamo(Long id, EstadoReclamo estado, EstadoResolucion resolucion, String descripcion, Date fechaInicio, Date fechaUltEstado) {
         this.id = id;
         this.estado = estado;
         this.resolucion = resolucion;

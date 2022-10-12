@@ -17,7 +17,7 @@ import java.util.List;
 public class Vendedor extends Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String nombreComercial;
     private boolean habilitado;
     private boolean habilitaEnvio;
@@ -30,7 +30,7 @@ public class Vendedor extends Cliente {
         super();
     }
 
-    public Vendedor(String idVendedor, String nombreComercial, boolean habilitado, boolean habilitaEnvio, double saldo, List<Calificacion> calificacionesVendedor) {
+    public Vendedor(Long idVendedor, String nombreComercial, boolean habilitado, boolean habilitaEnvio, double saldo, List<Calificacion> calificacionesVendedor) {
         this.id = idVendedor;
         this.nombreComercial = nombreComercial;
         this.habilitado = habilitado;

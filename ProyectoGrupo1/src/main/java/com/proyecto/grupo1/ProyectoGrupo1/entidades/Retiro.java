@@ -5,6 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import java.util.Date;
 
 @Entity
@@ -12,7 +15,10 @@ import java.util.Date;
 public class Retiro extends MetodoEntrega{
     private boolean confirmado;
 
-    public Retiro(String id, Date fechaDesde, Date fechaHasta, boolean confirmado) {
+    @OneToOne(optional = false)
+    private Compra compra;
+
+    public Retiro(Long id, Date fechaDesde, Date fechaHasta, boolean confirmado) {
         super(id, fechaDesde, fechaHasta);
         this.confirmado = confirmado;
     }

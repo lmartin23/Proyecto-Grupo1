@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "MetodoEntrega", indexes = {
         @Index(name = "idx_metodoentrega_id", columnList = "id")
 })
@@ -16,17 +17,12 @@ import java.util.Date;
 @ToString
 public abstract class MetodoEntrega {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private Date fechaDesde;
     private Date fechaHasta;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private Compra compra;
-
-    public MetodoEntrega(String id, Date fechaDesde, Date fechaHasta) {
+    public MetodoEntrega(Long id, Date fechaDesde, Date fechaHasta) {
         this.id = id;
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;

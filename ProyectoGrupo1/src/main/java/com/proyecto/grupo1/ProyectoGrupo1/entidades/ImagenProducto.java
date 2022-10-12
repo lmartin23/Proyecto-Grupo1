@@ -6,20 +6,26 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Table(name = "ImagenProducto", indexes = {
+        @Index(name = "idx_imagenproducto_id", columnList = "id")
+})
+@Getter
+@Setter
 public class ImagenProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String url;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Producto producto;
 
-    public ImagenProducto(String id, String url, Producto producto) {
+    public ImagenProducto() {
+    }
+
+    public ImagenProducto(Long id, String url, Producto producto) {
         this.id = id;
         this.url = url;
         this.producto = producto;
     }
-
 }

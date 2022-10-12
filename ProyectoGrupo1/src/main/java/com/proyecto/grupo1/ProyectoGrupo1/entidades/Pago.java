@@ -18,19 +18,17 @@ import java.util.Date;
 public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private Date fecha;
     private TipoPago metodo;
     private boolean liberado;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @OneToOne(optional = false)
     private Compra compra;
     public Pago() {
     }
 
-    public Pago(String id, Date fecha, TipoPago metodo, boolean liberado) {
+    public Pago(Long id, Date fecha, TipoPago metodo, boolean liberado) {
         this.id = id;
         this.fecha = fecha;
         this.metodo = metodo;
