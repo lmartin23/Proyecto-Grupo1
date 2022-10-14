@@ -4,5 +4,7 @@ import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ClienteDao extends CrudRepository<Cliente,String> {
-    //Usamos esta o JpaRepository
+
+    Cliente findClienteByCorreoIgnoreCase(String correo);
+    Cliente findClienteByApellido(String ape);
 }

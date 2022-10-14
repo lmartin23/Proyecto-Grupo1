@@ -18,26 +18,35 @@ public abstract class Usuario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String documento;
-    private String tipoDocumento;
     private String nombre;
     private String apellido;
     private Date fechaNacimiento;
     private String correo;
-    private String contraseña;
+    private String contrasena;
     private boolean bloqueado;
     private boolean correoValidado;
 
-    public Usuario(Long id, String documento, String tipoDocumento, String nombre, String apellido, Date fechaNacimiento, String correo, String contraseña, boolean bloqueado, boolean correoValidado) {
+    public Usuario(Long id, String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena, boolean bloqueado, boolean correoValidado) {
         this.id = id;
         this.documento = documento;
-        this.tipoDocumento = tipoDocumento;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.correo = correo;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.bloqueado = bloqueado;
         this.correoValidado = correoValidado;
+    }
+
+    public Usuario(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
+        this.documento = documento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.bloqueado = false;
+        this.correoValidado = false;
     }
 
     public Usuario() {
