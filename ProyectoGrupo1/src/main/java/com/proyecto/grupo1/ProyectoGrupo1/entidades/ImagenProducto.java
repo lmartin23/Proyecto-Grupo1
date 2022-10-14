@@ -23,9 +23,9 @@ public class ImagenProducto {
     public ImagenProducto() {
     }
 
-    public ImagenProducto(Long id, String url, Producto producto) {
-        this.id = id;
+    public ImagenProducto(String url) {
+        //this.id = id;
         this.url = url;
-        this.producto = producto;
+        //this.producto = producto;
     }
 }

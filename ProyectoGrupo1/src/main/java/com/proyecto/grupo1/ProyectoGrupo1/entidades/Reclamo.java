@@ -18,7 +18,9 @@ public class Reclamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private EstadoReclamo estado;
+    @Enumerated(EnumType.STRING)
     private EstadoResolucion resolucion;
     private String descripcion;
     private Date fechaInicio;

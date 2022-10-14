@@ -20,6 +20,7 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date fecha;
+    @Enumerated(EnumType.STRING)
     private TipoPago metodo;
     private boolean liberado;
 

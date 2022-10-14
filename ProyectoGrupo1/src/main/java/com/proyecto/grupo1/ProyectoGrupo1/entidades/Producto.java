@@ -33,14 +33,14 @@ public class Producto {
     private List<ProductoCarrito> productoCarritos = new ArrayList<ProductoCarrito>();
 
     @OneToMany(mappedBy = "producto", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
-    private List<ImagenProducto> imagenProductos = new ArrayList<ImagenProducto>();
+    private List<ImagenProducto> imagenesProducto = new ArrayList<ImagenProducto>();
 
 
-    public Producto() {
+    public Producto(String nombre, String descripcion, double precio, int moneda, int stock, String categoria, boolean activo, Vendedor vendedor, List<ImagenProducto> imagenes) {
     }
 
-    public Producto(Long id, String nombre, String descripcion, double precio, int moneda, int stock, CategoProd categoria, boolean activo, Vendedor vendedor) {
-        this.id = id;
+    public Producto(String nombre, String descripcion, double precio, int moneda, int stock, CategoProd categoria, boolean activo, Vendedor vendedor, List<ImagenProducto> imagenesProducto) {
+        //this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -49,6 +49,7 @@ public class Producto {
         this.categoria = categoria;
         this.activo = activo;
         this.vendedor = vendedor;
+        this.imagenesProducto = imagenesProducto;
     }
 
 }

@@ -18,6 +18,7 @@ public class ProductoCarrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private EstadoProdCarrito estado;
     private int moneda;
     private int cantidad;
