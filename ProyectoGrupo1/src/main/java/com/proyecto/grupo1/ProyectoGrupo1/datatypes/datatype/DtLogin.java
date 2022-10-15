@@ -1,4 +1,4 @@
-package com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums;
+package com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype;
 
 import lombok.Getter;
 import lombok.Setter;

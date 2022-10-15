@@ -1,7 +1,8 @@
 package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.DtLogin;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.DtRegistroCliente;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtLogin;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroCliente;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.InvitadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,13 @@ public class InvitadoController {
     InvitadoService serviceInv;
 
     @RequestMapping(value = "api/invitado/registrar", method = RequestMethod.POST)
-    public boolean registrarCliente(@RequestBody DtRegistroCliente dt){
+    public ObjResponse registrarCliente(@RequestBody DtRegistroCliente dt){
         return serviceInv.registrarCliente(dt);
     }
 
     @RequestMapping(value = "api/invitado/login", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> login(@RequestBody DtLogin dtLogin){
-        Boolean exito = serviceInv.login(dtLogin);
-        if(exito){
-            return new ResponseEntity<>(exito, HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<>(exito, HttpStatus.UNAUTHORIZED);
+    public ObjResponse login(@RequestBody DtLogin dtLogin){
+        return serviceInv.login(dtLogin);
     }
 
     @RequestMapping(value = "api/invitado/getall", method = RequestMethod.GET)

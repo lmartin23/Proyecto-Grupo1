@@ -46,4 +46,25 @@ public class Direccion {
         this.cliente = cliente;
         this.vendedor = vendedor;
     }
+
+    public Direccion(String calle, int numero, String apto, String barrio, String ciudad, String departamento, boolean principal, Cliente cliente, Vendedor vendedor) {
+        this.calle = calle;
+        this.numero = numero;
+        this.apto = apto;
+        this.barrio = barrio;
+        this.ciudad = ciudad;
+        this.departamento = departamento;
+        this.principal = principal;
+        this.cliente = cliente;
+        this.vendedor = vendedor;
+    }
+    public Direccion(String calle, int numero, String apto, String barrio, String ciudad, String departamento, boolean principal) {
+        this.calle = calle;
+        this.numero = numero;
+        this.apto = apto;
+        this.barrio = barrio;
+        this.ciudad = ciudad;
+        this.departamento = departamento;
+        this.principal = principal;
+    }
 }
