@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter
 public class ImagenProducto {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String url;
 
@@ -24,8 +24,13 @@ public class ImagenProducto {
     }
 
     public ImagenProducto(String url) {
-        //this.id = id;
+        this.id = id;
         this.url = url;
-        //this.producto = producto;
+        this.producto = producto;
+    }
+
+    public ImagenProducto(String url, Producto producto) {
+        this.url = url;
+        this.producto = producto;
     }
 }

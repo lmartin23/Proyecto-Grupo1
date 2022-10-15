@@ -1,6 +1,7 @@
 package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtProducto;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ public class ProductoController {
     ProductoService productoService;
 
     @RequestMapping(value = "api/producto/alta", method = RequestMethod.POST)
-    public boolean insertar(@RequestBody DtProducto dtP){
+    public ObjResponse insertar(@RequestBody DtProducto dtP){
             return productoService.altaProducto(dtP);
     }
 }

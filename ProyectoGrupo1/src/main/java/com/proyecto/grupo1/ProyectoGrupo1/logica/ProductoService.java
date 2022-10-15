@@ -1,11 +1,12 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtProducto;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 
 import java.util.List;
 
 public interface ProductoService {
 
-    public boolean altaProducto(DtProducto dtP);
+    public ObjResponse altaProducto(DtProducto dtP);
 
 }

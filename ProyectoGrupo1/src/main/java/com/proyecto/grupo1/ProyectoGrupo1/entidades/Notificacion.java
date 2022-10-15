@@ -17,6 +17,7 @@ public class Notificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private TipoNotificacion tipo;
     private String descripcion;
     private Date fecha;
