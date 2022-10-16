@@ -1,6 +1,7 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoProdCarrito;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoNotificacion;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @ToString
 public class ProductoCarrito {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Enumerated(EnumType.STRING)
     private EstadoProdCarrito estado;
@@ -36,7 +37,15 @@ public class ProductoCarrito {
     public ProductoCarrito() {
     }
 
-    public ProductoCarrito(Long id, EstadoProdCarrito estado, int moneda, int cantidad, double total, Cliente cliente, Producto producto) {
+    public ProductoCarrito(int cantidad, Cliente cliente, Producto producto) {
+        this.estado = EstadoProdCarrito.AGREGADO;
+        this.cantidad = cantidad;
+        this.total = cantidad * producto.getPrecio();
+        this.cliente = cliente;
+        this.producto = producto;
+    }
+
+    public ProductoCarrito(Long id, EstadoProdCarrito estado, int moneda, int cantidad, double total, Cliente cliente, Producto producto, Compra compra) {
         this.id = id;
         this.estado = estado;
         this.moneda = moneda;
@@ -44,5 +53,6 @@ public class ProductoCarrito {
         this.total = total;
         this.cliente = cliente;
         this.producto = producto;
+        this.compra = compra;
     }
 }

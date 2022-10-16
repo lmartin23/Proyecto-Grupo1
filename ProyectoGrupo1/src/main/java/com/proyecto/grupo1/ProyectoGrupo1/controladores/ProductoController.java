@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/producto")
+@RequestMapping("/api/producto")
 public class ProductoController {
     @Autowired
     ProductoService productoService;
 
-    @RequestMapping(value = "api/producto/alta", method = RequestMethod.POST)
+    @RequestMapping(value = "/alta", method = RequestMethod.POST)
     public ObjResponse insertar(@RequestBody DtProducto dtP){
             return productoService.altaProducto(dtP);
     }
