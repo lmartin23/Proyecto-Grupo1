@@ -12,7 +12,7 @@ public class ProyectoGrupo1Application {
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoGrupo1Application.class, args);
 	}
-
+/*
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
@@ -21,5 +21,5 @@ public class ProyectoGrupo1Application {
 				registry.addMapping("/**").allowedOrigins("/**").allowedMethods("GET", "POST","PUT", "DELETE");;
 			}
 		};
-	}
+	}*/
 }
