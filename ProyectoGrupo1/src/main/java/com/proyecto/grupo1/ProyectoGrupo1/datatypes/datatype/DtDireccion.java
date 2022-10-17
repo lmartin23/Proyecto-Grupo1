@@ -2,8 +2,9 @@ package com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class DtDireccion {
     private String calle;
     private int numero;

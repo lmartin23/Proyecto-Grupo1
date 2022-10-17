@@ -26,6 +26,9 @@ public class Vendedor extends Cliente {
     @OneToMany(mappedBy = "vendedor", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Calificacion> calificacionesVendedor = new ArrayList<Calificacion>();;
 
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Direccion> direcciones;
+
     public Vendedor() {
         super();
     }

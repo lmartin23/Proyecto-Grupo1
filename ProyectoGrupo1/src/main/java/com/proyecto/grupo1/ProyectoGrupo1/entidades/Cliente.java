@@ -23,6 +23,9 @@ public class Cliente  extends Usuario {
     @OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ProductoCarrito> productoCarritos = new ArrayList<ProductoCarrito>();
 
+    @OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Direccion> direcciones  = new ArrayList<Direccion>();
+
     public Cliente() { super(); }
 
     public Cliente(Long id, String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena, boolean bloqueado, boolean correoValidado, boolean envioDomicilio, List<Calificacion> calificacionesCliente) {
@@ -34,4 +37,5 @@ public class Cliente  extends Usuario {
     public Cliente(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
         super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
     }
+
 }

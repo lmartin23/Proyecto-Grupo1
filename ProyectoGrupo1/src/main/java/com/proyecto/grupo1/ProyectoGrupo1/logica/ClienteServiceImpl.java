@@ -28,17 +28,17 @@ public class ClienteServiceImpl implements ClienteService{
             if (cli != null && !direcciones.isEmpty()) {
                 for (DtDireccion dt : direcciones) {
                     Direccion d = new Direccion(dt.getCalle(), dt.getNumero(), dt.getApto(), dt.getBarrio(), dt.getCiudad(), dt.getDepartamento(), dt.isPrincipal());
-                    d.setCliente(cli);
                     dirDao.save(d);
+                    cli.getDirecciones().add(d);
                 }
                 clienteDao.save(cli);
 
-                return new ObjResponse("Error, id no encontrado o no se han ingresado direcciones", HttpStatus.BAD_REQUEST.value(),null);
+                return new ObjResponse("OK, se han ingresado direcciones", HttpStatus.CREATED.value(),null);
             } else {
                 return new ObjResponse("Error, id no encontrado o no se han ingresado direcciones", HttpStatus.BAD_REQUEST.value(), null);
             }
         } catch (Exception e) {
-            return new ObjResponse("Error, id no encontrado o no se han ingresado direcciones", HttpStatus.BAD_REQUEST.value(), null);
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
         }
     }
 }

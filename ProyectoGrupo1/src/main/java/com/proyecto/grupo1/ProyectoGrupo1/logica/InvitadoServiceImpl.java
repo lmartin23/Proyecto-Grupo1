@@ -3,10 +3,13 @@ package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
 import com.proyecto.grupo1.ProyectoGrupo1.dao.AdministradorDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.ClienteDao;
+import com.proyecto.grupo1.ProyectoGrupo1.dao.DireccionDao;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtLogin;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroCliente;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
+import com.proyecto.grupo1.ProyectoGrupo1.entidades.Direccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,19 +28,30 @@ public class InvitadoServiceImpl implements InvitadoService{
     @Autowired
     PasswordSevice passService;
 
+    @Autowired
+    DireccionDao dirDao;
     @Override
     public ObjResponse registrarCliente(DtRegistroCliente dt) {
         boolean existeCorreo = correoRegistrado(dt.getCorreo());
         if(!existeCorreo){
-            String pass = passService.hashearPassword(dt.getContrasena());
-            Cliente cli = new Cliente(dt.getDocumento(), dt.getNombre(), dt.getApellido(), dt.getFechaNacimiento(), dt.getCorreo(), pass);
-            try{
-                clienteDao.save(cli);
-                Cliente c = clienteDao.findClienteByCorreoIgnoreCase(cli.getCorreo());
-                return new ObjResponse("Exito", HttpStatus.CREATED.value(),c.getId());
-            }catch (Exception e){
-                return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+            if(!dt.getDirecciones().isEmpty()){
+                String pass = passService.hashearPassword(dt.getContrasena());
+                Cliente cli = new Cliente(dt.getDocumento(), dt.getNombre(), dt.getApellido(), dt.getFechaNacimiento(), dt.getCorreo(), pass);
+                try{
+                    clienteDao.save(cli);
+                    for(DtDireccion dtDir : dt.getDirecciones()){
+                        Direccion dir = new Direccion(dtDir.getCalle(), dtDir.getNumero(), dtDir.getApto(), dtDir.getBarrio(), dtDir.getCiudad(), dtDir.getDepartamento(), dtDir.isPrincipal());
+                        dir.setCliente(cli);
+                        dirDao.save(dir);
+                    }
+
+                    Cliente c = clienteDao.findClienteByCorreoIgnoreCase(cli.getCorreo());
+                    return new ObjResponse("Exito", HttpStatus.CREATED.value(),c.getId());
+                }catch (Exception e){
+                    return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+                }
             }
+            return new ObjResponse("Error, no se ha ingresado direccion", HttpStatus.BAD_REQUEST.value(),null);
         }
         return new ObjResponse("Error, ya existe un usuario registrado con los datos ingresados", HttpStatus.BAD_REQUEST.value(),null);
     }
@@ -54,8 +68,8 @@ public class InvitadoServiceImpl implements InvitadoService{
     }
 
     @Override
-    public List<Cliente> obtenerClientes() {
-        return (List<Cliente>) clienteDao.findAll();
+    public Cliente obtenerCliente(Long id) {
+        return (Cliente) clienteDao.findClienteById(id);
     }
 
     public boolean correoRegistrado(String correo){

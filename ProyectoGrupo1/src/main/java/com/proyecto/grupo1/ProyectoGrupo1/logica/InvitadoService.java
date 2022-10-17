@@ -11,7 +11,7 @@ public interface InvitadoService {
 
     public ObjResponse registrarCliente(DtRegistroCliente cliente);
     public ObjResponse login(DtLogin dtLogin);
-    public List<Cliente> obtenerClientes();
+    public Cliente obtenerCliente(Long id);
 
 
 }
