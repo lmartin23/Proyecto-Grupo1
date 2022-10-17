@@ -33,4 +33,9 @@ public class InvitadoController {
         return serviceInv.obtenerCliente(id);
     }
 
+    @RequestMapping(value = "api/invitado/get", method = RequestMethod.GET)
+    public String listar(){
+        return "HOLA ESTA ES UNA PRUEBA";
+    }
+
 }
