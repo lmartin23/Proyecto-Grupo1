@@ -23,8 +23,14 @@ public class CarritoController {
 
     @RequestMapping(value = "/eliminar", method = RequestMethod.PUT)
     public ObjResponse eliminarProductoCarrito(
-            @RequestBody Long idProducto,
-            @RequestBody Long idCliente){
+            @RequestParam Long idProducto,
+            @RequestParam Long idCliente){
         return carritoService.eliminarProductoCarrito(idProducto, idCliente);
+    }
+
+    @RequestMapping(value = "/consultar", method = RequestMethod.GET)
+    public ObjResponse eliminarProductoCarrito(
+            @RequestParam Long idCliente){
+        return carritoService.consultarCarrito(idCliente);
     }
 }

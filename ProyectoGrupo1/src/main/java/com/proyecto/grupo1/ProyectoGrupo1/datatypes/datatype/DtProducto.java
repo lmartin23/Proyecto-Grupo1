@@ -1,8 +1,5 @@
 package com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype;
 
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.CategoProd;
-import com.proyecto.grupo1.ProyectoGrupo1.entidades.ImagenProducto;
-import com.proyecto.grupo1.ProyectoGrupo1.entidades.Vendedor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

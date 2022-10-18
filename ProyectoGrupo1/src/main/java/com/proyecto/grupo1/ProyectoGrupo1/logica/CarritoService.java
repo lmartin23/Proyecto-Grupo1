@@ -7,4 +7,6 @@ public interface CarritoService {
     public ObjResponse ingresarProductoCarrito(Long idP, Long idC, int cant) throws NoHayStockException;
 
     public ObjResponse eliminarProductoCarrito(Long idP, Long idC);
+
+    public ObjResponse consultarCarrito(Long idC);
 }
