@@ -19,7 +19,6 @@ public class DtProducto implements Serializable {
     private String nombre;
     private String descripcion;
     private double precio;
-    private int moneda;
     private int stock;
     private String categoria;
     private boolean activo;
@@ -31,12 +30,11 @@ public class DtProducto implements Serializable {
     public DtProducto() {
     }
 
-    public DtProducto(Long id, String nombre, String descripcion, double precio, int moneda, int stock, String categoria, boolean activo, Long idVendedor, List<String> imagenesUrl) {
+    public DtProducto(Long id, String nombre, String descripcion, double precio, int stock, String categoria, boolean activo, Long idVendedor, List<String> imagenesUrl) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.moneda = moneda;
         this.stock = stock;
         this.categoria = categoria;
         this.activo = activo;

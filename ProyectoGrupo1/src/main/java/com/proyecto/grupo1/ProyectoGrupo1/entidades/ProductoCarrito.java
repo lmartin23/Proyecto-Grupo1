@@ -21,7 +21,6 @@ public class ProductoCarrito {
     private Long id;
     @Enumerated(EnumType.STRING)
     private EstadoProdCarrito estado;
-    private int moneda;
     private int cantidad;
     private double total;
 
@@ -45,10 +44,9 @@ public class ProductoCarrito {
         this.producto = producto;
     }
 
-    public ProductoCarrito(Long id, EstadoProdCarrito estado, int moneda, int cantidad, double total, Cliente cliente, Producto producto, Compra compra) {
+    public ProductoCarrito(Long id, EstadoProdCarrito estado, int cantidad, double total, Cliente cliente, Producto producto, Compra compra) {
         this.id = id;
         this.estado = estado;
-        this.moneda = moneda;
         this.cantidad = cantidad;
         this.total = total;
         this.cliente = cliente;

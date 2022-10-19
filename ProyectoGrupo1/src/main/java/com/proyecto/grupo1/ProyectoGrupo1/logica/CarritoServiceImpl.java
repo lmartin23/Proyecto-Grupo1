@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +44,9 @@ public class CarritoServiceImpl implements CarritoService {
             pc = new ProductoCarrito(cant, c, p);
         }
 
-        if(p.getStock() < cant)
-            throw new NoHayStockException("No hay stock disponible");
+        if(p.getStock() < cant){
+            return new ObjResponse("Exito", HttpStatus.CREATED.value(), "No hay stock disponible");
+        }
 
         try {
             pcDao.save(pc);

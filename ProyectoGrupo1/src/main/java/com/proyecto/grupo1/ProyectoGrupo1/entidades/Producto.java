@@ -21,7 +21,6 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private double precio;
-    private int moneda;
     private int stock;
     @Enumerated(EnumType.STRING)
     private CategoProd categoria;
@@ -37,12 +36,11 @@ public class Producto {
     private List<ImagenProducto> imagenesProducto = new ArrayList<ImagenProducto>();
 
 
-    public Producto(String nombre, String descripcion, double precio, int moneda, int stock, String categoria, boolean activo, Vendedor vendedor) {
+    public Producto(String nombre, String descripcion, double precio, int stock, String categoria, boolean activo, Vendedor vendedor) {
         //this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.moneda = moneda;
         this.stock = stock;
         this.categoria.valueOf(categoria);
         this.activo = activo;
@@ -54,23 +52,21 @@ public class Producto {
 
     }
 
-    public Producto(String nombre, String descripcion, double precio, int moneda, int stock, CategoProd categoria, boolean activo, Vendedor vendedor) {
+    public Producto(String nombre, String descripcion, double precio, int stock, CategoProd categoria, boolean activo, Vendedor vendedor) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.moneda = moneda;
         this.stock = stock;
         this.categoria = categoria;
         this.activo = activo;
         this.vendedor = vendedor;
     }
 
-    public Producto(Long id, String nombre, String descripcion, double precio, int moneda, int stock, CategoProd categoria, boolean activo, Vendedor vendedor, List<ProductoCarrito> productoCarritos, List<ImagenProducto> imagenesProducto) {
+    public Producto(Long id, String nombre, String descripcion, double precio, int stock, CategoProd categoria, boolean activo, Vendedor vendedor, List<ProductoCarrito> productoCarritos, List<ImagenProducto> imagenesProducto) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.moneda = moneda;
         this.stock = stock;
         this.categoria = categoria;
         this.activo = activo;

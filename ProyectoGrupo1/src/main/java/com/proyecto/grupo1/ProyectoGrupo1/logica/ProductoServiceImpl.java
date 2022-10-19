@@ -32,7 +32,6 @@ public class ProductoServiceImpl implements ProductoService {
                 dtP.getNombre(),
                 dtP.getDescripcion(),
                 dtP.getPrecio(),
-                dtP.getMoneda(),
                 dtP.getStock(),
                 CategoProd.valueOf(dtP.getCategoria()),
                 dtP.isActivo(),
