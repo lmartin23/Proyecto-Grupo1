@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(indexes = {
-        @Index(name = "idx_vendedor_idvendedor", columnList = "id")
-})
+@DiscriminatorValue("vendedor")
 @Getter @Setter @ToString
-@PrimaryKeyJoinColumn(name="cliente_id", referencedColumnName = "id")
-public class Vendedor extends Cliente {
+public class Vendedor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Cliente cliente;
     private String nombreComercial;
     private boolean habilitado;
     private boolean habilitaEnvio;
@@ -33,12 +35,11 @@ public class Vendedor extends Cliente {
         super();
     }
 
-    public Vendedor(Long idVendedor, String nombreComercial, boolean habilitado, boolean habilitaEnvio, double saldo, List<Calificacion> calificacionesVendedor) {
-        this.id = idVendedor;
+    public Vendedor(Cliente cliente, String nombreComercial, boolean habilitaEnvio) {
+        this.cliente = cliente;
         this.nombreComercial = nombreComercial;
-        this.habilitado = habilitado;
+        this.habilitado = false;
         this.habilitaEnvio = habilitaEnvio;
-        this.saldo = saldo;
-        this.calificacionesVendedor = calificacionesVendedor;
+        this.saldo = 0;
     }
 }

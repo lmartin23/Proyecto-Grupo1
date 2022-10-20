@@ -26,16 +26,11 @@ public class Cliente  extends Usuario {
     @OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Direccion> direcciones  = new ArrayList<Direccion>();
 
+    @OneToOne(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    private Vendedor vendedor;
     public Cliente() { super(); }
-
-    public Cliente(Long id, String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena, boolean bloqueado, boolean correoValidado, boolean envioDomicilio, List<Calificacion> calificacionesCliente) {
-        super(id, documento, nombre, apellido, fechaNacimiento, correo, contrasena, bloqueado, correoValidado);
-        this.envioDomicilio = envioDomicilio;
-        this.calificacionesCliente = calificacionesCliente;
-    }
 
     public Cliente(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
         super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
     }
-
 }

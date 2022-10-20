@@ -3,7 +3,7 @@ package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -11,11 +11,10 @@ import java.util.Date;
 @Setter
 public class Administrador extends Usuario {
 
-    public Administrador(Long id, String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena, boolean bloqueado, boolean correoValidado) {
-        super(id, documento, nombre, apellido, fechaNacimiento, correo, contrasena, bloqueado, correoValidado);
+    public Administrador() {
     }
 
-    public Administrador() {
-
+    public Administrador(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
+        super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
     }
 }

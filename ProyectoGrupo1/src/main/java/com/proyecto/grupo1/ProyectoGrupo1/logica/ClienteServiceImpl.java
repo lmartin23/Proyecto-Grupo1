@@ -2,10 +2,12 @@ package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
 import com.proyecto.grupo1.ProyectoGrupo1.dao.ClienteDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.DireccionDao;
+import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Direccion;
+import com.proyecto.grupo1.ProyectoGrupo1.entidades.Vendedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Autowired
     ClienteDao clienteDao;
+
+    @Autowired
+    VendedorDao vendedorDao;
 
     @Autowired
     DireccionDao dirDao;
@@ -41,4 +46,20 @@ public class ClienteServiceImpl implements ClienteService{
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
         }
     }
+
+    @Override
+    public ObjResponse registrarseComoVendedor(Long idUsr, String nombreComercial, boolean habilitaEnvio) {
+        Cliente c = clienteDao.findClienteById(idUsr);
+        Vendedor v = new Vendedor(c, nombreComercial, habilitaEnvio);
+
+        try {
+            vendedorDao.save(v);
+            return new ObjResponse("Vendedor registrado", HttpStatus.BAD_REQUEST.value(), vendedorDao.findVendedorByCliente(c).getNombreComercial());
+        }catch (Exception e){
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
+        }
+
+    }
+
+
 }

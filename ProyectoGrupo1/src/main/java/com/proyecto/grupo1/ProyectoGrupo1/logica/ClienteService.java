@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ClienteService {
     public ObjResponse ingresarDireccion(Long idUsr, List<DtDireccion> direcciones);
+
+    public ObjResponse registrarseComoVendedor(Long idUsr, String nombreComercial, boolean habilitaEnvio);
 }
