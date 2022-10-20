@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCliente;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtLogin;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroCliente;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
@@ -11,7 +12,7 @@ public interface InvitadoService {
 
     public ObjResponse registrarCliente(DtRegistroCliente cliente);
     public ObjResponse login(DtLogin dtLogin);
-    public Cliente obtenerCliente(Long id);
+    public DtCliente obtenerCliente(Long id);
 
 
 }

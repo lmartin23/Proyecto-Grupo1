@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCliente;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtLogin;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroCliente;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
@@ -30,7 +31,7 @@ public class InvitadoController {
     }
 
     @RequestMapping(value = "api/invitado/get/{id}", method = RequestMethod.GET)
-    public Cliente listarRegistrados(@PathVariable Long id){
+    public DtCliente listarRegistrado(@PathVariable Long id){
         return serviceInv.obtenerCliente(id);
     }
 

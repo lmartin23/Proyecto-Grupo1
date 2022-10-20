@@ -6,5 +6,4 @@ import org.springframework.data.repository.CrudRepository;
 public interface VendedorDao extends CrudRepository<Vendedor, Long> {
 
     Vendedor findVendedorById(Long id);
-
 }
