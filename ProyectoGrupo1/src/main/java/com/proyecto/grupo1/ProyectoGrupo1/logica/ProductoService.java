@@ -9,6 +9,8 @@ public interface ProductoService {
 
     public ObjResponse altaProducto(DtProducto dtP);
 
+    public ObjResponse bajaProducto(Long idP);
+
     public ObjResponse listar();
 
     public ObjResponse listarTodos();

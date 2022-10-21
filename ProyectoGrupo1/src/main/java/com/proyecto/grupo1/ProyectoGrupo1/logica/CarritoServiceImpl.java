@@ -45,7 +45,9 @@ public class CarritoServiceImpl implements CarritoService {
         }
 
         if(p.getStock() < cant){
-            return new ObjResponse("Exito", HttpStatus.CREATED.value(), "No hay stock disponible");
+            return new ObjResponse("Error", HttpStatus.OK.value(),
+                    "No hay stock disponible para el producto: " + p.getNombre() + ". "
+                            + "Ingrese una cantidad menor a: " + p.getStock());
         }
 
         try {
@@ -103,7 +105,15 @@ public class CarritoServiceImpl implements CarritoService {
         Double total = 0.00;
 
         for (ProductoCarrito pc : carrito){
+
+            if(pc.getProducto().getStock() < pc.getCantidad()){
+                return new ObjResponse("Error", HttpStatus.OK.value(),
+                        "No hay stock disponible para el producto: " + pc.getProducto().getNombre() + ". "
+                                + "Ingrese una cantidad menor a: " + pc.getProducto().getStock());
+            }
+
             total = pc.getTotal() + total;
+            pc.getProducto().setStock(pc.getProducto().getStock()-pc.getCantidad()); //reservo stock
         }
 
         try {

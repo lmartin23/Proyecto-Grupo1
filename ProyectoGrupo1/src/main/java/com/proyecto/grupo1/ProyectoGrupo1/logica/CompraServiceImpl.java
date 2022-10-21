@@ -45,6 +45,7 @@ public class CompraServiceImpl implements CompraService {
 
         for(ProductoCarrito pc : prods){
             Compra c = new Compra(true, EstadoCompra.PROCESANDO, pc, pago);
+            pc.getProducto().setStock(pc.getProducto().getStock()-pc.getCantidad());
             pc.setEstado(EstadoProdCarrito.COMPRADO);
             c.setPago(pago);
             compras.add(c);

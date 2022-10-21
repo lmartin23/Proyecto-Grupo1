@@ -21,6 +21,7 @@ public class Compra {
     private Long id;
     private Date fecha;
     private boolean pagoConfirmado;
+    @Enumerated(EnumType.STRING)
     private EstadoCompra estado;
 
     @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)

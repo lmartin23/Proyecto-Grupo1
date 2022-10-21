@@ -17,6 +17,10 @@ public class ProductoController {
     public ObjResponse insertar(@RequestBody DtProducto dtP){
             return productoService.altaProducto(dtP);
     }
+    @RequestMapping(value = "/baja", method = RequestMethod.PUT)
+    public ObjResponse insertar(@RequestParam Long idP){
+        return productoService.bajaProducto(idP);
+    }
     @RequestMapping(value = "/listarActivos", method = RequestMethod.GET)
     public ObjResponse listarActivos(){
         return productoService.listar();

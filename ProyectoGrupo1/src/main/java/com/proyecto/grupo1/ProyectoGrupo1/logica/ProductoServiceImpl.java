@@ -55,6 +55,20 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
+    public ObjResponse bajaProducto(Long idP){
+        Producto producto = productoDao.findProductoById(idP);
+        producto.setActivo(false);
+
+        try {
+            productoDao.save(producto);
+            Producto p = productoDao.findProductoById(producto.getId());
+            return new ObjResponse("Producto dado de baja", HttpStatus.OK.value(),p.getId());
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
     public ObjResponse listar(){
         List<DtProducto> ret = new ArrayList<DtProducto>();
         List<Producto> productos = productoDao.getAllByActivo(true);
