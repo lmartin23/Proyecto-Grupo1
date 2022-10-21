@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AdministradorDao extends CrudRepository<Administrador, String> {
     Administrador findClienteByCorreoIgnoreCase(String correo);
+    Administrador findAdministradorByDocumentoIgnoreCase(String documento);
 }

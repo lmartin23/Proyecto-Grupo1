@@ -4,7 +4,9 @@ import com.proyecto.grupo1.ProyectoGrupo1.dao.ClienteDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.DireccionDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroVendedor;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoUsuario;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Direccion;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Vendedor;
@@ -32,7 +34,7 @@ public class ClienteServiceImpl implements ClienteService{
             Cliente cli = clienteDao.findClienteById(idUsr);
             if (cli != null && !direcciones.isEmpty()) {
                 for (DtDireccion dt : direcciones) {
-                    Direccion d = new Direccion(dt.getCalle(), dt.getNumero(), dt.getApto(), dt.getBarrio(), dt.getCiudad(), dt.getDepartamento(), dt.isPrincipal());
+                    Direccion d = new Direccion(dt.getCalle(), dt.getNumero(), dt.getApto(), dt.getBarrio(), dt.getCiudad(), dt.getDepartamento(), dt.isPrincipal(), TipoUsuario.CLIENTE);
                     dirDao.save(d);
                     cli.getDirecciones().add(d);
                 }
@@ -48,12 +50,21 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public ObjResponse registrarseComoVendedor(Long idUsr, String nombreComercial, boolean habilitaEnvio) {
-        Cliente c = clienteDao.findClienteById(idUsr);
-        Vendedor v = new Vendedor(c, nombreComercial, habilitaEnvio);
-
+    public ObjResponse registrarseComoVendedor(DtRegistroVendedor dt) {
+        Cliente c = clienteDao.findClienteById(dt.getIdUsr());
+        Vendedor v = new Vendedor(c, dt.getNombreComercial(), dt.isHabilitaEnvio());
         try {
             vendedorDao.save(v);
+            try {
+                for (DtDireccion dtDir : dt.getDirecciones()) {
+                    Direccion dir = new Direccion(dtDir.getCalle(), dtDir.getNumero(), dtDir.getApto(), dtDir.getBarrio(), dtDir.getCiudad(), dtDir.getDepartamento(), dtDir.isPrincipal(), TipoUsuario.VENDEDOR);
+                    dir.setVendedor(v);
+                    dirDao.save(dir);
+                    //cli.getDirecciones().add(dir); Probar getDirecciones
+                }
+            }catch (Exception e){
+                return new ObjResponse("Error al ingresar direccion, debe dar de alta por datos USR", HttpStatus.BAD_REQUEST.value(), null);
+            }
             return new ObjResponse("Vendedor registrado", HttpStatus.BAD_REQUEST.value(), vendedorDao.findVendedorByCliente(c).getNombreComercial());
         }catch (Exception e){
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);

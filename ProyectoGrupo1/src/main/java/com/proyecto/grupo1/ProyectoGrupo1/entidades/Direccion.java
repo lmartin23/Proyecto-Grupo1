@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoUsuario;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,7 +25,7 @@ public class Direccion {
     private String ciudad;
     private String departamento;
     private boolean principal;
-
+    private TipoUsuario tipoUsuario;
     @ManyToOne
     private Cliente cliente;
 
@@ -58,7 +59,7 @@ public class Direccion {
         this.cliente = cliente;
         this.vendedor = vendedor;
     }
-    public Direccion(String calle, int numero, String apto, String barrio, String ciudad, String departamento, boolean principal) {
+    public Direccion(String calle, int numero, String apto, String barrio, String ciudad, String departamento, boolean principal, TipoUsuario tipoUsuario) {
         this.calle = calle;
         this.numero = numero;
         this.apto = apto;
@@ -66,5 +67,6 @@ public class Direccion {
         this.ciudad = ciudad;
         this.departamento = departamento;
         this.principal = principal;
+        this.tipoUsuario = tipoUsuario;
     }
 }

@@ -1,6 +1,7 @@
 package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroVendedor;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ClienteController {
     }
 
     @RequestMapping(value = "api/cliente/registrarVendedor", method = RequestMethod.POST)
-    public ObjResponse registrarVendedor(@RequestParam Long idUsr,@RequestParam String nombreComercial, @RequestParam boolean habilitaEnvio) {
-        return cliService.registrarseComoVendedor(idUsr, nombreComercial, habilitaEnvio);
+    public ObjResponse registrarVendedor(@RequestBody DtRegistroVendedor dt) {
+        return cliService.registrarseComoVendedor(dt);
     }
 }

@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCliente;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,5 +33,9 @@ public class Cliente  extends Usuario {
 
     public Cliente(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
         super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
+    }
+
+    public DtCliente obtenerDt(){
+        return new DtCliente(this.getId(), this.getDocumento(),this.getNombre(), this.getApellido(), this.getFechaNacimiento(), this.getCorreo(), this.getContrasena(), this.isBloqueado(), this.isCorreoValidado());
     }
 }

@@ -6,6 +6,10 @@ import org.springframework.data.repository.CrudRepository;
 public interface ClienteDao extends CrudRepository<Cliente,String> {
 
     Cliente findClienteByCorreoIgnoreCase(String correo);
+
     Cliente findClienteByApellido(String ape);
+
     Cliente findClienteById(Long id);
+
+    Cliente findClienteByDocumentoIgnoreCase(String doc);
 }
