@@ -33,4 +33,11 @@ public class CarritoController {
             @RequestParam Long idCliente){
         return carritoService.consultarCarrito(idCliente);
     }
+
+    @RequestMapping(value = "/totalizar", method = RequestMethod.GET)
+    public ObjResponse totalizarCarrito(
+            @RequestParam Long idCliente){
+        return carritoService.totalizarCarrito(idCliente);
+    }
+
 }

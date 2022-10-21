@@ -6,7 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Pago", indexes = {
@@ -17,22 +18,25 @@ import java.util.Date;
 @ToString
 public class Pago {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "pago_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pago_id_seq")
     private Long id;
-    private Date fecha;
+    private LocalDateTime fecha;
     @Enumerated(EnumType.STRING)
     private TipoPago metodo;
     private boolean liberado;
 
-    @OneToOne(optional = false)
-    private Compra compra;
+    private String idPagoExterno;
+
+    @OneToMany(mappedBy = "pago",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra> compras;
     public Pago() {
     }
 
-    public Pago(Long id, Date fecha, TipoPago metodo, boolean liberado) {
-        this.id = id;
+    public Pago(LocalDateTime fecha, TipoPago metodo, boolean liberado, String idPagoExterno) {
         this.fecha = fecha;
         this.metodo = metodo;
         this.liberado = liberado;
+        this.idPagoExterno = idPagoExterno;
     }
 }

@@ -53,4 +53,74 @@ public class ProductoServiceImpl implements ProductoService {
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
+
+    @Override
+    public ObjResponse listar(){
+        List<DtProducto> ret = new ArrayList<DtProducto>();
+        List<Producto> productos = productoDao.getAllByActivo(true);
+
+
+        for(Producto p : productos){
+            List<String> urls = new ArrayList<String>();
+
+            for(ImagenProducto img : p.getImagenesProducto()){
+                urls.add(img.getUrl());
+            }
+
+            DtProducto dtP = new DtProducto(
+                    p.getId(),
+                    p.getNombre(),
+                    p.getDescripcion(),
+                    p.getPrecio(),
+                    p.getStock(),
+                    p.getCategoria().toString(),
+                    p.isActivo(),
+                    p.getVendedor().getId(),
+                    urls
+            );
+
+            ret.add(dtP);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(),ret);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse listarTodos(){
+
+        List<DtProducto> ret = new ArrayList<DtProducto>();
+        List<Producto> productos = productoDao.getAllBy();
+
+        for(Producto p : productos){
+            List<String> urls = new ArrayList<String>();
+
+            for(ImagenProducto img : p.getImagenesProducto()){
+                urls.add(img.getUrl());
+            }
+
+            DtProducto dtP = new DtProducto(
+                    p.getId(),
+                    p.getNombre(),
+                    p.getDescripcion(),
+                    p.getPrecio(),
+                    p.getStock(),
+                    p.getCategoria().toString(),
+                    p.isActivo(),
+                    p.getVendedor().getId(),
+                    urls
+            );
+
+            ret.add(dtP);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(),ret);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
 }
