@@ -9,4 +9,6 @@ public interface CarritoService {
     public ObjResponse eliminarProductoCarrito(Long idP, Long idC);
 
     public ObjResponse consultarCarrito(Long idC);
+
+    public ObjResponse totalizarCarrito(Long idC);
 }

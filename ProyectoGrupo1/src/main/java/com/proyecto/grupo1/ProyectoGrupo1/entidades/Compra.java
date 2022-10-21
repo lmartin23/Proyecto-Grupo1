@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -15,7 +16,8 @@ import java.util.Date;
 @Getter @Setter @ToString
 public class Compra {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "compra_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "compra_id_seq")
     private Long id;
     private Date fecha;
     private boolean pagoConfirmado;
@@ -30,7 +32,7 @@ public class Compra {
     @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Envio envio;
 
-    @OneToOne(mappedBy = "compra", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    @ManyToOne
     private Pago pago;
 
     @OneToOne
@@ -39,13 +41,11 @@ public class Compra {
     public Compra() {
     }
 
-    public Compra(Long id, Date fecha, boolean pagoConfirmado, EstadoCompra estado, ProductoCarrito productoCarrito, Reclamo reclamo, Pago pago) {
-        this.id = id;
-        this.fecha = fecha;
+    public Compra(boolean pagoConfirmado, EstadoCompra estado, ProductoCarrito productoCarrito, Pago pago) {
+        this.fecha = Calendar.getInstance().getTime();;
         this.pagoConfirmado = pagoConfirmado;
         this.estado = estado;
         this.productoCarrito = productoCarrito;
-        this.reclamo = reclamo;
         this.pago = pago;
     }
 }

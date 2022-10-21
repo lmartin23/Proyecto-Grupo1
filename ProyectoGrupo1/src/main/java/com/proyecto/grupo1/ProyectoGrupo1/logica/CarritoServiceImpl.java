@@ -95,4 +95,22 @@ public class CarritoServiceImpl implements CarritoService {
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
+
+    @Override
+    public ObjResponse totalizarCarrito(Long idC){
+        Cliente c = clienteDao.findClienteById(idC);
+        List<ProductoCarrito> carrito = pcDao.findProductoCarritoByClienteAndEstado(c, EstadoProdCarrito.AGREGADO);
+        Double total = 0.00;
+
+        for (ProductoCarrito pc : carrito){
+            total = pc.getTotal() + total;
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), total);
+        } catch (Exception e){
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+
+    }
 }
