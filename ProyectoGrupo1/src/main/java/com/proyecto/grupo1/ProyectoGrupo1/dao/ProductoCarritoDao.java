@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ProductoCarritoDao extends CrudRepository<ProductoCarrito, String> {
+public interface ProductoCarritoDao extends CrudRepository<ProductoCarrito, Long> {
 
     ProductoCarrito findProductoCarritoById(Long id);
 
