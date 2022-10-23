@@ -33,7 +33,6 @@ public class VendedorServiceImpl implements VendedorService{
     @Override
     public ObjResponse registrardireccion(DtRegistroDireccion dt) {
 
-
         Vendedor v = vendedorDao.findVendedorById(dt.getIdUsuario());
         if(v == null){
             return new ObjResponse("Error, no existe el usuario ingresado o no esta registrado como vendedor", HttpStatus.BAD_REQUEST.value(), null);
@@ -58,9 +57,9 @@ public class VendedorServiceImpl implements VendedorService{
         Cliente c = clienteDao.findClienteById(dt.getIdUsr());
 
         if(c == null || c.getVendedor() != null){
-            String mensaje = "No se ha encontrado el cliente";
-            if(c.getVendedor() != null)
-                mensaje = "Error, ya existe un registro como vendedor asociado al cliente";
+            String mensaje = "Error, ya existe un registro como vendedor asociado al cliente";
+            if(c == null)
+                mensaje = "No se ha encontrado el cliente";
             return new ObjResponse(mensaje, HttpStatus.BAD_REQUEST.value(), null);
         }
         Vendedor v = new Vendedor(c, dt.getNombreComercial(), dt.isHabilitaEnvio());
