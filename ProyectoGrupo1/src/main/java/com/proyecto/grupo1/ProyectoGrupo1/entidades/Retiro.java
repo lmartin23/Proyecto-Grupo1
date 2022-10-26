@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -16,7 +17,7 @@ public class Retiro extends MetodoEntrega{
     @OneToOne(optional = false)
     private Compra compra;
 
-    public Retiro(Long id, Date fechaDesde, Date fechaHasta, boolean confirmado) {
+    public Retiro(Long id, LocalDateTime fechaDesde, LocalDateTime fechaHasta, boolean confirmado) {
         super(id, fechaDesde, fechaHasta);
         this.confirmado = confirmado;
     }

@@ -4,6 +4,8 @@ public enum EstadoCompra {
 
     CANCELADA("Cancelada"),
     NO_ENTREGADA("No entregada"),
+    ENVIO_PENDIENTE("Envío seteado o a la espera de ser retirada"),
+
     ENTREGADA("Entregada"),
     PROCESANDO("Procesando");
 

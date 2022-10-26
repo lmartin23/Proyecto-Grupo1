@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -18,7 +19,7 @@ public class Envio extends MetodoEntrega{
     @OneToOne(optional = false)
     private Compra compra;
 
-    public Envio(Long id, Date fechaDesde, Date fechaHasta, boolean confirmado) {
+    public Envio(Long id, LocalDateTime fechaDesde, LocalDateTime fechaHasta, boolean confirmado) {
         super(id, fechaDesde, fechaHasta);
         this.confirmado = confirmado;
     }

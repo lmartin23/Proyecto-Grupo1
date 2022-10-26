@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,10 +20,10 @@ public abstract class MetodoEntrega {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Date fechaDesde;
-    private Date fechaHasta;
+    private LocalDateTime fechaDesde;
+    private LocalDateTime fechaHasta;
 
-    public MetodoEntrega(Long id, Date fechaDesde, Date fechaHasta) {
+    public MetodoEntrega(Long id, LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
         this.id = id;
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
