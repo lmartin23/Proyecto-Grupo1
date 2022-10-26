@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoUsuario;
 import lombok.Getter;
 import lombok.Setter;
@@ -68,5 +69,9 @@ public class Direccion {
         this.departamento = departamento;
         this.principal = principal;
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public DtDireccion obtenerDtDireccion(){
+        return new DtDireccion(this.calle, this.numero, this.apto, this.barrio, this.ciudad, this.departamento);
     }
 }

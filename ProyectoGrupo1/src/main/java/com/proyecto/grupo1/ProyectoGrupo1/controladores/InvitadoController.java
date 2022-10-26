@@ -30,7 +30,7 @@ public class InvitadoController {
     }
 
     @RequestMapping(value = "api/invitado/get/{id}", method = RequestMethod.GET)
-    public DtCliente listarRegistrado(@PathVariable Long id){
+    public DtCliente listarRegistrados(@PathVariable Long id){
         return serviceInv.obtenerCliente(id);
     }
 

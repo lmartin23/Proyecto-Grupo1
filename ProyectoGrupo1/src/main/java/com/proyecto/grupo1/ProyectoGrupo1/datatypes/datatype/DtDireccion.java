@@ -24,13 +24,14 @@ public class DtDireccion {
         this.principal = principal;
     }
 
-    public DtDireccion(String calle, int numero, String barrio, String ciudad, String departamento, boolean principal) {
+    public DtDireccion(String calle, int numero, String apto, String barrio, String ciudad, String departamento) {
         this.calle = calle;
         this.numero = numero;
+        this.apto = apto;
         this.barrio = barrio;
         this.ciudad = ciudad;
         this.departamento = departamento;
-        this.principal = principal;
+
     }
 
     public DtDireccion() {

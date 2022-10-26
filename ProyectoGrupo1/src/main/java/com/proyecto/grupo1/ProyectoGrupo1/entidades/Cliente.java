@@ -36,6 +36,12 @@ public class Cliente  extends Usuario {
     }
 
     public DtCliente obtenerDt(){
-        return new DtCliente(this.getId(), this.getDocumento(),this.getNombre(), this.getApellido(), this.getFechaNacimiento(), this.getCorreo(), this.getContrasena(), this.isBloqueado(), this.isCorreoValidado());
+        DtCliente dt = new DtCliente(this.getId(), this.getDocumento(),this.getNombre(), this.getApellido(), this.getFechaNacimiento(), this.getCorreo(), this.getContrasena(), this.isBloqueado(), this.isCorreoValidado());
+        if(!this.direcciones.isEmpty()){
+            for(Direccion dir : this.direcciones){
+                dt.getDirecciones().add(dir.obtenerDtDireccion());
+            }
+        }
+        return dt;
     }
 }
