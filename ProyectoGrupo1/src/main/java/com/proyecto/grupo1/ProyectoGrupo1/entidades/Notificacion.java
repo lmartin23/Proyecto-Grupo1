@@ -1,38 +1,36 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.dao.NotificacionDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoNotificacion;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
-@Entity
-@Table(name = "Notificacion", indexes = {
-        @Index(name = "idx_notificacion_id", columnList = "id")
-})
+@Document("notificaciones")
 @Getter @Setter @ToString
 public class Notificacion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Enumerated(EnumType.STRING)
     private TipoNotificacion tipo;
     private String descripcion;
     private Date fecha;
+    private boolean vista;
 
-    @ManyToOne
-    private Cliente cliente;
+    private Long idCliente;
 
     public Notificacion() {
     }
 
-    public Notificacion(Long id, TipoNotificacion tipo, String descripcion, Date fecha, Cliente cliente) {
-        this.id = id;
+    public Notificacion(TipoNotificacion tipo, String descripcion, boolean vista, Long idCliente) {
         this.tipo = tipo;
         this.descripcion = descripcion;
-        this.fecha = fecha;
-        this.cliente = cliente;
+        this.fecha = Calendar.getInstance().getTime();
+        this.vista = vista;
+        this.idCliente = idCliente;
     }
 }

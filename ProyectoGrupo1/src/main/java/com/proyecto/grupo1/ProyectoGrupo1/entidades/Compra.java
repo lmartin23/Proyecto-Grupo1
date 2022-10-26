@@ -43,7 +43,7 @@ public class Compra {
     }
 
     public Compra(boolean pagoConfirmado, EstadoCompra estado, ProductoCarrito productoCarrito, Pago pago) {
-        this.fecha = Calendar.getInstance().getTime();;
+        this.fecha = Calendar.getInstance().getTime();
         this.pagoConfirmado = pagoConfirmado;
         this.estado = estado;
         this.productoCarrito = productoCarrito;

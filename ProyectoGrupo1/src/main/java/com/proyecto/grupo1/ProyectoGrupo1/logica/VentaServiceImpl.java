@@ -1,13 +1,16 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
 import com.proyecto.grupo1.ProyectoGrupo1.dao.CompraDao;
+import com.proyecto.grupo1.ProyectoGrupo1.dao.NotificacionDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtEntregaCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoNotificacion;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Compra;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.MailRequest;
+import com.proyecto.grupo1.ProyectoGrupo1.entidades.Notificacion;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Vendedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,9 @@ public class VentaServiceImpl implements VentaService{
     VendedorDao vendedorDao;
     @Autowired
     MailService mailService;
+    @Autowired
+    NotificacionDao notificacionDao;
+
     @Override
     public ObjResponse listarVentasEnvioPendiente(Long idVendedor) {
         Vendedor vendedor = vendedorDao.findVendedorById(idVendedor);
@@ -73,26 +79,37 @@ public class VentaServiceImpl implements VentaService{
             return new ObjResponse("Error. La fecha inicial debe ser mayor a la final", HttpStatus.BAD_REQUEST.value(), null);
         }
 
+        String mensaje = "";
+
+        if(compra.getEnvio() == null) {
+            mensaje = "Su compra fue despachada por el vendedor. Podrá pasar a retirarla entre: "
+                    + dtEC.getFechaHoraDesde()
+                    + " y "
+                    + dtEC.getFechaHoraHasta() + ".";
+        } else {
+            mensaje = "Su compra fue despachada por el vendedor. Será enviada entre: "
+                    + compra.getEnvio().getFechaDesde()
+                    + " y "
+                    + compra.getEnvio().getFechaHasta() + ".";
+        }
+
         MailRequest mail = new MailRequest();
         mail.setTo(compra.getProductoCarrito().getCliente().getCorreo());
         mail.setSubject("Compra lista para ser recibida. Id: "+compra.getId());
-        if(compra.getEnvio() == null) {
-            mail.setText("Su compra fue despachada por el vendedor. Podrá pasar a retirarla entre: "
-                    + dtEC.getFechaHoraDesde()
-                    + " y "
-                    + dtEC.getFechaHoraHasta() + "."
-            );
-        } else {
-            mail.setText("Su compra fue despachada por el vendedor. Será enviada entre: "
-                    + compra.getEnvio().getFechaDesde()
-                    + " y "
-                    + compra.getEnvio().getFechaHasta() + "."
-            );
-        }
+        mail.setText(mensaje);
+        //Mail nofificación fin
+
+        Notificacion push = new Notificacion(
+                TipoNotificacion.MENSAJE,
+                mensaje,
+                false,
+                compra.getProductoCarrito().getCliente().getId()
+        );
 
         try {
             compraDao.save(compra);
             mailService.sendMail(mail);
+            notificacionDao.save(push);
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
         }catch (Exception e){
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);

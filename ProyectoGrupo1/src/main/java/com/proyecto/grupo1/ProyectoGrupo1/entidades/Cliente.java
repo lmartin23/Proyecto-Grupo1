@@ -19,9 +19,6 @@ public class Cliente  extends Usuario {
     private List<Calificacion> calificacionesCliente = new ArrayList<Calificacion>();
 
     @OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
-    private List<Notificacion> notificaciones = new ArrayList<Notificacion>();
-
-    @OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ProductoCarrito> productoCarritos = new ArrayList<ProductoCarrito>();
 
     @OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
