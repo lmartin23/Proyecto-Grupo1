@@ -2,6 +2,7 @@ package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtProducto;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.CategoProd;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class ProductoController {
             return productoService.altaProducto(dtP);
     }
     @RequestMapping(value = "/baja", method = RequestMethod.PUT)
-    public ObjResponse insertar(@RequestParam Long idP){
-        return productoService.bajaProducto(idP);
+    public ObjResponse insertar(@RequestParam Long idProducto, Long idVendedor){
+        return productoService.bajaProducto(idProducto, idVendedor);
     }
     @RequestMapping(value = "/listarActivos", method = RequestMethod.GET)
     public ObjResponse listarActivos(){
@@ -28,6 +29,21 @@ public class ProductoController {
     public ObjResponse listarTodos(){
         return productoService.listarTodos();
     }
-
+    @RequestMapping(value = "/listarPorVendedor", method = RequestMethod.GET)
+    public ObjResponse listarTodos(@RequestParam Long idVendedor){
+        return productoService.listarPorVendedor(idVendedor);
+    }
+    @RequestMapping(value = "/listarPorCategoria", method = RequestMethod.GET)
+    public ObjResponse listarTodos(@RequestParam CategoProd categoria){
+        return productoService.listarPorCategoria(categoria);
+    }
+    @RequestMapping(value = "/buscarPorNombre", method = RequestMethod.GET)
+    public ObjResponse listarTodos(@RequestParam String nombre){
+        return productoService.buscarPorNombre(nombre);
+    }
+    @RequestMapping(value = "/buscarPorNombreYVendedor", method = RequestMethod.GET)
+    public ObjResponse listarTodos(@RequestParam String nombre, @RequestParam Long idVendedor){
+        return productoService.buscarPorNombreYVendedor(nombre, idVendedor);
+    }
 
 }

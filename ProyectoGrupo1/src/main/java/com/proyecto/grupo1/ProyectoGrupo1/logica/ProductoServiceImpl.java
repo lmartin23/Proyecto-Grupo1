@@ -55,9 +55,14 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public ObjResponse bajaProducto(Long idP){
-        Producto producto = productoDao.findProductoById(idP);
-        producto.setActivo(false);
+    public ObjResponse bajaProducto(Long idProducto, Long idVendedor){
+        Producto producto = productoDao.findProductoById(idProducto);
+
+        if(producto.getVendedor().getId() == idVendedor){
+            producto.setActivo(false);
+        } else {
+            return new ObjResponse("Error: El Vendedor no tiene permisos para modificar este Producto", HttpStatus.BAD_REQUEST.value(),null);
+        }
 
         try {
             productoDao.save(producto);
@@ -137,4 +142,144 @@ public class ProductoServiceImpl implements ProductoService {
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
+
+    @Override
+    public ObjResponse listarPorVendedor(Long idVendedor){
+        List<DtProducto> ret = new ArrayList<DtProducto>();
+        List<Producto> productos = productoDao.getAllByVendedor_Id(idVendedor);
+
+
+        for(Producto p : productos){
+            List<String> urls = new ArrayList<String>();
+
+            for(ImagenProducto img : p.getImagenesProducto()){
+                urls.add(img.getUrl());
+            }
+
+            DtProducto dtP = new DtProducto(
+                    p.getId(),
+                    p.getNombre(),
+                    p.getDescripcion(),
+                    p.getPrecio(),
+                    p.getStock(),
+                    p.getCategoria().toString(),
+                    p.isActivo(),
+                    p.getVendedor().getId(),
+                    urls
+            );
+
+            ret.add(dtP);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(),ret);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse listarPorCategoria(CategoProd categoria){
+        List<DtProducto> ret = new ArrayList<DtProducto>();
+        List<Producto> productos = productoDao.getAllByCategoriaAndActivoIsTrue(categoria);
+
+
+        for(Producto p : productos){
+            List<String> urls = new ArrayList<String>();
+
+            for(ImagenProducto img : p.getImagenesProducto()){
+                urls.add(img.getUrl());
+            }
+
+            DtProducto dtP = new DtProducto(
+                    p.getId(),
+                    p.getNombre(),
+                    p.getDescripcion(),
+                    p.getPrecio(),
+                    p.getStock(),
+                    p.getCategoria().toString(),
+                    p.isActivo(),
+                    p.getVendedor().getId(),
+                    urls
+            );
+
+            ret.add(dtP);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(),ret);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+    @Override
+    public ObjResponse buscarPorNombre(String nombre){
+        List<DtProducto> ret = new ArrayList<DtProducto>();
+        List<Producto> productos = productoDao.findProductoByNombreContainingAndActivoIsTrue(nombre);
+
+
+        for(Producto p : productos){
+            List<String> urls = new ArrayList<String>();
+
+            for(ImagenProducto img : p.getImagenesProducto()){
+                urls.add(img.getUrl());
+            }
+
+            DtProducto dtP = new DtProducto(
+                    p.getId(),
+                    p.getNombre(),
+                    p.getDescripcion(),
+                    p.getPrecio(),
+                    p.getStock(),
+                    p.getCategoria().toString(),
+                    p.isActivo(),
+                    p.getVendedor().getId(),
+                    urls
+            );
+
+            ret.add(dtP);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(),ret);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse buscarPorNombreYVendedor(String nombre, Long idVendedor){
+        List<DtProducto> ret = new ArrayList<DtProducto>();
+        List<Producto> productos = productoDao.findProductoByNombreContainingAndVendedor_Id(nombre, idVendedor);
+
+
+        for(Producto p : productos){
+            List<String> urls = new ArrayList<String>();
+
+            for(ImagenProducto img : p.getImagenesProducto()){
+                urls.add(img.getUrl());
+            }
+
+            DtProducto dtP = new DtProducto(
+                    p.getId(),
+                    p.getNombre(),
+                    p.getDescripcion(),
+                    p.getPrecio(),
+                    p.getStock(),
+                    p.getCategoria().toString(),
+                    p.isActivo(),
+                    p.getVendedor().getId(),
+                    urls
+            );
+
+            ret.add(dtP);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(),ret);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
 }

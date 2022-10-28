@@ -80,7 +80,6 @@ public class VentaServiceImpl implements VentaService{
         }
 
         String mensaje = "";
-
         if(compra.getEnvio() == null) {
             mensaje = "Su compra fue despachada por el vendedor. Podrá pasar a retirarla entre: "
                     + dtEC.getFechaHoraDesde()
@@ -93,12 +92,13 @@ public class VentaServiceImpl implements VentaService{
                     + compra.getEnvio().getFechaHasta() + ".";
         }
 
+        //armo notificación mail
         MailRequest mail = new MailRequest();
         mail.setTo(compra.getProductoCarrito().getCliente().getCorreo());
         mail.setSubject("Compra lista para ser recibida. Id: "+compra.getId());
         mail.setText(mensaje);
-        //Mail nofificación fin
 
+        //armo notificación push
         Notificacion push = new Notificacion(
                 TipoNotificacion.MENSAJE,
                 mensaje,
@@ -109,7 +109,7 @@ public class VentaServiceImpl implements VentaService{
         try {
             compraDao.save(compra);
             mailService.sendMail(mail);
-            notificacionDao.save(push);
+            //notificacionDao.save(push);
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
         }catch (Exception e){
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);

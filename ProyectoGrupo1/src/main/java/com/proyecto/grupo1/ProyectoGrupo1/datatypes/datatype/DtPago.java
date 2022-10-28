@@ -13,7 +13,7 @@ import java.util.List;
 public class DtPago {
 
     private Long idCliente;
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd' 'HH:mm:ss[.SSS][.SS][.S]")
     private LocalDateTime fecha;
     private TipoPago metodo;
     private String referenciaExterna;
