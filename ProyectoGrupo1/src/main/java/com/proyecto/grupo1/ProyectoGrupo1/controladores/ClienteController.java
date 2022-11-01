@@ -20,4 +20,8 @@ public class ClienteController {
         return cliService.ingresarDireccion(dt);
     }
 
+    @RequestMapping(value = "api/cliente/consultarDirecciones", method = RequestMethod.GET)
+    public ObjResponse insertar(@RequestParam Long idCliente) {
+        return cliService.consultarDirecciones(idCliente);
+    }
 }

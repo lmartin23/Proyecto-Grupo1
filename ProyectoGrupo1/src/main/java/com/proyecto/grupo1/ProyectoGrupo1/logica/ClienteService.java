@@ -10,4 +10,6 @@ import java.util.List;
 public interface ClienteService {
     public ObjResponse ingresarDireccion(DtRegistroDireccion dt);
 
+    public ObjResponse consultarDirecciones(Long id);
+
 }

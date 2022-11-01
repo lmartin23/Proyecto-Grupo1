@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -15,6 +12,9 @@ import java.util.Date;
 @Getter @Setter @ToString
 public class Envio extends MetodoEntrega{
     private boolean confirmado;
+
+    @ManyToOne
+    private Direccion direccion;
 
     @OneToOne(optional = false)
     private Compra compra;

@@ -8,7 +8,7 @@ public interface CompraService {
 
     public ObjResponse comprasPendientesDeElegirEnrega(Long idC);
 
-    public ObjResponse asignarMetodoEnrega(Long idCompra, String tipoEntrega);
+    public ObjResponse asignarMetodoEnrega(Long idCompra, String tipoEntrega, Long idDireccion);
 
 
 }

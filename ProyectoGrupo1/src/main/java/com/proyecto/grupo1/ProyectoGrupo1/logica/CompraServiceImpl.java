@@ -29,6 +29,8 @@ public class CompraServiceImpl implements CompraService {
     EnvioDao envioDao;
     @Autowired
     RetiroDao retiroDao;
+    @Autowired
+    DireccionDao direccionDao;
 
     @Override
     public ObjResponse confirmarProductosCarrito(DtPago dtP){
@@ -90,13 +92,14 @@ public class CompraServiceImpl implements CompraService {
     }
 
     @Override
-    public ObjResponse asignarMetodoEnrega(Long idCompra, String tipoEntrega){
+    public ObjResponse asignarMetodoEnrega(Long idCompra, String tipoEntrega, Long idDireccion){
         Compra compra = compraDao.findCompraById(idCompra);
         Envio e = new Envio();
         Retiro r = new Retiro();
 
         if(tipoEntrega.equals("ENVIO")){
             e.setCompra(compra);
+            e.setDireccion(direccionDao.getById(idDireccion));
         } else if(tipoEntrega.equals("RETIRO")){
             r.setCompra(compra);
         }

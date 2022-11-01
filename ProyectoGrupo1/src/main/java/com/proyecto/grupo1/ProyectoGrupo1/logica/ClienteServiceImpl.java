@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,7 +49,29 @@ public class ClienteServiceImpl implements ClienteService{
         }
     }
 
+    @Override
+    public ObjResponse consultarDirecciones(Long idCliente){
+        List<Direccion> direcciones = dirDao.getAllByCliente_Id(idCliente);
+        List<DtDireccion> ret = new ArrayList<DtDireccion>();
 
+        for(Direccion d : direcciones){
+            DtDireccion aux = new DtDireccion(
+                    d.getCalle(),
+                    d.getNumero(),
+                    d.getApto(),
+                    d.getBarrio(),
+                    d.getCiudad(),
+                    d.getDepartamento(),
+                    d.isPrincipal()
+            );
+            ret.add(aux);
+        }
 
+        try{
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+        }catch (Exception e){
+            return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
+        }
+    }
 
 }

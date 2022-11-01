@@ -24,8 +24,11 @@ public class CompraController {
     }
 
     @RequestMapping(value = "/asignarMetodoEnrega", method = RequestMethod.POST)
-    public ObjResponse asignarMetodoEnrega(@RequestParam Long idCompra, @RequestParam String tipoEntrega){
+    public ObjResponse asignarMetodoEnrega(
+            @RequestParam Long idCompra,
+            @RequestParam String tipoEntrega,
+            @RequestParam(required = false) Long idDireccion){
         System.out.println("tipoentrega = "+tipoEntrega);
-        return compraService.asignarMetodoEnrega(idCompra, tipoEntrega);
+        return compraService.asignarMetodoEnrega(idCompra, tipoEntrega, idDireccion);
     }
 }

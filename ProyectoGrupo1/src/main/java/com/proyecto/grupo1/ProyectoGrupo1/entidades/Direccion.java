@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Direccion", indexes = {
@@ -30,6 +32,8 @@ public class Direccion {
     @ManyToOne
     private Cliente cliente;
 
+    @OneToMany(mappedBy = "direccion",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Envio> envios  = new ArrayList<Envio>();
     @ManyToOne
     private Vendedor vendedor;
 
