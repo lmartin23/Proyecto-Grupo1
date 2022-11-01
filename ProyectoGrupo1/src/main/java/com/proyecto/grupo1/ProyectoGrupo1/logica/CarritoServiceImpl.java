@@ -85,6 +85,8 @@ public class CarritoServiceImpl implements CarritoService {
                     pc.getId(),
                     pc.getProducto().getId(),
                     pc.getProducto().getNombre(),
+                    pc.getProducto().getCategoria(),
+                    pc.getProducto().getDescripcion(),
                     pc.getCantidad(),
                     pc.getTotal()
             );
@@ -117,6 +119,10 @@ public class CarritoServiceImpl implements CarritoService {
         }
 
         try {
+            for(ProductoCarrito pc : carrito){
+                pcDao.save(pc);
+            }
+
             return new ObjResponse("Exito", HttpStatus.OK.value(), total);
         } catch (Exception e){
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
