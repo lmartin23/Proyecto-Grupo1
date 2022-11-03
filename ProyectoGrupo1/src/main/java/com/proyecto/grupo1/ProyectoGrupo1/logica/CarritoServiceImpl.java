@@ -116,6 +116,9 @@ public class CarritoServiceImpl implements CarritoService {
 
             total = pc.getTotal() + total;
             pc.getProducto().setStock(pc.getProducto().getStock()-pc.getCantidad()); //reservo stock
+            if(pc.getProducto().getStock() == 0){
+                pc.getProducto().setActivo(false); //cambio estado si no tiene stock
+            }
         }
 
         try {

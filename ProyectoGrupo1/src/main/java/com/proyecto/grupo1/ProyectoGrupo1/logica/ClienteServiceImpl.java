@@ -56,6 +56,7 @@ public class ClienteServiceImpl implements ClienteService{
 
         for(Direccion d : direcciones){
             DtDireccion aux = new DtDireccion(
+                    d.getId(),
                     d.getCalle(),
                     d.getNumero(),
                     d.getApto(),

@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
+import com.proyecto.grupo1.ProyectoGrupo1.dao.ImagenProductoDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.ProductoDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtProducto;
@@ -22,11 +23,12 @@ public class ProductoServiceImpl implements ProductoService {
     VendedorDao vendedorDao;
     @Autowired
     ProductoDao productoDao;
+    @Autowired
+    ImagenProductoDao imgDao;
 
     @Override
     public ObjResponse altaProducto(DtProducto dtP){
         Vendedor vendedor = vendedorDao.findVendedorById(dtP.getIdVendedor());
-        List<ImagenProducto> imagenes = new ArrayList<>();
 
         Producto producto = new Producto(
                 dtP.getNombre(),
@@ -38,13 +40,6 @@ public class ProductoServiceImpl implements ProductoService {
                 vendedor
         );
 
-        for(String url : dtP.getImagenesUrl()){
-            ImagenProducto aux = new ImagenProducto(url, producto);
-            imagenes.add(aux);
-        }
-
-        producto.setImagenesProducto(imagenes);
-
         try {
             productoDao.save(producto);
             Producto p = productoDao.findProductoById(producto.getId());
@@ -52,6 +47,28 @@ public class ProductoServiceImpl implements ProductoService {
         }catch (Exception e) {
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
         }
+    }
+    @Override
+    public ObjResponse setImagenes(DtProducto dtP) {
+        Producto producto = productoDao.findProductoById(dtP.getId());
+        List<ImagenProducto> imagenes = new ArrayList<ImagenProducto>();
+
+        for(String url : dtP.getImagenesUrl()){
+            ImagenProducto aux = new ImagenProducto(url, producto);
+            imagenes.add(aux);
+        }
+
+        try {
+            for(ImagenProducto imgP : imagenes){
+                imgDao.save(imgP);
+            }
+            producto.setImagenesProducto(imagenes);
+
+            return new ObjResponse("Exito al cargar imagenes", HttpStatus.CREATED.value(),null);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+
     }
 
     @Override

@@ -12,11 +12,8 @@ public interface ProductoDao extends CrudRepository<Producto, Long> {
     List<Producto> getAllByActivo(Boolean status);
     List<Producto> findProductoByNombreContainingAndActivoIsTrue(String nombre);
     List<Producto> findProductoByNombreContainingAndVendedor_Id(String nombre, Long idVendedor);
-
     List<Producto> getAllByVendedor_Id(Long idVendedor);
     List<Producto> getAllByCategoriaAndActivoIsTrue(CategoProd categoria);
-
     List<Producto> findProductoByNombreOrCategoriaAndVendedor_Id(Long idVendedor, String nombre, String categoria);
-
 
 }

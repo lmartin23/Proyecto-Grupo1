@@ -41,4 +41,9 @@ public class DtProducto implements Serializable {
         this.idVendedor = idVendedor;
         this.imagenesUrl = imagenesUrl;
     }
+
+    public DtProducto(Long id, List<String> imagenesUrl) {
+        this.id = id;
+        this.imagenesUrl = imagenesUrl;
+    }
 }
