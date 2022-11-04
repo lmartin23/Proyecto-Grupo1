@@ -43,32 +43,23 @@ public class ProductoServiceImpl implements ProductoService {
         try {
             productoDao.save(producto);
             Producto p = productoDao.findProductoById(producto.getId());
+            setImagenesProducto(producto, dtP.getImagenesUrl());
             return new ObjResponse("Exito", HttpStatus.CREATED.value(),p.getId());
         }catch (Exception e) {
             return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
-    @Override
-    public ObjResponse setImagenes(DtProducto dtP) {
-        Producto producto = productoDao.findProductoById(dtP.getId());
+    public void setImagenesProducto(Producto producto, List<String> urls) {
         List<ImagenProducto> imagenes = new ArrayList<ImagenProducto>();
 
-        for(String url : dtP.getImagenesUrl()){
+        for(String url : urls){
+            url = producto.getId() + "_" + url;
             ImagenProducto aux = new ImagenProducto(url, producto);
             imagenes.add(aux);
+            imgDao.save(aux);
         }
 
-        try {
-            for(ImagenProducto imgP : imagenes){
-                imgDao.save(imgP);
-            }
-            producto.setImagenesProducto(imagenes);
-
-            return new ObjResponse("Exito al cargar imagenes", HttpStatus.CREATED.value(),null);
-        }catch (Exception e) {
-            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
-        }
-
+        producto.setImagenesProducto(imagenes);
     }
 
     @Override

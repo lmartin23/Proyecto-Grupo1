@@ -9,8 +9,6 @@ import java.util.List;
 public interface ProductoService {
 
     public ObjResponse altaProducto(DtProducto dtP);
-    public ObjResponse setImagenes(DtProducto dtP);
-
 
     public ObjResponse bajaProducto(Long idProducto, Long IdVendedor);
 

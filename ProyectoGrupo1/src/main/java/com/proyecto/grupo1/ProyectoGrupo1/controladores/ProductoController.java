@@ -17,11 +17,6 @@ public class ProductoController {
     public ObjResponse insertar(@RequestBody DtProducto dtP){
             return productoService.altaProducto(dtP);
     }
-
-    @RequestMapping(value = "/subirImagenes", method = RequestMethod.PUT)
-    public ObjResponse setImagenes(@RequestBody DtProducto dtP){
-        return productoService.setImagenes(dtP);
-    }
     @RequestMapping(value = "/baja", method = RequestMethod.PUT)
     public ObjResponse insertar(@RequestParam Long idProducto, Long idVendedor){
         return productoService.bajaProducto(idProducto, idVendedor);
