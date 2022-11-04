@@ -118,4 +118,30 @@ public class CompraServiceImpl implements CompraService {
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
+
+    @Override
+    public ObjResponse confirmarCompraRecibida(Long idCompra){
+        Compra compra = compraDao.findCompraById(idCompra);
+
+        try{
+            if(compra.getEnvio() != null ){
+                compra.getEnvio().setConfirmado(true);
+            } else {
+                compra.getRetiro().setConfirmado(true);
+            }
+
+            compra.setEstado(EstadoCompra.ENTREGADA);
+            compra.getProductoCarrito().getProducto().getVendedor().setSaldo(
+                    compra.getProductoCarrito().getProducto().getVendedor().getSaldo()
+                    + compra.getProductoCarrito().getTotal()
+            );
+
+            compraDao.save(compra);
+
+            return new ObjResponse("Exito", HttpStatus.OK.value(), null);
+
+        } catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
 }

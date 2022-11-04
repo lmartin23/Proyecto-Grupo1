@@ -23,12 +23,17 @@ public class CompraController {
         return compraService.comprasPendientesDeElegirEnrega(idC);
     }
 
-    @RequestMapping(value = "/asignarMetodoEnrega", method = RequestMethod.POST)
+    @RequestMapping(value = "/asignarMetodoEntrega", method = RequestMethod.POST)
     public ObjResponse asignarMetodoEnrega(
             @RequestParam Long idCompra,
             @RequestParam String tipoEntrega,
             @RequestParam(required = false) Long idDireccion){
-        System.out.println("tipoentrega = "+tipoEntrega);
         return compraService.asignarMetodoEnrega(idCompra, tipoEntrega, idDireccion);
+    }
+
+    @RequestMapping(value = "/confirmarCompraRecibida", method = RequestMethod.POST)
+    public ObjResponse confirmarRecibo(
+            @RequestParam Long idCompra){
+        return compraService.confirmarCompraRecibida(idCompra);
     }
 }
