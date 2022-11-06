@@ -73,6 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             String responseMsg = mapper.writeValueAsString(responseMap);
             response.getWriter().write(responseMsg);
         }).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.cors().and().headers().frameOptions().disable();
+        //httpSecurity.cors().and().headers().frameOptions().disable();
     }
 }
