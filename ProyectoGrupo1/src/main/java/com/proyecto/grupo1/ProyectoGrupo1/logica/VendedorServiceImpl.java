@@ -47,7 +47,7 @@ public class VendedorServiceImpl implements VendedorService{
             }
             return new ObjResponse("Se ha registrado la/s direccion/es", HttpStatus.OK.value(), null);
         }catch (Exception e){
-            return new ObjResponse("Error al ingresar direccion", HttpStatus.BAD_REQUEST.value(), null);
+            return new ObjResponse("Error al ingresar direccion", HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
         }
 
     }
@@ -73,12 +73,12 @@ public class VendedorServiceImpl implements VendedorService{
                     //cli.getDirecciones().add(dir); Probar getDirecciones
                 }
             }catch (Exception e){
-                return new ObjResponse("Error al ingresar direccion, debe dar de alta por datos USR", HttpStatus.BAD_REQUEST.value(), null);
+                return new ObjResponse("Error al ingresar direccion, debe dar de alta por datos USR", HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
             }
 
-            return new ObjResponse("Vendedor registrado", HttpStatus.CREATED.value(), vendedorDao.findVendedorByCliente(c).getId());
+            return new ObjResponse("Vendedor registrado", HttpStatus.CREATED.value(), vendedorDao.findVendedorByCliente(c).getId(), null, null);
         }catch (Exception e){
-            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
+            return new ObjResponse("Error inesperado", HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
         }
 
     }

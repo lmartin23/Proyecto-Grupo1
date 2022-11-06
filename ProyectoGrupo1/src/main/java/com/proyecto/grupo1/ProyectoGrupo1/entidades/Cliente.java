@@ -1,6 +1,7 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCliente;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter @Setter @ToString
 public class Cliente  extends Usuario {
+    private Rol rol;
     private boolean envioDomicilio;
 
     @OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
@@ -30,6 +32,7 @@ public class Cliente  extends Usuario {
 
     public Cliente(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
         super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
+        this.rol = Rol.ROL_CLIENTE;
     }
 
     public DtCliente obtenerDt(){

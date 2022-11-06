@@ -11,7 +11,7 @@ import java.util.List;
 public interface InvitadoService {
 
     public ObjResponse registrarCliente(DtRegistroCliente cliente);
-    public ObjResponse login(DtLogin dtLogin);
+    public boolean login(DtLogin dtLogin);
     public DtCliente obtenerCliente(Long id);
 
 

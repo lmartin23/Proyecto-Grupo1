@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,7 @@ public class Vendedor {
     private boolean habilitado;
     private boolean habilitaEnvio;
     private double saldo;
+    private Rol rol;
 
     @OneToMany(mappedBy = "vendedor", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Calificacion> calificacionesVendedor = new ArrayList<Calificacion>();;
@@ -41,5 +43,6 @@ public class Vendedor {
         this.habilitado = false;
         this.habilitaEnvio = habilitaEnvio;
         this.saldo = 0;
+        this.rol = Rol.ROL_VENDEDOR;
     }
 }

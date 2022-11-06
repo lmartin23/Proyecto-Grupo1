@@ -18,7 +18,7 @@ public class InvitadoController {
 
     @Autowired
     InvitadoService serviceInv;
-
+    /*
     @RequestMapping(value = "api/invitado/registrar", method = RequestMethod.POST)
     public ObjResponse registrarCliente(@RequestBody DtRegistroCliente dt){
         return serviceInv.registrarCliente(dt);
@@ -28,7 +28,7 @@ public class InvitadoController {
     public ObjResponse login(@RequestBody DtLogin dtLogin){
         return serviceInv.login(dtLogin);
     }
-
+    */
     @RequestMapping(value = "api/invitado/get/{id}", method = RequestMethod.GET)
     public DtCliente listarRegistrados(@PathVariable Long id){
         return serviceInv.obtenerCliente(id);

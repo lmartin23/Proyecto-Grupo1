@@ -1,4 +1,4 @@
-package com.proyecto.grupo1.ProyectoGrupo1.logica;
+package com.proyecto.grupo1.ProyectoGrupo1.seguridad;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;

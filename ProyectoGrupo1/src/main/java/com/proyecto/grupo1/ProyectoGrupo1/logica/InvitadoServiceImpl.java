@@ -4,9 +4,11 @@ import com.proyecto.grupo1.ProyectoGrupo1.dao.AdministradorDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.ClienteDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.DireccionDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.*;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoUsuario;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Direccion;
+import com.proyecto.grupo1.ProyectoGrupo1.seguridad.PasswordSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -43,7 +45,7 @@ public class InvitadoServiceImpl implements InvitadoService{
                     }
 
                     Cliente c = clienteDao.findClienteByCorreoIgnoreCase(cli.getCorreo());
-                    return new ObjResponse("Exito", HttpStatus.CREATED.value(), c.getId());
+                    return new ObjResponse("Exito", HttpStatus.CREATED.value(), c.getId(), c.getRol(), null);
                 } catch (Exception e) {
                     return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
                 }
@@ -54,14 +56,14 @@ public class InvitadoServiceImpl implements InvitadoService{
         return new ObjResponse("Error, ya existe un usuario registrado con los datos ingresados documento o correo", HttpStatus.BAD_REQUEST.value(), null);
     }
     @Override
-    public ObjResponse login(DtLogin dtLogin) {
+    public boolean login(DtLogin dtLogin) {
         Cliente c = clienteDao.findClienteByCorreoIgnoreCase(dtLogin.getCorreo());
         if(c!=null){
             if (passService.verificarHash(c.getContrasena(), dtLogin.getContrasena())){
-                return new ObjResponse("Exito", HttpStatus.OK.value(), c.getId());
+                return true;
             }
         }
-        return new ObjResponse("Error, usuario o contrasena incorrecto", HttpStatus.BAD_REQUEST.value(),null);
+        return false;
     }
 
     @Override

@@ -1,8 +1,4 @@
-package com.proyecto.grupo1.ProyectoGrupo1.logica;
-
-import org.graalvm.compiler.lir.LIRInstruction;
-import org.springframework.stereotype.Service;
-
+package com.proyecto.grupo1.ProyectoGrupo1.seguridad;
 
 public interface PasswordSevice {
     public String hashearPassword(String contra);

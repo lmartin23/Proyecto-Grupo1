@@ -69,7 +69,7 @@ public class ClienteServiceImpl implements ClienteService{
         }
 
         try{
-            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+            return new ObjResponse("Exito", HttpStatus.OK.value(), idCliente, null, ret);
         }catch (Exception e){
             return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
         }
