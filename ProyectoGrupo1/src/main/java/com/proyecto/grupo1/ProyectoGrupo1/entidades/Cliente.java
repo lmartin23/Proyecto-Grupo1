@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter @Setter @ToString
 public class Cliente  extends Usuario {
+    @Enumerated(EnumType.STRING)
     private Rol rol;
     private boolean envioDomicilio;
 

@@ -25,6 +25,7 @@ public class Vendedor {
     private boolean habilitado;
     private boolean habilitaEnvio;
     private double saldo;
+    @Enumerated(EnumType.STRING)
     private Rol rol;
 
     @OneToMany(mappedBy = "vendedor", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)

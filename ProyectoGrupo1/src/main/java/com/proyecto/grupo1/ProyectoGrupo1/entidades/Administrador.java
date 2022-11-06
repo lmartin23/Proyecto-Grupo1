@@ -11,6 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class Administrador extends Usuario {
+    @Enumerated(EnumType.STRING)
     private Rol rol;
     public Administrador() {
     }
