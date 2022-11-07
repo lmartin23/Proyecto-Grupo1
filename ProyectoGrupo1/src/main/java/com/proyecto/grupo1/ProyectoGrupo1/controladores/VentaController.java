@@ -18,6 +18,11 @@ public class VentaController {
         return ventaService.listarVentasEntregaPendienteSinMarcar(idVendedor);
     }
 
+    @RequestMapping(value = "/setearEntrega", method = RequestMethod.PUT)
+    public ObjResponse setearEntrega(@RequestBody DtEntregaCompra dtEC){
+        return ventaService.setearEntrega(dtEC);
+    }
+
     @RequestMapping(value = "/listarVentasEntregaPendiente", method = RequestMethod.GET) //devuelve lista de ventas que tiene el vendedor con horario de Retiro o Envío setedo, pero aún no confirmadas como recibidas por el Cliente.
     public ObjResponse listarVentasEntregaPendienteYMarcada(@RequestParam Long idVendedor){
         return ventaService.listarVentasEntregaPendienteYMarcada(idVendedor);
@@ -26,11 +31,6 @@ public class VentaController {
     @RequestMapping(value = "/listarVentasFinalizadas", method = RequestMethod.GET) // devuelve lista de ventas confirmadas como recibidas por el Cliente.
     public ObjResponse listarVentasFinalizadas(@RequestParam Long idVendedor){
         return ventaService.listarVentasFinalizadas(idVendedor);
-    }
-
-    @RequestMapping(value = "/setearEntrega", method = RequestMethod.PUT)
-    public ObjResponse setearEntrega(@RequestBody DtEntregaCompra dtEC){
-        return ventaService.setearEntrega(dtEC);
     }
 
 }

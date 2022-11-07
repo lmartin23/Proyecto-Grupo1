@@ -11,5 +11,7 @@ public interface CompraService {
 
     public ObjResponse confirmarCompraRecibida(Long idCompra);
 
+    public ObjResponse listarComprasFinalizadas(Long idCliente);
+
 
 }

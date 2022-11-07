@@ -185,4 +185,36 @@ public class CompraServiceImpl implements CompraService {
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
+
+    @Override
+    public ObjResponse listarComprasFinalizadas(Long idCliente) {
+        Cliente cliente = clienteDao.findClienteById(idCliente);
+        List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Cliente(EstadoCompra.ENTREGADA, cliente);
+        List<DtCompra> ret = new ArrayList<DtCompra>();
+
+        for (Compra c : compras) {
+            List<String> tiposEntrega = new ArrayList<String>();
+
+            if(c.getEnvio() == null){
+                tiposEntrega.add("RETIRO");
+            } else {
+                tiposEntrega.add("ENVIO");
+            }
+
+            DtCompra dtC = new DtCompra(
+                    c.getId(),
+                    c.getFecha(),
+                    c.getProductoCarrito().getProducto().getNombre(),
+                    c.getProductoCarrito().getCantidad(),
+                    c.getProductoCarrito().getTotal(),
+                    tiposEntrega
+            );
+            ret.add(dtC);
+        }
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+        }catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
 }
