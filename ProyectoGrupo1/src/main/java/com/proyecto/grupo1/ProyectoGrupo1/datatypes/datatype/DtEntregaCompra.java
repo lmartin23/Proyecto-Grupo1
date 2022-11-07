@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @Setter
 public class DtEntregaCompra {
     private Long idCompra;
+    private String tipoEntrea;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd' 'HH:mm:ss[.SSS][.SS][.S]")
     private LocalDateTime fechaHoraDesde;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd' 'HH:mm:ss[.SSS][.SS][.S]")
     private LocalDateTime fechaHoraHasta;
     private Long idDireccion;
-
-
+    private DtDireccion direccion;
 }

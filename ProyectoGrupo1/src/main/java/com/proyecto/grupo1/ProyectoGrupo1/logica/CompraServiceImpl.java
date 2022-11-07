@@ -1,9 +1,7 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
 import com.proyecto.grupo1.ProyectoGrupo1.dao.*;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCompra;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtPago;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.*;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoProdCarrito;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.*;
@@ -60,7 +58,7 @@ public class CompraServiceImpl implements CompraService {
     }
 
     @Override
-    public ObjResponse comprasPendientesDeElegirEnrega(Long idC){
+    public ObjResponse listarComprasPendientesDeAsignarEntrega(Long idC){
         Cliente cliente = clienteDao.findClienteById(idC);
         List<Compra> comprasPendientes = compraDao.findCompraByEstadoAndProductoCarrito_Cliente(EstadoCompra.PROCESANDO, cliente);
         List<DtCompra> ret = new ArrayList<DtCompra>();
@@ -92,7 +90,7 @@ public class CompraServiceImpl implements CompraService {
     }
 
     @Override
-    public ObjResponse asignarMetodoEnrega(Long idCompra, String tipoEntrega, Long idDireccion){
+    public ObjResponse asignarMetodoEntrega(Long idCompra, String tipoEntrega, Long idDireccion){
         Compra compra = compraDao.findCompraById(idCompra);
         Envio e = new Envio();
         Retiro r = new Retiro();
@@ -104,7 +102,7 @@ public class CompraServiceImpl implements CompraService {
             r.setCompra(compra);
         }
 
-        compra.setEstado(EstadoCompra.NO_ENTREGADA);
+        compra.setEstado(EstadoCompra.ENTREGA_DEFINIDA);
 
         try {
              if(tipoEntrega.equals("ENVIO")){
@@ -115,6 +113,49 @@ public class CompraServiceImpl implements CompraService {
                 return new ObjResponse("Exito", HttpStatus.OK.value(), retiroDao.findAllByCompra(compra).getId());
             }
         }catch (Exception exception){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse listarComprasPendientesDeRecibir(Long idCliente){
+        Cliente cliente = clienteDao.findClienteById(idCliente);
+        List<Compra> comprasPendientes = compraDao.findCompraByEstadoAndProductoCarrito_Cliente(EstadoCompra.ENTREGA_PENDIENTE, cliente);
+        List<DtCompra> ret = new ArrayList<DtCompra>();
+
+        for (Compra c : comprasPendientes){
+            DtEntregaCompra entrega = new DtEntregaCompra();
+
+            if(c.getEnvio() != null){
+                Direccion d = direccionDao.getById(c.getEnvio().getDireccion().getId());
+                DtDireccion dtDirEnvio = (d.obtenerDtDireccion());
+
+                entrega.setTipoEntrea("ENVIO");
+                entrega.setFechaHoraDesde(c.getEnvio().getFechaDesde());
+                entrega.setFechaHoraHasta(c.getEnvio().getFechaHasta());
+                entrega.setDireccion(dtDirEnvio);
+
+            } else {
+                entrega.setTipoEntrea("RETIRO");
+                entrega.setFechaHoraDesde(c.getRetiro().getFechaDesde());
+                entrega.setFechaHoraHasta(c.getRetiro().getFechaHasta());
+            }
+
+            DtCompra dtC = new DtCompra(
+                    c.getId(),
+                    c.getFecha(),
+                    c.getProductoCarrito().getProducto().getNombre(),
+                    c.getProductoCarrito().getCantidad(),
+                    c.getProductoCarrito().getTotal(),
+                    entrega
+            );
+
+            ret.add(dtC);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+        }catch (Exception e){
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
@@ -141,6 +182,38 @@ public class CompraServiceImpl implements CompraService {
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
 
         } catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse listarComprasFinalizadas(Long idCliente) {
+        Cliente cliente = clienteDao.findClienteById(idCliente);
+        List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Cliente(EstadoCompra.ENTREGADA, cliente);
+        List<DtCompra> ret = new ArrayList<DtCompra>();
+
+        for (Compra c : compras) {
+            List<String> tiposEntrega = new ArrayList<String>();
+
+            if(c.getEnvio() == null){
+                tiposEntrega.add("RETIRO");
+            } else {
+                tiposEntrega.add("ENVIO");
+            }
+
+            DtCompra dtC = new DtCompra(
+                    c.getId(),
+                    c.getFecha(),
+                    c.getProductoCarrito().getProducto().getNombre(),
+                    c.getProductoCarrito().getCantidad(),
+                    c.getProductoCarrito().getTotal(),
+                    tiposEntrega
+            );
+            ret.add(dtC);
+        }
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+        }catch (Exception e){
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
