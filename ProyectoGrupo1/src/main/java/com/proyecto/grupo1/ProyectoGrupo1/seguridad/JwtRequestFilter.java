@@ -68,6 +68,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } else {
             logger.warn("El token JWT no comienza con el String Bearer");
         }
+        response.addHeader("Access-Control-Expose-Headers", "Authorization,RefreshAuthentication");
         chain.doFilter(request, response);
     }
 
