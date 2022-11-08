@@ -217,4 +217,51 @@ public class CompraServiceImpl implements CompraService {
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
         }
     }
+
+    @Override
+    public ObjResponse listarComprasCliente(Long idCliente){
+        List<Compra> compras = compraDao.getAllByProductoCarrito_Cliente_IdOrderByFechaDesc(idCliente);
+        List<DtCompra> ret = new ArrayList<DtCompra>();
+
+        for(Compra c : compras){
+            DtCompra dtC = new DtCompra(
+                    c.getId(),
+                    c.getFecha(),
+                    c.getProductoCarrito().getProducto().getNombre(),
+                    c.getProductoCarrito().getCantidad(),
+                    c.getProductoCarrito().getTotal()
+            );
+            ret.add(dtC);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+        }catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse buscarComprasCliente(Long idCliente, String nombreProducto){
+        List<Compra> compras = compraDao.findCompraByProductoCarrito_Cliente_IdAndProductoCarrito_Producto_NombreContainingIgnoreCase(idCliente, nombreProducto);
+        List<DtCompra> ret = new ArrayList<DtCompra>();
+
+        for(Compra c : compras){
+            DtCompra dtC = new DtCompra(
+                    c.getId(),
+                    c.getFecha(),
+                    c.getProductoCarrito().getProducto().getNombre(),
+                    c.getProductoCarrito().getCantidad(),
+                    c.getProductoCarrito().getTotal()
+            );
+            ret.add(dtC);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+        }catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
 }

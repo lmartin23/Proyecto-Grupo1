@@ -12,6 +12,8 @@ public interface CompraDao extends CrudRepository<Compra, Long> {
 
     Compra findCompraById(Long id);
     List<Compra> findCompraByEstadoAndProductoCarrito_Cliente(EstadoCompra estado, Cliente cliente);
-
     List<Compra> findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra estado, Vendedor vendedor);
+    List<Compra> getAllByProductoCarrito_Cliente_IdOrderByFechaDesc(Long idCliente);
+    List<Compra> findCompraByProductoCarrito_Cliente_IdAndProductoCarrito_Producto_NombreContainingIgnoreCase(Long idCliente, String nombreProducto);
+
 }

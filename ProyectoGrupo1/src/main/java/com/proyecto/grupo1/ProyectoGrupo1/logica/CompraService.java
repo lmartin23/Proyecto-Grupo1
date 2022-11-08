@@ -13,5 +13,9 @@ public interface CompraService {
 
     public ObjResponse listarComprasFinalizadas(Long idCliente);
 
+    public ObjResponse buscarComprasCliente(Long idCliente, String nombreProducto);
+
+    public ObjResponse listarComprasCliente(Long idCliente);
+
 
 }

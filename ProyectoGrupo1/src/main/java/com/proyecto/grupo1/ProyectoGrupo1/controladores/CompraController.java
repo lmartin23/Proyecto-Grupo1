@@ -46,4 +46,14 @@ public class CompraController {
     public ObjResponse listarComprasFinalizadas(@RequestParam Long idCliente){
         return compraService.listarComprasFinalizadas(idCliente);
     }
+
+    @RequestMapping(value = "/listarComprasCliente", method = RequestMethod.GET)
+    public ObjResponse listarComprasCliente(@RequestParam Long idCliente){
+        return compraService.listarComprasCliente(idCliente);
+    }
+
+    @RequestMapping(value = "/buscarComprasCliente", method = RequestMethod.GET)
+    public ObjResponse buscarComprasCliente(@RequestParam Long idCliente, @RequestParam String nombreProducto){
+        return compraService.buscarComprasCliente(idCliente, nombreProducto);
+    }
 }
