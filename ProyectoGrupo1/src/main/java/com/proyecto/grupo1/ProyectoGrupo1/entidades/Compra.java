@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,5 +49,15 @@ public class Compra {
         this.estado = estado;
         this.productoCarrito = productoCarrito;
         this.pago = pago;
+    }
+
+    public DtCompra obtenerDtCompra(){
+        return new DtCompra(
+            this.getId(),
+            this.getFecha(),
+            this.getProductoCarrito().getProducto().getNombre(),
+            this.getProductoCarrito().getCantidad(),
+            this.getProductoCarrito().getTotal()
+        );
     }
 }

@@ -66,7 +66,7 @@ public class VentaServiceImpl implements VentaService{
     @Override
     public ObjResponse listarVentasEntregaPendienteYMarcada(Long idVendedor) {
         Vendedor vendedor = vendedorDao.findVendedorById(idVendedor);
-        List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra.ENTREGA_PENDIENTE, vendedor);
+        List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra.ENTREGA_DEFINIDA, vendedor);
         List<DtCompra> ret = new ArrayList<DtCompra>();
 
         for (Compra c : compras) {

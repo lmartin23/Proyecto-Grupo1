@@ -1,6 +1,7 @@
 package com.proyecto.grupo1.ProyectoGrupo1.dao;
 
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
+import com.proyecto.grupo1.ProyectoGrupo1.entidades.Direccion;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Vendedor;
 import org.springframework.data.repository.CrudRepository;
 

@@ -17,7 +17,6 @@ public class DtCompra {
     private int cantidad;
     private double total;
     private List<String> metodosEntrega;
-
     private DtEntregaCompra entrega;
 
     public DtCompra(Long id, Date fecha, String nombreProducto, int cantidad, double total, List<String> metodosEntrega) {

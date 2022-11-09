@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.dao;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Compra;
@@ -15,5 +16,4 @@ public interface CompraDao extends CrudRepository<Compra, Long> {
     List<Compra> findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra estado, Vendedor vendedor);
     List<Compra> getAllByProductoCarrito_Cliente_IdOrderByFechaDesc(Long idCliente);
     List<Compra> findCompraByProductoCarrito_Cliente_IdAndProductoCarrito_Producto_NombreContainingIgnoreCase(Long idCliente, String nombreProducto);
-
 }

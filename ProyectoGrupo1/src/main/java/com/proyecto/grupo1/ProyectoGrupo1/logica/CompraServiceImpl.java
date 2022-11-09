@@ -65,7 +65,16 @@ public class CompraServiceImpl implements CompraService {
 
         for (Compra c : comprasPendientes){
             List<String> tiposEntrega = new ArrayList<String>();
-            tiposEntrega.add("RETIRO");
+            List<Direccion> direcciones = c.getProductoCarrito().getProducto().getVendedor().getDirecciones();
+            DtDireccion dirPrincipal = new DtDireccion();
+
+            for(Direccion d : direcciones){
+                if(d.isPrincipal()){
+                    dirPrincipal = d.obtenerDtDireccion();
+                }
+            }
+
+            tiposEntrega.add("RETIRO " + dirPrincipal);
 
             if(c.getProductoCarrito().getProducto().getVendedor().isHabilitaEnvio()){
                 tiposEntrega.add("ENVIO");
