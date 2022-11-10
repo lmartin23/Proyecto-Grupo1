@@ -156,10 +156,20 @@ public class ReclamoServiceImpl implements ReclamoService{
                 compra.getProductoCarrito().getCliente().getSaldo()+
                 monto
             );
+
+            compra.getProductoCarrito().getProducto().getVendedor().setSaldo(
+                compra.getProductoCarrito().getProducto().getVendedor().getSaldo()-
+                monto
+            );
         } else {
             compra.getProductoCarrito().getCliente().setSaldo(
                 compra.getProductoCarrito().getCliente().getSaldo()+
                 compra.getProductoCarrito().getTotal()
+            );
+
+            compra.getProductoCarrito().getProducto().getVendedor().setSaldo(
+                    compra.getProductoCarrito().getProducto().getVendedor().getSaldo()-
+                    compra.getProductoCarrito().getTotal()
             );
         }
 
