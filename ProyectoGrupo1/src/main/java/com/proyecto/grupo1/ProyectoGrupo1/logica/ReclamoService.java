@@ -7,5 +7,7 @@ public interface ReclamoService {
 
     public ObjResponse iniciar (DtReclamo dtR);
     public ObjResponse listarReclamosVendedor (Long idVendedor);
+    public ObjResponse gestionarReclamo(Long idCompra, int opcion, String mensaje, Double monto);
+
 
 }

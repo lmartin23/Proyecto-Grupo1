@@ -16,6 +16,7 @@ import java.util.List;
 public class Cliente  extends Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
+    private double saldo;
     private boolean envioDomicilio;
 
     @OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
@@ -34,6 +35,7 @@ public class Cliente  extends Usuario {
     public Cliente(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
         super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
         this.rol = Rol.ROL_CLIENTE;
+        this.saldo = 0.00;
     }
 
     public DtCliente obtenerDt(){

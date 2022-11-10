@@ -18,13 +18,23 @@ public class ReclamoController {
     ReclamoService reclamoService;
 
     @RequestMapping(value = "/iniciarReclamo", method = RequestMethod.POST)
-    public ObjResponse inicairReclamo(@RequestBody DtReclamo dtR){
+    public ObjResponse iniciarReclamo(@RequestBody DtReclamo dtR){
         return reclamoService.iniciar(dtR);
     }
 
     @RequestMapping(value = "/obtenerReclamos", method = RequestMethod.GET)
     public ObjResponse listarReclamosVendedor(@RequestParam Long idVendedor){
         return reclamoService.listarReclamosVendedor(idVendedor);
+    }
+
+    @RequestMapping(value = "/gestionReclamo", method = RequestMethod.PUT)
+    public ObjResponse gestionarReclamo(
+            @RequestParam Long idCompra,
+            @RequestParam int opcion,
+            @RequestParam (required = false) String mensaje,
+            @RequestParam (required = false) Double monto
+            ){
+        return reclamoService.gestionarReclamo(idCompra, opcion, mensaje, monto);
     }
 
 }
