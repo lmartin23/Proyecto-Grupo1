@@ -37,7 +37,7 @@ public class JwtUserDetailsService  {
         if (c != null && c.getVendedor() != null){
             v = c.getVendedor();
         }else{
-            admin = adminDao.findClienteByCorreoIgnoreCase(mail);
+            admin = adminDao.findAdministradorByCorreoIgnoreCase(mail);
         }
         if(c == null && v == null && admin == null ){
             return  null;

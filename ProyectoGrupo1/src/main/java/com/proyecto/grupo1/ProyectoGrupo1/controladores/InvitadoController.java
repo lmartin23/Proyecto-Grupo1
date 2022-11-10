@@ -39,4 +39,9 @@ public class InvitadoController {
         return "HOLA ESTA ES UNA PRUEBA";
     }
 
+    @RequestMapping(value = "api/invitado/recuperarPass", method = RequestMethod.POST)
+    public ObjResponse recuperarContrasena(@RequestParam String correo){
+        return serviceInv.recuperarContrasena(correo);
+    }
+
 }

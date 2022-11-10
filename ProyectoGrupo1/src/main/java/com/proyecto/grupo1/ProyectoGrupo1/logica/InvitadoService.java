@@ -13,6 +13,7 @@ public interface InvitadoService {
     public ObjResponse registrarCliente(DtRegistroCliente cliente);
     public boolean login(DtLogin dtLogin);
     public DtCliente obtenerCliente(Long id);
+    public ObjResponse recuperarContrasena(String correo);
 
 
 }

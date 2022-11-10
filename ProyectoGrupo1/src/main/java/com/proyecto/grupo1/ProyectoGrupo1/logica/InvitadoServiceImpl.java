@@ -6,8 +6,7 @@ import com.proyecto.grupo1.ProyectoGrupo1.dao.DireccionDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.*;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoUsuario;
-import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
-import com.proyecto.grupo1.ProyectoGrupo1.entidades.Direccion;
+import com.proyecto.grupo1.ProyectoGrupo1.entidades.*;
 import com.proyecto.grupo1.ProyectoGrupo1.seguridad.PasswordSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,17 +16,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class InvitadoServiceImpl implements InvitadoService{
 
-    @Autowired
+    final
     ClienteDao clienteDao;
 
-    @Autowired
+    final
     AdministradorDao adminDao;
 
-    @Autowired
+    final
     PasswordSevice passService;
 
-    @Autowired
+    final
     DireccionDao dirDao;
+    final
+    MailService mailService;
+
+    public InvitadoServiceImpl(ClienteDao clienteDao, AdministradorDao adminDao, PasswordSevice passService, DireccionDao dirDao, MailService mailService) {
+        this.clienteDao = clienteDao;
+        this.adminDao = adminDao;
+        this.passService = passService;
+        this.dirDao = dirDao;
+        this.mailService = mailService;
+    }
+
     @Override
     public ObjResponse registrarCliente(DtRegistroCliente dt) {
 
@@ -75,10 +85,74 @@ public class InvitadoServiceImpl implements InvitadoService{
         return null;
     }
 
+    @Override
+    public ObjResponse recuperarContrasena(String correo) {
+        ObjResponse obj = new ObjResponse();
+        obj.setCodeHttp(HttpStatus.BAD_REQUEST.value());
+        obj.setMensaje("No se ha encontrado ningun usuario asociado al correo ingresado");
+        obj.setObjeto("Error");
+        obj.setIdUser(0L);
+        if(!correo.isEmpty()){
+            Cliente c = clienteDao.findClienteByCorreoIgnoreCase(correo);
+            Administrador admin = null;
+
+            if(c == null){
+                admin = adminDao.findAdministradorByCorreoIgnoreCase(correo);
+            }
+            if(c == null && admin == null){
+                return obj;
+            }
+
+            //Generacion de contrasena
+            String caracteres =  "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqQqRrSsTtUuVvWwXxXxYyZz0123456789*-+/$"; //71 carac
+            String newPass = "";
+            for(int x = 0; x < 8; x++){
+                int numero = (int)(Math.random()*71+1);
+                newPass += caracteres.charAt(numero);
+            }
+            System.out.println("\n\nContrasena generada: "+newPass);
+            String pass = passService.hashearPassword(newPass);
+            if(c != null){
+                c.setContrasena(pass);
+                clienteDao.save(c);
+            }else{
+                admin.setContrasena(pass);
+                adminDao.save(admin);
+            }
+
+            String asunto = "ClickShop, no responder - Recuperacion de contrasena ";
+            String mensaje = "Estimado usuario, el preceso de recuperacion de contrasena se ha completado correctamente." +
+                    "\nSu nueva contrasena es: "+newPass+"" +
+                    "\nInicie sesion con las credeciales otorgadas, se recomienda cambiar la contrasena por una nueva." +
+                    "\n\n.: ClickShop :.";
+            enviarMailRecuperacion(correo,asunto,mensaje);
+
+            obj.setCodeHttp(HttpStatus.OK.value());
+            obj.setMensaje("Se ha restablecido la contrasena correctamente");
+            obj.setObjeto("Exito");
+        }
+
+        return obj;
+    }
+
     public boolean correoRegistrado(String correo){
-        return clienteDao.findClienteByCorreoIgnoreCase(correo) != null || adminDao.findClienteByCorreoIgnoreCase(correo) != null;
+        return clienteDao.findClienteByCorreoIgnoreCase(correo) != null || adminDao.findAdministradorByCorreoIgnoreCase(correo) != null;
     }
     public boolean documentoRegistrado(String documento) {
         return clienteDao.findClienteByDocumentoIgnoreCase(documento) != null || adminDao.findAdministradorByDocumentoIgnoreCase(documento) != null;
+    }
+
+    public String enviarMailRecuperacion(String correo, String asunto, String mensaje){
+        MailRequest mail = new MailRequest();
+        mail.setTo(correo);
+        mail.setSubject(asunto);
+        mail.setText(mensaje);
+        try {
+            mailService.sendMail(mail);
+            return "";
+        }catch (Exception e){
+            return "\n No se ha podido enviar correo al vendedor para notificarlo.";
+        }
+
     }
 }
