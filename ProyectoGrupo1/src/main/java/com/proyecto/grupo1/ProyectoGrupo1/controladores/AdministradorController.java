@@ -28,8 +28,8 @@ public class AdministradorController {
         return admServ.listadoVendedores();
     }
 
-    @RequestMapping(value = "api/administrador/cambiarEstado", method = RequestMethod.POST)
-    public ObjResponse listarVendedoresRegistrados(@RequestParam Long idVendedor,
+    @RequestMapping(value = "api/administrador/cambiarEstadoPendientes", method = RequestMethod.POST)
+    public ObjResponse cambiarEstadoVendedoresPendientes(@RequestParam Long idVendedor,
                                                    @RequestParam boolean aprobado){
         return admServ.cambiarEstadoVendedor(idVendedor, aprobado);
     }

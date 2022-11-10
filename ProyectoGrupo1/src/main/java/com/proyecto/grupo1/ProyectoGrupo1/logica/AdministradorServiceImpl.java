@@ -72,18 +72,19 @@ public class AdministradorServiceImpl implements AdministradorService{
             return new ObjResponse("No se ha encontrado usuario", HttpStatus.BAD_REQUEST.value(), null);
         }
         try {
-            v.setHabilitado(aprobado);
-            vendedorDao.save(v);
             //PARTE DE ENVIO DE MAIL
             String mensaje = "";
             String asuntoMail = "ClickShop - resultado de solicitud de registro";
             String bodyMail="";
             if(aprobado){
+                v.setHabilitado(aprobado);
+                vendedorDao.save(v);
                 mensaje = "Se ha habilitado al vendedor correctamente";
                 bodyMail = "Bienvenido a CLickShop, le informamos que su solicitud de registro ha sido Aprobada :D.";
             }else{
+                vendedorDao.delete(v);
                 mensaje = "Se ha deshabilitado al vendedor correctamente";
-                bodyMail = "Bienvenido a CLickShop, lamentamos informarle que su solicitud de registro ha sido Rechazada :|.";
+                bodyMail = "CLickShop le informa que su solicitud de registro ha sido Rechazada :|.";
             }
             String msjOpc = enviarMailVendedor(v.getCliente().getCorreo(),asuntoMail, bodyMail );
             return new ObjResponse(mensaje + msjOpc, HttpStatus.OK.value(), null);
