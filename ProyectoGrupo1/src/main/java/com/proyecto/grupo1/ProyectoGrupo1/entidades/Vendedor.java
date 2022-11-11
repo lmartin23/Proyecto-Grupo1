@@ -22,7 +22,7 @@ public class Vendedor {
     @JoinColumn(name = "id")
     private Cliente cliente;
     private String nombreComercial;
-    private boolean habilitado;
+    private Boolean habilitado;
     private boolean habilitaEnvio;
     private double saldo;
     @Enumerated(EnumType.STRING)
@@ -41,7 +41,7 @@ public class Vendedor {
     public Vendedor(Cliente cliente, String nombreComercial, boolean habilitaEnvio) {
         this.cliente = cliente;
         this.nombreComercial = nombreComercial;
-        this.habilitado = false;
+        this.habilitado = null;
         this.habilitaEnvio = habilitaEnvio;
         this.saldo = 0;
         this.rol = Rol.ROL_VENDEDOR;

@@ -72,6 +72,13 @@ public class InvitadoServiceImpl implements InvitadoService{
             if (passService.verificarHash(c.getContrasena(), dtLogin.getContrasena())){
                 return true;
             }
+        }else{
+            Administrador admin = adminDao.findAdministradorByCorreoIgnoreCase(dtLogin.getCorreo());
+            if(admin != null){
+                if(passService.verificarHash(admin.getContrasena(), dtLogin.getContrasena())){
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -154,5 +161,21 @@ public class InvitadoServiceImpl implements InvitadoService{
             return "\n No se ha podido enviar correo al vendedor para notificarlo.";
         }
 
+    }
+
+    @Override
+    public ObjResponse registrarAdministrador(String correo, String contra) {
+
+        if (!correoRegistrado(correo)) {
+            String pass = passService.hashearPassword(contra);
+            Administrador admin = new Administrador(correo, pass);
+            try {
+                adminDao.save(admin);
+                return new ObjResponse("Exito", HttpStatus.CREATED.value(), 0L, null, "Exito");
+            } catch (Exception e) {
+                return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
+            }
+        }
+        return new ObjResponse("Error, ya existe un usuario registrado con los datos ingresados documento o correo", HttpStatus.BAD_REQUEST.value(), null);
     }
 }

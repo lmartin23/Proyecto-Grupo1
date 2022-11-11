@@ -1,9 +1,12 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
+import com.proyecto.grupo1.ProyectoGrupo1.dao.ProductoDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtVendedorBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.MailRequest;
+import com.proyecto.grupo1.ProyectoGrupo1.entidades.Producto;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Vendedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,21 +17,31 @@ import java.util.List;
 
 @Service
 public class AdministradorServiceImpl implements AdministradorService{
-    @Autowired
+    final
     VendedorDao vendedorDao;
-    @Autowired
+    final
     MailService mailService;
+
+    final
+    ProductoDao prodDao;
+
+    public AdministradorServiceImpl(VendedorDao vendedorDao, MailService mailService, ProductoDao prodDao) {
+        this.vendedorDao = vendedorDao;
+        this.mailService = mailService;
+        this.prodDao = prodDao;
+    }
+
 
     @Override
     public ObjResponse vendedoresPendientes() {
-        List<Vendedor> listaPendientes = vendedorDao.findAllByHabilitado(false);
+        List<Vendedor> listaPendientes = vendedorDao.findAllByHabilitadoIsNull();
 
         if(listaPendientes.isEmpty()){
             return new ObjResponse("No se han encontrado usuarios para listar", HttpStatus.NO_CONTENT.value(), null);
         }
         List<DtVendedorBO> resultados= new ArrayList<>();
         for(Vendedor v : listaPendientes){
-            DtVendedorBO dt = new DtVendedorBO(v.getId(),v.getNombreComercial(), v.isHabilitado());
+            DtVendedorBO dt = new DtVendedorBO(v.getId(),v.getNombreComercial(), v.getHabilitado());
             resultados.add(dt);
         }
         return new ObjResponse("Exito", HttpStatus.OK.value(), resultados);
@@ -44,8 +57,10 @@ public class AdministradorServiceImpl implements AdministradorService{
         }
         List<DtVendedorBO> resultados= new ArrayList<>();
         for(Vendedor v : listaPendientes){
-            DtVendedorBO dt = new DtVendedorBO(v.getId(),v.getNombreComercial(), v.isHabilitado());
-            resultados.add(dt);
+            if(v.getHabilitado()== true) {
+                DtVendedorBO dt = new DtVendedorBO(v.getId(), v.getNombreComercial(), v.getHabilitado());
+                resultados.add(dt);
+            }
         }
         return new ObjResponse("Exito", HttpStatus.OK.value(), resultados);
     }
@@ -59,8 +74,10 @@ public class AdministradorServiceImpl implements AdministradorService{
         }
         List<DtVendedorBO> resultados= new ArrayList<>();
         for(Vendedor v : listaVendedores){
-            DtVendedorBO dt = new DtVendedorBO(v.getId(),v.getNombreComercial(), v.isHabilitado());
-            resultados.add(dt);
+            if(v.getHabilitado()!= false){
+                DtVendedorBO dt = new DtVendedorBO(v.getId(),v.getNombreComercial(), v.getHabilitado());
+                resultados.add(dt);
+            }
         }
         return new ObjResponse("Exito", HttpStatus.OK.value(), resultados);
     }
@@ -68,7 +85,7 @@ public class AdministradorServiceImpl implements AdministradorService{
     @Override
     public ObjResponse cambiarEstadoVendedor(Long idVendedor, boolean aprobado) {
         Vendedor v = vendedorDao.findVendedorById(idVendedor);
-        if(v == null){
+        if(v == null || v.getHabilitado() == false){
             return new ObjResponse("No se ha encontrado usuario", HttpStatus.BAD_REQUEST.value(), null);
         }
         try {
@@ -79,15 +96,17 @@ public class AdministradorServiceImpl implements AdministradorService{
             if(aprobado){
                 v.setHabilitado(aprobado);
                 vendedorDao.save(v);
+                this.habilitarProductos(v.getId());
                 mensaje = "Se ha habilitado al vendedor correctamente";
                 bodyMail = "Bienvenido a CLickShop, le informamos que su solicitud de registro ha sido Aprobada :D.";
             }else{
-                vendedorDao.delete(v);
+                v.setHabilitado(false);
+                vendedorDao.save(v);
                 mensaje = "Se ha deshabilitado al vendedor correctamente";
                 bodyMail = "CLickShop le informa que su solicitud de registro ha sido Rechazada :|.";
             }
             String msjOpc = enviarMailVendedor(v.getCliente().getCorreo(),asuntoMail, bodyMail );
-            return new ObjResponse(mensaje + msjOpc, HttpStatus.OK.value(), null);
+            return new ObjResponse(mensaje /*+ msjOpc*/, HttpStatus.OK.value(), null);
         }catch (Exception e){
             return new ObjResponse("Error inesperado", HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
         }
@@ -105,6 +124,17 @@ public class AdministradorServiceImpl implements AdministradorService{
             return "\n No se ha podido enviar correo al vendedor para notificarlo.";
         }
 
+    }
+
+    public void habilitarProductos(Long vId){
+        List<Producto> prods = prodDao.getAllByVendedor_Id(vId);
+        if(prods != null){
+            System.out.println("\n\n\nHabilitar productos");
+            for(Producto p : prods){
+                p.setActivo(true);
+            }
+            prodDao.saveAll(prods);
+        }
     }
 
 }

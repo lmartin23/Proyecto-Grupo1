@@ -20,4 +20,9 @@ public class Administrador extends Usuario {
         super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
         this.rol = Rol.ROL_ADMIN;
     }
+
+    public Administrador( String correo, String contrasena) {
+        super(null, null, null, null, correo, contrasena);
+        this.rol = Rol.ROL_ADMIN;
+    }
 }
