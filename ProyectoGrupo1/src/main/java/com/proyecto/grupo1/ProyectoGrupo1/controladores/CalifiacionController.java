@@ -29,7 +29,7 @@ public class CalifiacionController {
         return calificacionService.modificar(dtC);
     }
 
-    @RequestMapping(value = "/eliminar", method = RequestMethod.PUT)
+    @RequestMapping(value = "/eliminar", method = RequestMethod.DELETE)
     public ObjResponse eliminar(
             @RequestBody DtCalificacion dtC
     ){
