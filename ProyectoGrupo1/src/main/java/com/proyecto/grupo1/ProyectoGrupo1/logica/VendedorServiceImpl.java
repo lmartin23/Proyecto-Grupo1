@@ -104,7 +104,7 @@ public class VendedorServiceImpl implements VendedorService{
                     dt.getPrecio(),
                     dt.getStock(),
                     CategoProd.valueOf(dt.getCategoria()),
-                    dt.isActivo(),
+                    false,
                     vendedor
             );
 

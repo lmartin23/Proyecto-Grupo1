@@ -43,9 +43,9 @@ public class JwtUserDetailsService  {
             return  null;
         }
 
-        if(c!=null && c.getVendedor() == null){
+        if(c!=null && (c.getVendedor() == null || c.getVendedor().getHabilitado() == false || c.getVendedor().getHabilitado() == null)){
             return new UserGeneric(c.getId(), c.getCorreo(), c.getContrasena(), c.getRol());
-        } else if (v != null) {
+        } else if (v != null && v.getHabilitado() == true) {
             return new UserGeneric(c.getId(), c.getCorreo(), c.getContrasena(), v.getRol());
         }else {
             return new UserGeneric(admin.getId(), admin.getCorreo(), admin.getContrasena(), admin.getRol());
