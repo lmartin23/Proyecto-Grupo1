@@ -29,6 +29,8 @@ public class CompraServiceImpl implements CompraService {
     RetiroDao retiroDao;
     @Autowired
     DireccionDao direccionDao;
+    @Autowired
+    CalificacionDao calificacionDao;
 
     @Override
     public ObjResponse confirmarProductosCarrito(DtPago dtP){
@@ -240,6 +242,16 @@ public class CompraServiceImpl implements CompraService {
                     c.getProductoCarrito().getCantidad(),
                     c.getProductoCarrito().getTotal()
             );
+
+            if(calificacionDao.existsCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente())){
+                dtC.setCalificacionCli(calificacionDao.findCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente()).obtenerDtCalificacion());
+                dtC.getCalificacionCli().setIdCliente(c.getProductoCarrito().getCliente().getId());
+            }
+            if(calificacionDao.existsCalificacionByCompraAndVendedor(c, c.getProductoCarrito().getProducto().getVendedor())){
+                dtC.setCalificacionVen(calificacionDao.findCalificacionByCompraAndVendedor(c, c.getProductoCarrito().getProducto().getVendedor()).obtenerDtCalificacion());
+                dtC.getCalificacionVen().setIdVendedor(c.getProductoCarrito().getProducto().getVendedor().getId());
+            }
+
             ret.add(dtC);
         }
 

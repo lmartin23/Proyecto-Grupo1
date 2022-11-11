@@ -7,8 +7,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Compra", indexes = {
@@ -39,6 +41,9 @@ public class Compra {
 
     @OneToOne
     private ProductoCarrito productoCarrito;
+
+    @OneToMany(mappedBy = "compra",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Calificacion> calificaciones  = new ArrayList<Calificacion>();
 
     public Compra() {
     }

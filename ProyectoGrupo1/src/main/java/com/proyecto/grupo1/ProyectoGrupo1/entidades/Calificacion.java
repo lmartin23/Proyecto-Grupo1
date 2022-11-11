@@ -1,11 +1,11 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCalificacion;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -15,12 +15,14 @@ import java.util.Date;
 @Getter @Setter @ToString
 public class Calificacion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int estrellas;
     private String comentario;
     private Date fecha;
 
+    @ManyToOne
+    private Compra compra;
     @ManyToOne
     private Cliente cliente;
     @ManyToOne
@@ -29,14 +31,19 @@ public class Calificacion {
     public Calificacion() {
     }
 
-    public Calificacion(Long id, int estrellas, String comentario, Date fecha, Cliente cliente, Vendedor vendedor) {
-        this.id = id;
+    public Calificacion(Compra compra, int estrellas, String comentario) {
+        this.compra = compra;
         this.estrellas = estrellas;
         this.comentario = comentario;
-        this.fecha = fecha;
-        this.cliente = cliente;
-        this.vendedor = vendedor;
+        this.fecha = new java.util.Date();;
     }
 
+    public DtCalificacion obtenerDtCalificacion(){
+        return new DtCalificacion(
+                this.compra.getId(),
+                this.estrellas,
+                this.comentario
+        );
+    }
 }
 

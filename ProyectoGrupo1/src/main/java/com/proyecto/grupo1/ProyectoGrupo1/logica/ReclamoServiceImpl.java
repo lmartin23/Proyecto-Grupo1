@@ -13,7 +13,6 @@ import com.proyecto.grupo1.ProyectoGrupo1.entidades.Compra;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.MailRequest;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.ProductoCarrito;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Reclamo;
-import org.hibernate.mapping.TableOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
