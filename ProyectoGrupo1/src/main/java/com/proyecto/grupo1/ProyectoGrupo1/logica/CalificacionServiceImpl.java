@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CalificacionServiceImpl implements CalificacionService {
 
@@ -91,6 +93,25 @@ public class CalificacionServiceImpl implements CalificacionService {
         try {
             calificacionDao.delete(calificacion);
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
+        }catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse promedio(Long idCliente){
+        List<Calificacion> calificaciones = calificacionDao.getAllByCliente_Id(idCliente);
+        Double promedio = 0.00;
+        int suma = 0;
+
+        for(Calificacion c : calificaciones){
+            suma = suma + c.getEstrellas();
+        }
+
+        promedio = Double.valueOf(suma / calificaciones.size());
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), promedio);
         }catch (Exception e){
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
         }

@@ -9,4 +9,6 @@ public interface CalificacionService {
     public ObjResponse modificar(DtCalificacion dtC);
     public ObjResponse eliminar(DtCalificacion dtC);
 
+    public ObjResponse promedio(Long idCliente);
+
 }

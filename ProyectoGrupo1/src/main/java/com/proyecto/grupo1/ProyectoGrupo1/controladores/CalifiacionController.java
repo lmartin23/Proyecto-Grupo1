@@ -4,10 +4,7 @@ import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCalificacion;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.CalificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/calificacion")
@@ -34,5 +31,10 @@ public class CalifiacionController {
             @RequestBody DtCalificacion dtC
     ){
         return calificacionService.eliminar(dtC);
+    }
+
+    @RequestMapping(value = "/consultarPromedio", method = RequestMethod.GET)
+    public ObjResponse promedio(@RequestParam Long idCliente){
+        return calificacionService.promedio(idCliente);
     }
 }
