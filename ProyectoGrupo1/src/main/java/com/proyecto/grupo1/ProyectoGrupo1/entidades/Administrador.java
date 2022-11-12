@@ -13,16 +13,19 @@ import java.util.Date;
 public class Administrador extends Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
+    private boolean superAdmin;
     public Administrador() {
     }
 
     public Administrador(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
         super(documento, nombre, apellido, fechaNacimiento, correo, contrasena);
         this.rol = Rol.ROL_ADMIN;
+        superAdmin = false;
     }
 
     public Administrador( String correo, String contrasena) {
         super(null, null, null, null, correo, contrasena);
         this.rol = Rol.ROL_ADMIN;
+        superAdmin = false;
     }
 }
