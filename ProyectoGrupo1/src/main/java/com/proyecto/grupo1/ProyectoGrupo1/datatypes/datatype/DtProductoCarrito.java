@@ -18,6 +18,7 @@ public class DtProductoCarrito implements Serializable {
     private String descripcion;
     private int cantidad;
     private double total;
+    private DtProducto dtProducto;
 
     public DtProductoCarrito() {
     }

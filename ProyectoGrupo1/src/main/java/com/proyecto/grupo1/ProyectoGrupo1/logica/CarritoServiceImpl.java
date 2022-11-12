@@ -90,6 +90,7 @@ public class CarritoServiceImpl implements CarritoService {
                     pc.getCantidad(),
                     pc.getTotal()
             );
+            aux.setDtProducto(pc.getProducto().obtenerDtProducto());
             ret.add(aux);
         }
 
