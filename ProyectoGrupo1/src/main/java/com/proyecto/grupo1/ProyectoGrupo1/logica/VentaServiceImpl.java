@@ -1,9 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
-import com.proyecto.grupo1.ProyectoGrupo1.dao.CompraDao;
-import com.proyecto.grupo1.ProyectoGrupo1.dao.DireccionDao;
-import com.proyecto.grupo1.ProyectoGrupo1.dao.NotificacionDao;
-import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
+import com.proyecto.grupo1.ProyectoGrupo1.dao.*;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtEntregaCompra;
@@ -30,7 +27,8 @@ public class VentaServiceImpl implements VentaService{
     MailService mailService;
     @Autowired
     NotificacionDao notificacionDao;
-
+    @Autowired
+    CalificacionDao calificacionDao;
     @Override
     public ObjResponse listarVentasEntregaPendienteSinMarcar(Long idVendedor) {
         Vendedor vendedor = vendedorDao.findVendedorById(idVendedor);
@@ -185,6 +183,39 @@ public class VentaServiceImpl implements VentaService{
             mailService.sendMail(mail);
             //notificacionDao.save(push);
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
+        }catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse listarVentasVendedor(Long idVendedor){
+        List<Compra> compras = compraDao.getAllByProductoCarrito_Producto_Vendedor_IdOrderByFechaDesc(idVendedor);
+        List<DtCompra> ret = new ArrayList<DtCompra>();
+
+        for(Compra c : compras){
+            DtCompra dtC = new DtCompra(
+                    c.getId(),
+                    c.getFecha(),
+                    c.getProductoCarrito().getProducto().getNombre(),
+                    c.getProductoCarrito().getCantidad(),
+                    c.getProductoCarrito().getTotal()
+            );
+
+            if(calificacionDao.existsCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente())){
+                dtC.setCalificacionCli(calificacionDao.findCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente()).obtenerDtCalificacion());
+                dtC.getCalificacionCli().setIdCliente(c.getProductoCarrito().getCliente().getId());
+            }
+            if(calificacionDao.existsCalificacionByCompraAndVendedor(c, c.getProductoCarrito().getProducto().getVendedor())){
+                dtC.setCalificacionVen(calificacionDao.findCalificacionByCompraAndVendedor(c, c.getProductoCarrito().getProducto().getVendedor()).obtenerDtCalificacion());
+                dtC.getCalificacionVen().setIdVendedor(c.getProductoCarrito().getProducto().getVendedor().getId());
+            }
+
+            ret.add(dtC);
+        }
+
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
         }catch (Exception e){
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
         }

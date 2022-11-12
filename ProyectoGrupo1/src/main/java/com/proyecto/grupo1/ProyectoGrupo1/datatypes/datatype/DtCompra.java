@@ -19,6 +19,10 @@ public class DtCompra {
     private List<String> metodosEntrega;
     private DtEntregaCompra entrega;
 
+    private DtCalificacion calificacionCli;
+
+    private DtCalificacion calificacionVen;
+
     public DtCompra(Long id, Date fecha, String nombreProducto, int cantidad, double total, List<String> metodosEntrega) {
         this.id = id;
         this.fecha = fecha;

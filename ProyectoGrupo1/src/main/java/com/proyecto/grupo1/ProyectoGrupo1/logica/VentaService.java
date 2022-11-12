@@ -9,5 +9,6 @@ public interface VentaService {
     public ObjResponse listarVentasEntregaPendienteYMarcada(Long idVendedor);
     public ObjResponse listarVentasFinalizadas(Long idVendedor);
     public ObjResponse setearEntrega(DtEntregaCompra dtEC);
+    public ObjResponse listarVentasVendedor(Long idVendedor);
 
 }

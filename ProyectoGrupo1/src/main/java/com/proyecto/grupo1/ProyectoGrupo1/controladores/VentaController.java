@@ -33,4 +33,10 @@ public class VentaController {
         return ventaService.listarVentasFinalizadas(idVendedor);
     }
 
+    @RequestMapping(value = "/listarVentasVendedor", method = RequestMethod.GET)
+    public ObjResponse listarVentasVendedor(@RequestParam Long idVendedor){
+        return ventaService.listarVentasVendedor(idVendedor);
+    }
+
+
 }
