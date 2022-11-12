@@ -108,7 +108,9 @@ public class CalificacionServiceImpl implements CalificacionService {
             suma = suma + c.getEstrellas();
         }
 
-        promedio = Double.valueOf(suma / calificaciones.size());
+        if(calificaciones.size() != 0 ){
+            promedio = Double.valueOf(suma / calificaciones.size());
+        }
 
         try {
             return new ObjResponse("Exito", HttpStatus.OK.value(), promedio);

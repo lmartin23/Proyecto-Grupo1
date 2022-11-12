@@ -43,7 +43,9 @@ public class JwtUserDetailsService  {
             return  null;
         }
 
-        if(c!=null && (c.getVendedor() == null || c.getVendedor().getHabilitado() == false || c.getVendedor().getHabilitado() == null)){
+        if(c!=null && c.getVendedor() == null){
+            return new UserGeneric(c.getId(), c.getCorreo(), c.getContrasena(), c.getRol());
+        } else if (c.getVendedor().getHabilitado() == null || c.getVendedor().getHabilitado() == false){
             return new UserGeneric(c.getId(), c.getCorreo(), c.getContrasena(), c.getRol());
         } else if (v != null && v.getHabilitado() == true) {
             return new UserGeneric(c.getId(), c.getCorreo(), c.getContrasena(), v.getRol());
