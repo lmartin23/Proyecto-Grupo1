@@ -16,6 +16,8 @@ public class DtCompra {
     private String nombreProducto;
     private int cantidad;
     private double total;
+
+    private DtProducto producto;
     private List<String> metodosEntrega;
     private DtEntregaCompra entrega;
 

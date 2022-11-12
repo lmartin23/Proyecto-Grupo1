@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtProducto;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.CategoProd;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,4 +51,25 @@ public class Producto {
         this.vendedor = vendedor;
     }
 
+    public DtProducto obtenerDtProducto(){
+        return new DtProducto(
+                this.id,
+                this.nombre,
+                this.descripcion,
+                this.precio,
+                this.stock,
+                this.categoria.toString(),
+                this.activo,
+                this.vendedor.getId(),
+                this.obtenerArregloImagenes()
+        );
+    }
+
+    public List<String> obtenerArregloImagenes(){
+        List<String> img = new ArrayList<String>();
+        for (ImagenProducto i : this.imagenesProducto){
+            img.add(i.getUrl());
+        }
+        return  img;
+    }
 }

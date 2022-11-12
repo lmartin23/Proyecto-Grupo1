@@ -86,26 +86,8 @@ public class ProductoServiceImpl implements ProductoService {
         List<DtProducto> ret = new ArrayList<DtProducto>();
         List<Producto> productos = productoDao.getAllByActivo(true);
 
-
         for(Producto p : productos){
-            List<String> urls = new ArrayList<String>();
-
-            for(ImagenProducto img : p.getImagenesProducto()){
-                urls.add(img.getUrl());
-            }
-
-            DtProducto dtP = new DtProducto(
-                    p.getId(),
-                    p.getNombre(),
-                    p.getDescripcion(),
-                    p.getPrecio(),
-                    p.getStock(),
-                    p.getCategoria().toString(),
-                    p.isActivo(),
-                    p.getVendedor().getId(),
-                    urls
-            );
-
+            DtProducto dtP = p.obtenerDtProducto();
             ret.add(dtP);
         }
 
@@ -123,24 +105,7 @@ public class ProductoServiceImpl implements ProductoService {
         List<Producto> productos = productoDao.getAllBy();
 
         for(Producto p : productos){
-            List<String> urls = new ArrayList<String>();
-
-            for(ImagenProducto img : p.getImagenesProducto()){
-                urls.add(img.getUrl());
-            }
-
-            DtProducto dtP = new DtProducto(
-                    p.getId(),
-                    p.getNombre(),
-                    p.getDescripcion(),
-                    p.getPrecio(),
-                    p.getStock(),
-                    p.getCategoria().toString(),
-                    p.isActivo(),
-                    p.getVendedor().getId(),
-                    urls
-            );
-
+            DtProducto dtP = p.obtenerDtProducto();
             ret.add(dtP);
         }
 
@@ -156,26 +121,8 @@ public class ProductoServiceImpl implements ProductoService {
         List<DtProducto> ret = new ArrayList<DtProducto>();
         List<Producto> productos = productoDao.getAllByVendedor_Id(idVendedor);
 
-
         for(Producto p : productos){
-            List<String> urls = new ArrayList<String>();
-
-            for(ImagenProducto img : p.getImagenesProducto()){
-                urls.add(img.getUrl());
-            }
-
-            DtProducto dtP = new DtProducto(
-                    p.getId(),
-                    p.getNombre(),
-                    p.getDescripcion(),
-                    p.getPrecio(),
-                    p.getStock(),
-                    p.getCategoria().toString(),
-                    p.isActivo(),
-                    p.getVendedor().getId(),
-                    urls
-            );
-
+            DtProducto dtP = p.obtenerDtProducto();
             ret.add(dtP);
         }
 
@@ -191,26 +138,8 @@ public class ProductoServiceImpl implements ProductoService {
         List<DtProducto> ret = new ArrayList<DtProducto>();
         List<Producto> productos = productoDao.getAllByCategoriaAndActivoIsTrue(categoria);
 
-
         for(Producto p : productos){
-            List<String> urls = new ArrayList<String>();
-
-            for(ImagenProducto img : p.getImagenesProducto()){
-                urls.add(img.getUrl());
-            }
-
-            DtProducto dtP = new DtProducto(
-                    p.getId(),
-                    p.getNombre(),
-                    p.getDescripcion(),
-                    p.getPrecio(),
-                    p.getStock(),
-                    p.getCategoria().toString(),
-                    p.isActivo(),
-                    p.getVendedor().getId(),
-                    urls
-            );
-
+            DtProducto dtP = p.obtenerDtProducto();
             ret.add(dtP);
         }
 
@@ -225,26 +154,8 @@ public class ProductoServiceImpl implements ProductoService {
         List<DtProducto> ret = new ArrayList<DtProducto>();
         List<Producto> productos = productoDao.findProductoByNombreContainingAndActivoIsTrue(nombre);
 
-
         for(Producto p : productos){
-            List<String> urls = new ArrayList<String>();
-
-            for(ImagenProducto img : p.getImagenesProducto()){
-                urls.add(img.getUrl());
-            }
-
-            DtProducto dtP = new DtProducto(
-                    p.getId(),
-                    p.getNombre(),
-                    p.getDescripcion(),
-                    p.getPrecio(),
-                    p.getStock(),
-                    p.getCategoria().toString(),
-                    p.isActivo(),
-                    p.getVendedor().getId(),
-                    urls
-            );
-
+            DtProducto dtP = p.obtenerDtProducto();
             ret.add(dtP);
         }
 
@@ -260,26 +171,8 @@ public class ProductoServiceImpl implements ProductoService {
         List<DtProducto> ret = new ArrayList<DtProducto>();
         List<Producto> productos = productoDao.findProductoByNombreContainingAndVendedor_Id(nombre, idVendedor);
 
-
         for(Producto p : productos){
-            List<String> urls = new ArrayList<String>();
-
-            for(ImagenProducto img : p.getImagenesProducto()){
-                urls.add(img.getUrl());
-            }
-
-            DtProducto dtP = new DtProducto(
-                    p.getId(),
-                    p.getNombre(),
-                    p.getDescripcion(),
-                    p.getPrecio(),
-                    p.getStock(),
-                    p.getCategoria().toString(),
-                    p.isActivo(),
-                    p.getVendedor().getId(),
-                    urls
-            );
-
+            DtProducto dtP = p.obtenerDtProducto();
             ret.add(dtP);
         }
 

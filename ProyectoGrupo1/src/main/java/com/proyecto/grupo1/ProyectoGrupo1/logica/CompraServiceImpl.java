@@ -90,6 +90,7 @@ public class CompraServiceImpl implements CompraService {
                     c.getProductoCarrito().getTotal(),
                     tiposEntrega
             );
+            dtC.setProducto(c.getProductoCarrito().getProducto().obtenerDtProducto());
             ret.add(dtC);
         }
 
@@ -160,7 +161,7 @@ public class CompraServiceImpl implements CompraService {
                     c.getProductoCarrito().getTotal(),
                     entrega
             );
-
+            dtC.setProducto(c.getProductoCarrito().getProducto().obtenerDtProducto());
             ret.add(dtC);
         }
 
@@ -220,6 +221,7 @@ public class CompraServiceImpl implements CompraService {
                     c.getProductoCarrito().getTotal(),
                     tiposEntrega
             );
+            dtC.setProducto(c.getProductoCarrito().getProducto().obtenerDtProducto());
             ret.add(dtC);
         }
         try {
@@ -242,6 +244,8 @@ public class CompraServiceImpl implements CompraService {
                     c.getProductoCarrito().getCantidad(),
                     c.getProductoCarrito().getTotal()
             );
+
+            dtC.setProducto(c.getProductoCarrito().getProducto().obtenerDtProducto());
 
             if(calificacionDao.existsCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente())){
                 dtC.setCalificacionCli(calificacionDao.findCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente()).obtenerDtCalificacion());
@@ -275,6 +279,7 @@ public class CompraServiceImpl implements CompraService {
                     c.getProductoCarrito().getCantidad(),
                     c.getProductoCarrito().getTotal()
             );
+            dtC.setProducto(c.getProductoCarrito().getProducto().obtenerDtProducto());
             ret.add(dtC);
         }
 
