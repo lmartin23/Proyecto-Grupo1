@@ -50,4 +50,13 @@ public class DtCompra {
         this.cantidad = cantidad;
         this.total = total;
     }
+
+    public DtCompra(Long id, Date fecha, String nombreProducto, int cantidad, double total, DtProducto producto) {
+        this.id = id;
+        this.fecha = fecha;
+        this.nombreProducto = nombreProducto;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.producto = producto;
+    }
 }

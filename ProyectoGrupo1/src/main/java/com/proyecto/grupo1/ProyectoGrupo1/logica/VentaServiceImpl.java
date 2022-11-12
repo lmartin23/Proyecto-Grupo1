@@ -43,15 +43,8 @@ public class VentaServiceImpl implements VentaService{
             } else {
                 tiposEntrega.add("ENVIO");
             }
-
-            DtCompra dtC = new DtCompra(
-                    c.getId(),
-                    c.getFecha(),
-                    c.getProductoCarrito().getProducto().getNombre(),
-                    c.getProductoCarrito().getCantidad(),
-                    c.getProductoCarrito().getTotal(),
-                    tiposEntrega
-            );
+            DtCompra dtC = c.obtenerDtCompra();
+            dtC.setMetodosEntrega(tiposEntrega);
             ret.add(dtC);
         }
         try {
@@ -64,7 +57,7 @@ public class VentaServiceImpl implements VentaService{
     @Override
     public ObjResponse listarVentasEntregaPendienteYMarcada(Long idVendedor) {
         Vendedor vendedor = vendedorDao.findVendedorById(idVendedor);
-        List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra.ENTREGA_DEFINIDA, vendedor);
+        List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra.ENTREGA_PENDIENTE, vendedor);
         List<DtCompra> ret = new ArrayList<DtCompra>();
 
         for (Compra c : compras) {
@@ -80,19 +73,17 @@ public class VentaServiceImpl implements VentaService{
                 entrega.setDireccion(dtDirEnvio);
 
             } else {
+                Direccion d = direccionDao.findByVendedorAndPrincipalIsTrue(vendedor);
+                DtDireccion dtDirRetiro = d.obtenerDtDireccion();
+
                 entrega.setTipoEntrea("RETIRO");
                 entrega.setFechaHoraDesde(c.getRetiro().getFechaDesde());
                 entrega.setFechaHoraHasta(c.getRetiro().getFechaHasta());
+                entrega.setDireccion(dtDirRetiro);
             }
 
-            DtCompra dtC = new DtCompra(
-                    c.getId(),
-                    c.getFecha(),
-                    c.getProductoCarrito().getProducto().getNombre(),
-                    c.getProductoCarrito().getCantidad(),
-                    c.getProductoCarrito().getTotal(),
-                    entrega
-            );
+            DtCompra dtC = c.obtenerDtCompra();
+            dtC.setEntrega(entrega);
             ret.add(dtC);
         }
         try {
@@ -117,14 +108,8 @@ public class VentaServiceImpl implements VentaService{
                 tiposEntrega.add("ENVIO");
             }
 
-            DtCompra dtC = new DtCompra(
-                    c.getId(),
-                    c.getFecha(),
-                    c.getProductoCarrito().getProducto().getNombre(),
-                    c.getProductoCarrito().getCantidad(),
-                    c.getProductoCarrito().getTotal(),
-                    tiposEntrega
-            );
+            DtCompra dtC = c.obtenerDtCompra();
+            dtC.setMetodosEntrega(tiposEntrega);
             ret.add(dtC);
         }
         try {
@@ -194,13 +179,7 @@ public class VentaServiceImpl implements VentaService{
         List<DtCompra> ret = new ArrayList<DtCompra>();
 
         for(Compra c : compras){
-            DtCompra dtC = new DtCompra(
-                    c.getId(),
-                    c.getFecha(),
-                    c.getProductoCarrito().getProducto().getNombre(),
-                    c.getProductoCarrito().getCantidad(),
-                    c.getProductoCarrito().getTotal()
-            );
+            DtCompra dtC = c.obtenerDtCompra();
 
             if(calificacionDao.existsCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente())){
                 dtC.setCalificacionCli(calificacionDao.findCalificacionByCompraAndCliente(c, c.getProductoCarrito().getCliente()).obtenerDtCalificacion());
@@ -210,7 +189,6 @@ public class VentaServiceImpl implements VentaService{
                 dtC.setCalificacionVen(calificacionDao.findCalificacionByCompraAndVendedor(c, c.getProductoCarrito().getProducto().getVendedor()).obtenerDtCalificacion());
                 dtC.getCalificacionVen().setIdVendedor(c.getProductoCarrito().getProducto().getVendedor().getId());
             }
-
             ret.add(dtC);
         }
 

@@ -148,9 +148,13 @@ public class CompraServiceImpl implements CompraService {
                 entrega.setDireccion(dtDirEnvio);
 
             } else {
+                Direccion d = direccionDao.findByVendedorAndPrincipalIsTrue(c.getProductoCarrito().getProducto().getVendedor());
+                DtDireccion dtDirRetiro = d.obtenerDtDireccion();
+
                 entrega.setTipoEntrea("RETIRO");
                 entrega.setFechaHoraDesde(c.getRetiro().getFechaDesde());
                 entrega.setFechaHoraHasta(c.getRetiro().getFechaHasta());
+                entrega.setDireccion(dtDirRetiro);
             }
 
             DtCompra dtC = new DtCompra(
