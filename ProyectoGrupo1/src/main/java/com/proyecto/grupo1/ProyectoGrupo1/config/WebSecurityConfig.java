@@ -55,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeRequests()
-                .antMatchers("/api/auth/*","/api/producto/listarActivos",
-                        "/api/producto/listarPorCategoria","/api/producto/buscarPorNombre","/api/invitado/*").permitAll()
+                .antMatchers("/api/auth/**","/api/producto/listarActivos",
+                        "/api/producto/listarPorCategoria","/api/producto/buscarPorNombre","/api/invitado/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
             response.setStatus(401);
