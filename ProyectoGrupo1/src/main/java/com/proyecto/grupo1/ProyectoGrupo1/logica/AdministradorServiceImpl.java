@@ -85,8 +85,10 @@ public class AdministradorServiceImpl implements AdministradorService{
     @Override
     public ObjResponse cambiarEstadoVendedor(Long idVendedor, boolean aprobado) {
         Vendedor v = vendedorDao.findVendedorById(idVendedor);
-        if(v == null || v.getHabilitado() == false){
+        if(v == null || (v.getHabilitado() != null && v.getHabilitado() == false)){
             return new ObjResponse("No se ha encontrado usuario", HttpStatus.BAD_REQUEST.value(), null);
+        }else if(v!= null && (v.getHabilitado() != null && v.getHabilitado() == true)){
+            return new ObjResponse("El vendedor ya se encuentra autorizado.", HttpStatus.BAD_REQUEST.value(), null);
         }
         try {
             //PARTE DE ENVIO DE MAIL
