@@ -12,4 +12,5 @@ public interface VendedorService {
     public ObjResponse registrardireccion(DtRegistroDireccion dt);
     public ObjResponse registrarseComoVendedor(DtRegistroVendedor dt);
     public ObjResponse registrarProductos(List<DtProducto> productos);
+    public ObjResponse cambiarEstadoEnvios(Long idVendedor, boolean habilitado);
 }

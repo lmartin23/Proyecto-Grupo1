@@ -6,10 +6,7 @@ import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroVendedor;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.VendedorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,5 +29,10 @@ public class VendedorController {
     @RequestMapping(value = "api/vendedor/registrarProductos", method = RequestMethod.POST)
     public ObjResponse registrarProductos(@RequestBody List<DtProducto> dt) {
         return vendedorService.registrarProductos(dt);
+    }
+
+    @RequestMapping(value = "api/vendedor/cambiarEstadoEnvios", method = RequestMethod.POST)
+    public ObjResponse cambiarEstadoEnvios(@RequestParam Long idVendedor, @RequestParam boolean habilitado) {
+        return vendedorService.cambiarEstadoEnvios(idVendedor, habilitado);
     }
 }

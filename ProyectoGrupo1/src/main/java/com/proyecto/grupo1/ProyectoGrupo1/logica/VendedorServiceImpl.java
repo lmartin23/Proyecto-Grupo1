@@ -123,4 +123,27 @@ public class VendedorServiceImpl implements VendedorService{
         }
         return new ObjResponse("Exito, se han registrado los productos", HttpStatus.CREATED.value(),null);
     }
+
+    @Override
+    public ObjResponse cambiarEstadoEnvios(Long idVendedor, boolean habilitado) {
+        Vendedor v = vendedorDao.findVendedorById(idVendedor);
+        ObjResponse obj = new ObjResponse("Exito, ", HttpStatus.CREATED.value(),0L, null,"Exito");
+        String msjOp = "";
+        if(v!= null && v.getHabilitado() != null && v.getHabilitado()){
+            try {
+                v.setHabilitaEnvio(habilitado);
+                vendedorDao.save(v);
+                if(habilitado)
+                    msjOp = "se ha habilitado correctamente el envio de productos";
+                else
+                    msjOp = "se ha deshabilitado correctamente el envio de productos";
+                obj.setMensaje(obj.getMensaje()+msjOp);
+            }catch (Exception e){
+                obj = new ObjResponse("Error inesperado", HttpStatus.INTERNAL_SERVER_ERROR.value(),0L,null, "Error");
+            }
+        }else {
+            obj = new ObjResponse("No se ha encontrado al vendedor", HttpStatus.BAD_REQUEST.value(),0L,null, "Error");
+        }
+        return obj;
+    }
 }

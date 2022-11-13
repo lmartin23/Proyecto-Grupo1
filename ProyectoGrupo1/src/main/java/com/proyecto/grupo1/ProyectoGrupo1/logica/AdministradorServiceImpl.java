@@ -73,17 +73,15 @@ public class AdministradorServiceImpl implements AdministradorService{
 
     @Override
     public ObjResponse listadoVendedores() {
-        List<Vendedor> listaVendedores = vendedorDao.findAll();
+        List<Vendedor> listaVendedores = vendedorDao.findAllByHabilitadoIsNotNull();
 
         if(listaVendedores.isEmpty()){
             return new ObjResponse("No se han encontrado usuarios para listar", HttpStatus.NO_CONTENT.value(), null);
         }
         List<DtVendedorBO> resultados= new ArrayList<>();
         for(Vendedor v : listaVendedores){
-            if(v.getHabilitado()!= false){
-                DtVendedorBO dt = new DtVendedorBO(v.getId(),v.getNombreComercial(), v.getHabilitado());
-                resultados.add(dt);
-            }
+            DtVendedorBO dt = new DtVendedorBO(v.getId(),v.getNombreComercial(), v.getHabilitado());
+            resultados.add(dt);
         }
         return new ObjResponse("Exito", HttpStatus.OK.value(), resultados);
     }
