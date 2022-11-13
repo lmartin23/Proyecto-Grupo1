@@ -27,4 +27,8 @@ public class ClienteController {
     public ObjResponse modificar(@RequestBody DtDireccion dtD) {
         return cliService.modificarDireccion(dtD);
     }
+    @RequestMapping(value = "api/cliente/eliminarDireccion", method = RequestMethod.DELETE)
+    public ObjResponse modificar(@RequestParam Long idDireccion) {
+        return cliService.eliminarDireccion(idDireccion);
+    }
 }

@@ -11,6 +11,6 @@ public interface ClienteService {
     public ObjResponse ingresarDireccion(DtRegistroDireccion dt);
     public ObjResponse consultarDirecciones(Long id);
     public ObjResponse modificarDireccion(DtDireccion dtD);
-
+    public ObjResponse eliminarDireccion(Long idDireccion);
 
 }

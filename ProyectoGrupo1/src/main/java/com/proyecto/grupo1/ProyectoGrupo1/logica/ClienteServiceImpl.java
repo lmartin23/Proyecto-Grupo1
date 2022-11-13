@@ -105,4 +105,15 @@ public class ClienteServiceImpl implements ClienteService{
         }
     }
 
+    @Override
+    public ObjResponse eliminarDireccion(Long idDireccion){
+        Direccion direccion = dirDao.getById(idDireccion);
+        try{
+            dirDao.delete(direccion);
+            return new ObjResponse("Exito", HttpStatus.OK.value(), null);
+        }catch (Exception e){
+            return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
+        }
+    }
+
 }
