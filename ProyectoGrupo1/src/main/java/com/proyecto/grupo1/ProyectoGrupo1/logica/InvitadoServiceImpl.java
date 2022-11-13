@@ -66,21 +66,29 @@ public class InvitadoServiceImpl implements InvitadoService{
         return new ObjResponse("Error, ya existe un usuario registrado con los datos ingresados documento o correo", HttpStatus.BAD_REQUEST.value(), null);
     }
     @Override
-    public boolean login(DtLogin dtLogin) {
+    public DtAuxLogin login(DtLogin dtLogin) {
         Cliente c = clienteDao.findClienteByCorreoIgnoreCase(dtLogin.getCorreo());
         if(c!=null){
-            if (passService.verificarHash(c.getContrasena(), dtLogin.getContrasena())){
-                return true;
+            if(!c.isBloqueado()){
+                if (passService.verificarHash(c.getContrasena(), dtLogin.getContrasena())){
+                    return new DtAuxLogin(true, "Exito");
+                }
+            }else{
+                return new DtAuxLogin(false, "Usuario bloqueado");
             }
         }else{
             Administrador admin = adminDao.findAdministradorByCorreoIgnoreCase(dtLogin.getCorreo());
             if(admin != null){
-                if(passService.verificarHash(admin.getContrasena(), dtLogin.getContrasena())){
-                    return true;
+                if(!admin.isBloqueado()){
+                    if(passService.verificarHash(admin.getContrasena(), dtLogin.getContrasena())){
+                        return new DtAuxLogin(true, "Exito");
+                    }
+                }else{
+                    return new DtAuxLogin(false, "Usuario bloqueado");
                 }
             }
         }
-        return false;
+        return new DtAuxLogin(false, "Error, usuario o contrasena incorrecto");
     }
 
     @Override

@@ -45,14 +45,15 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ObjResponse loginUser(@RequestBody DtLogin dtLogin) {
         try {
-            if (serviceInv.login(dtLogin)) {
+            DtAuxLogin resultado = serviceInv.login(dtLogin);
+            if (resultado.isSucces()) {
                 UserGeneric user = userDetailsService.loadUserByEmail(dtLogin.getCorreo());
                 String token = jwtTokenUtil.generateToken(user);
                 ObjResponse response = new ObjResponse("Exito", HttpStatus.OK.value(), user.getIdUsr(), user.getRol(), token);
                 logger.info("Logged In");
                 return response;
             } else {
-                return new ObjResponse("Error, usuario o contrasena incorrecto", HttpStatus.UNAUTHORIZED.value(),0L, null, null);
+                return new ObjResponse(resultado.getMensaje(), HttpStatus.UNAUTHORIZED.value(),0L, null, null);
             }
         } catch (DisabledException e) {
             e.printStackTrace();
