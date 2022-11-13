@@ -192,6 +192,7 @@ public class VentaServiceImpl implements VentaService{
                 dtC.setCalificacionVen(calificacionDao.findCalificacionByCompraAndVendedor(c, c.getProductoCarrito().getProducto().getVendedor()).obtenerDtCalificacion());
                 dtC.getCalificacionVen().setIdVendedor(c.getProductoCarrito().getProducto().getVendedor().getId());
             }
+            dtC.setIdCliente(c.getProductoCarrito().getCliente().getId());
             ret.add(dtC);
         }
 

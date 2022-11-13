@@ -13,6 +13,7 @@ import java.util.List;
 @ToString
 public class DtCompra {
     private Long id;
+    private Long idCliente;
     private Date fecha;
     private String nombreProducto;
     private int cantidad;
