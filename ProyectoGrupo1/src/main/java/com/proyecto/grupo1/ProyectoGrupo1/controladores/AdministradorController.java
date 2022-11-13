@@ -33,4 +33,15 @@ public class AdministradorController {
                                                    @RequestParam boolean aprobado){
         return admServ.cambiarEstadoVendedor(idVendedor, aprobado);
     }
+
+    @RequestMapping(value = "api/administrador/listarTodosUsuarios", method = RequestMethod.GET)
+    public ObjResponse listarTodosUsuarios(){
+        return admServ.listarUsuarios();
+    }
+
+    @RequestMapping(value = "api/administrador/habilitarDeshabilitarUsuarios", method = RequestMethod.POST)
+    public ObjResponse habilitarDeshabilitarUsuarios(@RequestParam String correo,
+                                                         @RequestParam String rol, @RequestParam boolean bloqueado){
+        return admServ.bloquearDesbloquerUsuerios(correo, rol, bloqueado);
+    }
 }

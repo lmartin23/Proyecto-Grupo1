@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtUsuarioBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,5 +46,15 @@ public class Vendedor {
         this.habilitaEnvio = habilitaEnvio;
         this.saldo = 0;
         this.rol = Rol.ROL_VENDEDOR;
+    }
+
+    public DtUsuarioBO dtBackOfficeAdmin(){
+        boolean bloqueado = true;
+        if(this.getHabilitado() != null){
+            if(this.getHabilitado() == true){
+                bloqueado = false;
+            }
+        }
+        return new DtUsuarioBO(this.id, this.getCliente().getCorreo(), this.getRol(), this.nombreComercial, bloqueado);
     }
 }

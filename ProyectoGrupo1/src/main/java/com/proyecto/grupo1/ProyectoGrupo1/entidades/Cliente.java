@@ -1,6 +1,7 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCliente;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtUsuarioBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,5 +47,9 @@ public class Cliente  extends Usuario {
             }
         }
         return dt;
+    }
+
+    public DtUsuarioBO dtBackOfficeAdmin(){
+        return new DtUsuarioBO(this.getId(), this.getCorreo(), this.getRol(), this.getNombre(), this.isBloqueado());
     }
 }

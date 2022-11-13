@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.entidades;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtUsuarioBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +24,14 @@ public class Administrador extends Usuario {
         superAdmin = false;
     }
 
-    public Administrador( String correo, String contrasena) {
-        super(null, null, null, null, correo, contrasena);
+    public Administrador(String nombre, String correo, String contrasena) {
+        super(null, nombre, null, null, correo, contrasena);
         this.rol = Rol.ROL_ADMIN;
+
         superAdmin = false;
+    }
+
+    public DtUsuarioBO dtBackOfficeAdmin(){
+        return new DtUsuarioBO(this.getId(), this.getCorreo(), this.getRol(), this.getNombre(), this.isBloqueado());
     }
 }

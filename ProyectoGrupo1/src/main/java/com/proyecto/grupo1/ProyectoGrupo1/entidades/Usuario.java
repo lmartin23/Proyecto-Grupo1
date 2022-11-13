@@ -34,6 +34,7 @@ public abstract class Usuario {
         this.fechaNacimiento = fechaNacimiento;
         this.correo = correo;
         this.contrasena = contrasena;
+        this.setBloqueado(false);
     }
 
     public Usuario() {

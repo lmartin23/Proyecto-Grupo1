@@ -168,7 +168,10 @@ public class InvitadoServiceImpl implements InvitadoService{
 
         if (!correoRegistrado(correo)) {
             String pass = passService.hashearPassword(contra);
-            Administrador admin = new Administrador(correo, pass);
+            String[] parts = correo.split("@");
+            String nombre = parts[0]; // seteo la parte anteriro al @ del correo como nombre
+
+            Administrador admin = new Administrador(nombre, correo, pass);
             try {
                 adminDao.save(admin);
                 return new ObjResponse("Exito", HttpStatus.CREATED.value(), 0L, null, "Exito");
