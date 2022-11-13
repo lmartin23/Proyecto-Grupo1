@@ -63,6 +63,7 @@ public class Compra {
             this.getProductoCarrito().getProducto().getNombre(),
             this.getProductoCarrito().getCantidad(),
             this.getProductoCarrito().getTotal(),
+            this.getEstado(),
             this.getProductoCarrito().getProducto().obtenerDtProducto()
         );
     }

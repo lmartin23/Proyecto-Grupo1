@@ -5,6 +5,7 @@ import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtEntregaCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.CategoProd;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoNotificacion;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.*;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -199,4 +202,67 @@ public class VentaServiceImpl implements VentaService{
         }
     }
 
+    @Override
+    public ObjResponse listarBalanceVentas(Long idVendedor, Date fechaDesde, Date fechaHasta, CategoProd categoria, Double montoDesde, Double montoHasta) {
+        List<Compra> compras = compraDao.getAllByProductoCarrito_Producto_Vendedor_IdOrderByFechaDesc(idVendedor);
+        List<Compra> aux = new ArrayList<Compra>();
+        List<DtCompra> ret = new ArrayList<DtCompra>();
+
+        //seteo variables nulas para comparar
+        if(fechaHasta != null && fechaDesde == null ){
+            fechaDesde = new Date(Long.MIN_VALUE);
+        }
+        if(fechaHasta == null && fechaDesde != null ){
+            fechaHasta = Calendar.getInstance().getTime();
+        }
+        if(montoHasta != null && montoDesde == null ){
+            montoDesde = 0.00;
+        }
+        if(montoHasta == null && montoDesde != null ){
+            montoHasta = Double.MAX_VALUE;
+        }
+
+        //si vienen las dos fechas
+        if(fechaHasta != null && fechaDesde != null && fechaHasta.before(fechaDesde)){
+            return new ObjResponse("fechaHasta debe ser mayor a fechaDesde", HttpStatus.BAD_REQUEST.value(),null);
+        } else if (fechaHasta != null && fechaDesde != null ){
+            for(Compra c : compras){
+                if(c.getFecha().after(fechaDesde) && c.getFecha().before(fechaHasta)){
+                    if(!aux.contains(c))
+                        aux.add(c);
+                }
+            }
+        }
+
+        //si vienen los dos montos
+        if( montoHasta != null && montoDesde != null && montoHasta.compareTo(montoDesde) < 0 ){
+            return new ObjResponse("montoHasta debe ser mayor a montoDesde", HttpStatus.BAD_REQUEST.value(),null);
+        } else if (montoHasta != null && montoDesde != null ) {
+            for(Compra c : compras){
+                if(c.getProductoCarrito().getTotal() < montoHasta && c.getProductoCarrito().getTotal() > montoDesde){
+                    if(!aux.contains(c))
+                        aux.add(c);
+                }
+            }
+        }
+
+        //si viene Categoría
+        if( categoria != null ){
+            for(Compra c : compras){
+                if(c.getProductoCarrito().getProducto().getCategoria().equals(categoria)){
+                    if(!aux.contains(c))
+                        aux.add(c);
+                }
+            }
+        }
+
+        try {
+            for(Compra c : aux){
+                ret.add(c.obtenerDtCompra());
+            }
+            return new ObjResponse("Exito", HttpStatus.OK.value(), ret);
+        }catch (Exception e){
+            return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
 }

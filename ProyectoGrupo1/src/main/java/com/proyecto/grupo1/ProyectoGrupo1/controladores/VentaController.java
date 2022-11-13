@@ -2,9 +2,12 @@ package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtEntregaCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.CategoProd;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/venta")
@@ -36,6 +39,18 @@ public class VentaController {
     @RequestMapping(value = "/listarVentasVendedor", method = RequestMethod.GET)
     public ObjResponse listarVentasVendedor(@RequestParam Long idVendedor){
         return ventaService.listarVentasVendedor(idVendedor);
+    }
+
+    @RequestMapping(value = "/balance", method = RequestMethod.GET)
+    public ObjResponse listarBalanceVentas(
+            @RequestParam Long idVendedor,
+            @RequestParam(required = false) Date fechaDesde,
+            @RequestParam(required = false) Date fechaHasta,
+            @RequestParam(required = false) CategoProd categoria,
+            @RequestParam(required = false) Double montoDesde,
+            @RequestParam(required = false) Double montoHasta
+            ){
+        return ventaService.listarBalanceVentas(idVendedor, fechaDesde, fechaHasta, categoria, montoDesde, montoHasta);
     }
 
 

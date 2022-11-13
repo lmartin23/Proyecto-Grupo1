@@ -1,5 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +17,7 @@ public class DtCompra {
     private String nombreProducto;
     private int cantidad;
     private double total;
-
+    private EstadoCompra estado;
     private DtProducto producto;
     private List<String> metodosEntrega;
     private DtEntregaCompra entrega;
@@ -51,12 +52,13 @@ public class DtCompra {
         this.total = total;
     }
 
-    public DtCompra(Long id, Date fecha, String nombreProducto, int cantidad, double total, DtProducto producto) {
+    public DtCompra(Long id, Date fecha, String nombreProducto, int cantidad, double total, EstadoCompra estado, DtProducto producto) {
         this.id = id;
         this.fecha = fecha;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.total = total;
+        this.estado = estado;
         this.producto = producto;
     }
 }
