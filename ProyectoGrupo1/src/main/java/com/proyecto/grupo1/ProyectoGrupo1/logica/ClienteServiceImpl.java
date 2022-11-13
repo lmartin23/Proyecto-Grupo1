@@ -75,4 +75,34 @@ public class ClienteServiceImpl implements ClienteService{
         }
     }
 
+    @Override
+    public ObjResponse modificarDireccion(DtDireccion dtD){
+        Direccion direccion = dirDao.getById(dtD.getId());
+
+        direccion.setCalle(dtD.getCalle());
+        direccion.setNumero(dtD.getNumero());
+        direccion.setApto(dtD.getApto());
+        direccion.setBarrio(dtD.getBarrio());
+        direccion.setCiudad(dtD.getCiudad());
+        direccion.setDepartamento(dtD.getDepartamento());
+
+        //cambio a false las otras direcciones si la que llegó es principal
+        if(dtD.isPrincipal()){
+            List<Direccion> direcciones = dirDao.getAllByCliente_Id(direccion.getCliente().getId());
+            for (Direccion d : direcciones){
+                if(d.isPrincipal()){
+                    d.setPrincipal(false);
+                }
+            }
+        }
+
+        direccion.setPrincipal(dtD.isPrincipal());
+        try{
+            dirDao.save(direccion);
+            return new ObjResponse("Exito", HttpStatus.OK.value(), dirDao.getById(dtD.getId()).obtenerDtDireccion());
+        }catch (Exception e){
+            return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
+        }
+    }
+
 }

@@ -19,9 +19,12 @@ public class ClienteController {
     public ObjResponse insertar(@RequestBody DtRegistroDireccion dt) {
         return cliService.ingresarDireccion(dt);
     }
-
     @RequestMapping(value = "api/cliente/consultarDirecciones", method = RequestMethod.GET)
-    public ObjResponse insertar(@RequestParam Long idCliente) {
+    public ObjResponse consultar(@RequestParam Long idCliente) {
         return cliService.consultarDirecciones(idCliente);
+    }
+    @RequestMapping(value = "api/cliente/modificarDireccion", method = RequestMethod.PUT)
+    public ObjResponse modificar(@RequestBody DtDireccion dtD) {
+        return cliService.modificarDireccion(dtD);
     }
 }
