@@ -19,6 +19,7 @@ public class DtCompra {
     private double total;
     private EstadoCompra estado;
     private DtProducto producto;
+    private DtReclamo reclamo;
     private List<String> metodosEntrega;
     private DtEntregaCompra entrega;
 

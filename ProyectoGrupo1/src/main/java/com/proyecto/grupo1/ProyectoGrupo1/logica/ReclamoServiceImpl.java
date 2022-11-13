@@ -36,6 +36,11 @@ public class ReclamoServiceImpl implements ReclamoService{
     @Override
     public ObjResponse iniciar (DtReclamo dtR){
         Compra compra = compraDao.findCompraById(dtR.getIdCompra());
+
+        if(compra.getReclamo() != null){
+            return new ObjResponse("Error. Ya existe reclamo para esta compra.", HttpStatus.BAD_REQUEST.value(),null);
+        }
+
         Reclamo reclamo = new Reclamo(
             dtR.getDescripcion(),
             compra

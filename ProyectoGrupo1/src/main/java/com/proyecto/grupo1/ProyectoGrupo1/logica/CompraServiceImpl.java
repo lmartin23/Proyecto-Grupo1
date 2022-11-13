@@ -259,6 +259,9 @@ public class CompraServiceImpl implements CompraService {
                 dtC.setCalificacionVen(calificacionDao.findCalificacionByCompraAndVendedor(c, c.getProductoCarrito().getProducto().getVendedor()).obtenerDtCalificacion());
                 dtC.getCalificacionVen().setIdVendedor(c.getProductoCarrito().getProducto().getVendedor().getId());
             }
+            if(c.getReclamo() != null){
+                dtC.setReclamo(c.getReclamo().obtenerDtReclamo());
+            }
 
             ret.add(dtC);
         }

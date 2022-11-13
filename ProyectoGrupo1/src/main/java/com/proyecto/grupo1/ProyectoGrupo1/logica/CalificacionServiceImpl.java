@@ -29,6 +29,14 @@ public class CalificacionServiceImpl implements CalificacionService {
     @Override
     public ObjResponse calificar(DtCalificacion dtC){
         Compra compra = compraDao.findCompraById(dtC.getIdCompra());
+        Boolean calificacionCli = calificacionDao.existsCalificacionByCompraAndCliente(compra, clienteDao.findClienteById(dtC.getIdCliente()));
+        Boolean calificacionVen = calificacionDao.existsCalificacionByCompraAndVendedor(compra, vendedorDao.findVendedorById(dtC.getIdVendedor()));
+
+        if(calificacionCli){
+            return new ObjResponse("Error. Ya existe calificación para esta Compra y Cliente", HttpStatus.BAD_REQUEST.value(),null);
+        } else if (calificacionVen) {
+            return new ObjResponse("Error. Ya existe calificación para esta Compra y Vendedor", HttpStatus.BAD_REQUEST.value(),null);
+        }
 
         Calificacion calificacion = new Calificacion(
                 compra,
