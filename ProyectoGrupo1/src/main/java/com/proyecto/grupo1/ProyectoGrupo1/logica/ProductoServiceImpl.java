@@ -61,6 +61,46 @@ public class ProductoServiceImpl implements ProductoService {
 
         producto.setImagenesProducto(imagenes);
     }
+    @Override
+    public ObjResponse modificarProducto(DtProducto dtP){
+        Producto producto = productoDao.findProductoById(dtP.getId());
+
+        if(producto.getVendedor().getHabilitado().booleanValue() != true && dtP.isActivo() == true){
+            return new ObjResponse("Vendedor no tiene permisos para activar productos", HttpStatus.BAD_REQUEST.value(),null);
+        }
+
+        if(producto.getVendedor().getId() != dtP.getIdVendedor()){
+            return new ObjResponse("Vendedor no tiene permisos para modificar este producto", HttpStatus.BAD_REQUEST.value(),null);
+        }
+
+        producto.setNombre(dtP.getNombre());
+        producto.setDescripcion(dtP.getDescripcion());
+        producto.setPrecio(dtP.getPrecio());
+        producto.setStock(dtP.getStock());
+        producto.setCategoria(CategoProd.valueOf(dtP.getCategoria()));
+        producto.setActivo(dtP.isActivo());
+        setImagenesProducto(producto, dtP.getImagenesUrl());
+
+
+        try {
+            Producto p = productoDao.findProductoById(producto.getId());
+            return new ObjResponse("Exito", HttpStatus.CREATED.value(),p.obtenerDtProducto());
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+    @Override
+    public ObjResponse obtener(Long idProducto){
+        DtProducto producto = productoDao.findProductoById(idProducto).obtenerDtProducto();
+        try {
+            return new ObjResponse("Exito", HttpStatus.OK.value(), producto);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
+
 
     @Override
     public ObjResponse bajaProducto(Long idProducto, Long idVendedor){
