@@ -222,6 +222,13 @@ public class VentaServiceImpl implements VentaService{
             montoHasta = Double.MAX_VALUE;
         }
 
+        //si no llega ningun parametro
+        if(fechaHasta == null && fechaHasta == null && montoDesde == null && montoHasta == null && categoria == null){
+            for(Compra c : compras){
+                aux.add(c);
+            }
+        }
+
         //si vienen las dos fechas
         if(fechaHasta != null && fechaDesde != null && fechaHasta.before(fechaDesde)){
             return new ObjResponse("fechaHasta debe ser mayor a fechaDesde", HttpStatus.BAD_REQUEST.value(),null);
