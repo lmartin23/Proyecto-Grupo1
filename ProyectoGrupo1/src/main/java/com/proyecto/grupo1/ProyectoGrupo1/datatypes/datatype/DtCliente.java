@@ -16,6 +16,8 @@ public class DtCliente {
     private Date fechaNacimiento;
     private String correo;
     private String contrasena;
+    private String contrasenaNueva;
+
     private boolean bloqueado;
     private boolean correoValidado;
 
@@ -44,6 +46,17 @@ public class DtCliente {
         this.bloqueado = bloqueado;
         this.correoValidado = correoValidado;
         this.direcciones = dirs;
+    }
+
+    public DtCliente(Long id, String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena, String contrasenaNueva) {
+        this.id = id;
+        this.documento = documento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.contrasenaNueva = contrasenaNueva;
     }
 
     public DtCliente() {
