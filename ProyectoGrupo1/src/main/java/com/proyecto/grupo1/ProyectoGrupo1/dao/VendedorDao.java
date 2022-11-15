@@ -17,5 +17,5 @@ public interface VendedorDao extends CrudRepository<Vendedor, Long> {
     List<Vendedor> findAllByHabilitadoIsNull();
     List<Vendedor> findAllByHabilitadoIsNotNull();
     List<Vendedor> findAll();
-
+    List<Vendedor> findAllByEliminadoIsFalse();
 }

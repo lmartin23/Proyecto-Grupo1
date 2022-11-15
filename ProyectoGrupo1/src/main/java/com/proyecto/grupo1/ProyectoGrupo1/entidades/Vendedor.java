@@ -28,6 +28,8 @@ public class Vendedor {
     private double saldo;
     @Enumerated(EnumType.STRING)
     private Rol rol;
+    @Column(columnDefinition = "boolean default false")
+    private boolean eliminado;
 
     @OneToMany(mappedBy = "vendedor", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Calificacion> calificacionesVendedor = new ArrayList<Calificacion>();;

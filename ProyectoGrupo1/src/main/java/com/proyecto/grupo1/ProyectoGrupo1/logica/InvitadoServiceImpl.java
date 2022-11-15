@@ -54,7 +54,7 @@ public class InvitadoServiceImpl implements InvitadoService{
                         //cli.getDirecciones().add(dir); Probar getDirecciones
                     }
 
-                    Cliente c = clienteDao.findClienteByCorreoIgnoreCase(cli.getCorreo());
+                    Cliente c = clienteDao.findClienteByCorreoIgnoreCaseAndEliminadoIsFalse(cli.getCorreo());
                     return new ObjResponse("Exito", HttpStatus.CREATED.value(), c.getId(), c.getRol(), null);
                 } catch (Exception e) {
                     return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
@@ -67,7 +67,7 @@ public class InvitadoServiceImpl implements InvitadoService{
     }
     @Override
     public DtAuxLogin login(DtLogin dtLogin) {
-        Cliente c = clienteDao.findClienteByCorreoIgnoreCase(dtLogin.getCorreo());
+        Cliente c = clienteDao.findClienteByCorreoIgnoreCaseAndEliminadoIsFalse(dtLogin.getCorreo());
         if(c!=null){
             if(!c.isBloqueado()){
                 if (passService.verificarHash(c.getContrasena(), dtLogin.getContrasena())){
@@ -77,7 +77,7 @@ public class InvitadoServiceImpl implements InvitadoService{
                 return new DtAuxLogin(false, "Usuario bloqueado");
             }
         }else{
-            Administrador admin = adminDao.findAdministradorByCorreoIgnoreCase(dtLogin.getCorreo());
+            Administrador admin = adminDao.findAdministradorByCorreoIgnoreCaseAndEliminadoIsFalse(dtLogin.getCorreo());
             if(admin != null){
                 if(!admin.isBloqueado()){
                     if(passService.verificarHash(admin.getContrasena(), dtLogin.getContrasena())){
@@ -108,11 +108,11 @@ public class InvitadoServiceImpl implements InvitadoService{
         obj.setObjeto("Error");
         obj.setIdUser(0L);
         if(!correo.isEmpty()){
-            Cliente c = clienteDao.findClienteByCorreoIgnoreCase(correo);
+            Cliente c = clienteDao.findClienteByCorreoIgnoreCaseAndEliminadoIsFalse(correo);
             Administrador admin = null;
 
             if(c == null){
-                admin = adminDao.findAdministradorByCorreoIgnoreCase(correo);
+                admin = adminDao.findAdministradorByCorreoIgnoreCaseAndEliminadoIsFalse(correo);
             }
             if(c == null && admin == null){
                 return obj;
@@ -151,7 +151,7 @@ public class InvitadoServiceImpl implements InvitadoService{
     }
 
     public boolean correoRegistrado(String correo){
-        return clienteDao.findClienteByCorreoIgnoreCase(correo) != null || adminDao.findAdministradorByCorreoIgnoreCase(correo) != null;
+        return clienteDao.findClienteByCorreoIgnoreCaseAndEliminadoIsFalse(correo) != null || adminDao.findAdministradorByCorreoIgnoreCaseAndEliminadoIsFalse(correo) != null;
     }
     public boolean documentoRegistrado(String documento) {
         return clienteDao.findClienteByDocumentoIgnoreCase(documento) != null || adminDao.findAdministradorByDocumentoIgnoreCase(documento) != null;
