@@ -148,6 +148,97 @@ public class AdministradorServiceImpl implements AdministradorService{
         return obj;
     }
 
+
+    @Override
+    public ObjResponse buscarUsuarios(DtUsuarioBO dtU) {
+        List<DtUsuarioBO> listado = (List<DtUsuarioBO>) listarUsuarios().getObjeto();
+        List<DtUsuarioBO> ret = new ArrayList<DtUsuarioBO>();
+
+        for(DtUsuarioBO u : listado){
+            if(u.getIdUsr().equals(dtU.getIdUsr()) || dtU.getIdUsr().equals(null) )
+                if (u.getCorreo().contains(dtU.getCorreo()) || dtU.getCorreo().equals(null) )
+                    if (u.getRol().equals(dtU.getRol()) || dtU.getRol().equals(null) )
+                        if (u.getNombre().contains(dtU.getNombre()) || dtU.getNombre().equals(null) )
+                        {
+                            ret.add(u);
+                        }
+        }
+
+  /*      List<Cliente> clientes = (List<Cliente>) cliDao.findAllByIdContainingAndCorreoContainingAndRolAndNombreContaining(dtU.getIdUsr(), dtU.getCorreo(), dtU.getRol(), dtU.getNombre());
+        List<Vendedor> vendedores = (List<Vendedor>) vendedorDao.findAllByIdContainingAndRolAndNombreComercialContaining(dtU.getIdUsr(), dtU.getRol(), dtU.getNombre());
+        List<Administrador> admins = (List<Administrador>) administradorDao.findAllByIdContainingAndCorreoContainingAndRolAndNombreContaining(dtU.getIdUsr(), dtU.getCorreo(), dtU.getRol(), dtU.getNombre());
+
+        ObjResponse obj = new ObjResponse("No se han encontrado usuarios por listar", HttpStatus.NO_CONTENT.value(),0L, null,"Error, nada que listar");
+        if(!clientes.isEmpty()){
+            for(Cliente c : clientes){
+                listado.add(c.dtBackOfficeAdmin());
+            }
+        }
+        if(!vendedores.isEmpty()){
+            for(Vendedor v : vendedores){
+                listado.add(v.dtBackOfficeAdmin());
+            }
+        }
+        if (!admins.isEmpty()){
+            for(Administrador a : admins){
+                listado.add(a.dtBackOfficeAdmin());
+            }
+        }
+        if(!listado.isEmpty()){
+            obj.setMensaje("No hay usuarios para mostrar con los filtros aplicados.");
+            obj.setCodeHttp(HttpStatus.OK.value());
+            obj.setObjeto(listado);
+        }
+
+
+        //busco por id
+        if(dtU.getIdUsr() != null && !listado.isEmpty()){
+            for (DtUsuarioBO u : listado){
+                if(dtU.getIdUsr() != u.getIdUsr()){
+                    listado.remove(u);
+
+                }
+            }
+        }
+
+        //busco por correo
+        if(dtU.getCorreo() != null && !listado.isEmpty()){
+            for (DtUsuarioBO u : listado){
+                if(!dtU.getCorreo().equals(u.getCorreo())){
+                    listado.remove(u);
+                }
+            }
+        }
+
+        //busco por rol
+        if(dtU.getRol() != null && !listado.isEmpty()){
+            for (DtUsuarioBO u : listado){
+                if(!dtU.getRol().equals(u.getRol())){
+                    listado.remove(u);
+                }
+            }
+        }
+
+        //busco por nombre
+        if(dtU.getNombre() != null && !listado.isEmpty()){
+            for (DtUsuarioBO u : listado){
+                if(!dtU.getNombre().equals(u.getNombre())){
+                    listado.remove(u);
+                }
+            }
+        }
+*/
+        if(ret.isEmpty()){
+            return new ObjResponse("No hay usuarios para mostrar con los filtros aplicados.", HttpStatus.OK.value(),null);
+        }
+
+        try {
+            return new ObjResponse("Exito.", HttpStatus.OK.value(),ret);
+        }catch (Exception e) {
+            return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(),null);
+        }
+    }
+
     @Override
     public ObjResponse bloquearDesbloquerUsuerios(String correo, String rol, boolean bloqueado) {
         ObjResponse obj = new ObjResponse("Exito",HttpStatus.OK.value(), 0L, null, "Exito" );

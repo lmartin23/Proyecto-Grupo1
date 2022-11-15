@@ -137,7 +137,18 @@ public class ClienteServiceImpl implements ClienteService{
 
         try{
             clienteDao.save(cliente);
-            return new ObjResponse("Exito", HttpStatus.OK.value(), cliente.obtenerDt().getId());
+            return new ObjResponse("Exito", HttpStatus.OK.value(), cliente.obtenerDtPublico());
+        }catch (Exception e){
+            return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
+        }
+    }
+
+    @Override
+    public ObjResponse getCliente(Long idCliente) {
+        Cliente cliente = clienteDao.findClienteById(idCliente);
+        try{
+            clienteDao.save(cliente);
+            return new ObjResponse("Exito", HttpStatus.OK.value(), cliente.obtenerDtPublico());
         }catch (Exception e){
             return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
         }

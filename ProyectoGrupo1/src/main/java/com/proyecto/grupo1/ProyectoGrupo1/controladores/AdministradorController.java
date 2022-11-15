@@ -1,12 +1,10 @@
 package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtUsuarioBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.AdministradorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AdministradorController {
@@ -43,5 +41,9 @@ public class AdministradorController {
     public ObjResponse habilitarDeshabilitarUsuarios(@RequestParam String correo,
                                                          @RequestParam String rol, @RequestParam boolean bloqueado){
         return admServ.bloquearDesbloquerUsuerios(correo, rol, bloqueado);
+    }
+    @RequestMapping(value = "api/administrador/buscarUsuarios", method = RequestMethod.POST)
+    public ObjResponse buscarUsuarios(@RequestBody DtUsuarioBO dtUsuarioBO){
+        return admServ.buscarUsuarios(dtUsuarioBO);
     }
 }

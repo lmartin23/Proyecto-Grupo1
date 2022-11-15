@@ -16,6 +16,10 @@ public class ClienteController {
     public ObjResponse insertar(@RequestBody DtRegistroDireccion dt) {
         return cliService.ingresarDireccion(dt);
     }
+    @RequestMapping(value = "api/cliente/consultar", method = RequestMethod.GET)
+    public ObjResponse insertar(@RequestParam Long idCliente) {
+        return cliService.getCliente(idCliente);
+    }
     @RequestMapping(value = "api/cliente/modificarDatos", method = RequestMethod.PUT)
     public ObjResponse modificarDatos(@RequestBody DtCliente dtCliente) {
         return cliService.modificarDatosCliente(dtCliente);

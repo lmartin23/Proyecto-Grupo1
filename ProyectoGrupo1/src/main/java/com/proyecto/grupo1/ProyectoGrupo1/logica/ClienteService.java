@@ -10,5 +10,7 @@ public interface ClienteService {
     public ObjResponse modificarDireccion(DtDireccion dtD);
     public ObjResponse eliminarDireccion(Long idDireccion);
     public ObjResponse modificarDatosCliente(DtCliente dtCliente);
+    public ObjResponse getCliente(Long idCliente);
+
 
 }

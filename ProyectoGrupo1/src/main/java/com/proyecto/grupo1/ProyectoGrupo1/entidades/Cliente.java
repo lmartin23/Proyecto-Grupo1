@@ -52,4 +52,17 @@ public class Cliente  extends Usuario {
     public DtUsuarioBO dtBackOfficeAdmin(){
         return new DtUsuarioBO(this.getId(), this.getCorreo(), this.getRol(), this.getNombre(), this.isBloqueado());
     }
+
+    public DtCliente obtenerDtPublico(){
+        return new DtCliente(
+                this.getId(),
+                this.getDocumento(),
+                this.getNombre(),
+                this.getApellido(),
+                this.getFechaNacimiento(),
+                this.getCorreo(),
+                null,
+                null
+        );
+    }
 }
