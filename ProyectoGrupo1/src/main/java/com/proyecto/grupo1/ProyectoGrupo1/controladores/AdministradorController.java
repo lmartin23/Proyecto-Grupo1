@@ -40,7 +40,7 @@ public class AdministradorController {
     @RequestMapping(value = "api/administrador/habilitarDeshabilitarUsuarios", method = RequestMethod.POST)
     public ObjResponse habilitarDeshabilitarUsuarios(@RequestParam String correo,
                                                          @RequestParam String rol, @RequestParam boolean bloqueado){
-        return admServ.bloquearDesbloquerUsuerios(correo, rol, bloqueado);
+        return admServ.bloquearDesbloquerUsuarios(correo, rol, bloqueado);
     }
     @RequestMapping(value = "api/administrador/buscarUsuarios", method = RequestMethod.POST)
     public ObjResponse buscarUsuarios(@RequestBody DtUsuarioBO dtUsuarioBO){

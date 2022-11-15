@@ -26,7 +26,8 @@ public abstract class Usuario {
     private String contrasena;
     private boolean bloqueado;
     private boolean correoValidado;
-
+    @Column(columnDefinition = "boolean default false")
+    private boolean eliminado;
     public Usuario(String documento, String nombre, String apellido, Date fechaNacimiento, String correo, String contrasena) {
         this.documento = documento;
         this.nombre = nombre;

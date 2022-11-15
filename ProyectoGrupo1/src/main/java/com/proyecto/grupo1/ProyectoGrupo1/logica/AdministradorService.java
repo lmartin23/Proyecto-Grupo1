@@ -10,7 +10,7 @@ public interface AdministradorService {
     public ObjResponse listadoVendedores();
     public ObjResponse cambiarEstadoVendedor(Long idVendedor, boolean aprobado);
     public ObjResponse listarUsuarios();
-    public ObjResponse bloquearDesbloquerUsuerios(String correo, String rol, boolean bloqueado);
     public ObjResponse buscarUsuarios(DtUsuarioBO dtUsuarioBO);
+    public ObjResponse bloquearDesbloquerUsuarios(String correo, String rol, boolean bloqueado);
 
 }

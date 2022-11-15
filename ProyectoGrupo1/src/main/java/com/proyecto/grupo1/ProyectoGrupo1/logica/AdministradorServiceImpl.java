@@ -120,9 +120,9 @@ public class AdministradorServiceImpl implements AdministradorService{
 
     @Override
     public ObjResponse listarUsuarios() {
-        List<Cliente> clientes = (List<Cliente>) cliDao.findAll();
-        List<Vendedor> vendedores = (List<Vendedor>) vendedorDao.findAll();
-        List<Administrador> admins = (List<Administrador>) administradorDao.findAll();
+        List<Cliente> clientes = (List<Cliente>) cliDao.findAllByEliminadoIsFalse();
+        List<Vendedor> vendedores = (List<Vendedor>) vendedorDao.findAllByEliminadoIsFalse();
+        List<Administrador> admins = (List<Administrador>) administradorDao.findAllByEliminadoIsFalse();
         List<DtUsuarioBO> listado = new ArrayList<>();
         ObjResponse obj = new ObjResponse("No se han encontrado usuarios por listar", HttpStatus.NO_CONTENT.value(),0L, null,"Error, nada que listar");
         if(!clientes.isEmpty()){
@@ -240,7 +240,7 @@ public class AdministradorServiceImpl implements AdministradorService{
     }
 
     @Override
-    public ObjResponse bloquearDesbloquerUsuerios(String correo, String rol, boolean bloqueado) {
+    public ObjResponse bloquearDesbloquerUsuarios(String correo, String rol, boolean bloqueado) {
         ObjResponse obj = new ObjResponse("Exito",HttpStatus.OK.value(), 0L, null, "Exito" );
         try{
             String msjExt = ", se ha bloqueado la cuenta de usuario";
@@ -249,14 +249,14 @@ public class AdministradorServiceImpl implements AdministradorService{
             obj.setMensaje(obj.getMensaje()+msjExt);
 
             if(rol.equals("ROL_CLIENTE")){
-                Cliente c = cliDao.findClienteByCorreoIgnoreCase(correo);
+                Cliente c = cliDao.findClienteByCorreoIgnoreCaseAndEliminadoIsFalse(correo);
                 if(c == null)
                     return auxResponseNoResult();
 
                 c.setBloqueado(bloqueado);
                 cliDao.save(c);
             }else if(rol.equals("ROL_VENDEDOR")){
-                Cliente c = cliDao.findClienteByCorreoIgnoreCase(correo);
+                Cliente c = cliDao.findClienteByCorreoIgnoreCaseAndEliminadoIsFalse(correo);
                 if(c == null)
                     return auxResponseNoResult();
                 Vendedor v = vendedorDao.findVendedorByCliente(c);
@@ -268,7 +268,7 @@ public class AdministradorServiceImpl implements AdministradorService{
                     v.setHabilitado(true);
                 vendedorDao.save(v);
             }else if(rol.equals("ROL_ADMIN")){
-                Administrador adm = administradorDao.findAdministradorByCorreoIgnoreCase(correo);
+                Administrador adm = administradorDao.findAdministradorByCorreoIgnoreCaseAndEliminadoIsFalse(correo);
                 if(adm == null)
                     return auxResponseNoResult();
                 adm.setBloqueado(bloqueado);
