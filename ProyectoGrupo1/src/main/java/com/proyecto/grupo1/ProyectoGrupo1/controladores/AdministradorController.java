@@ -45,12 +45,11 @@ public class AdministradorController {
     }
     @RequestMapping(value = "api/administrador/buscarUsuarios", method = RequestMethod.POST)
     public ObjResponse buscarUsuarios(@RequestBody DtUsuarioBO dtUsuarioBO){
-        return admServ.buscarUsuarios(dtUsuarioBO);
-
+            return admServ.buscarUsuarios(dtUsuarioBO);
+    }
 
     @RequestMapping(value = "api/administrador/eliminarCuentaUsuario", method = RequestMethod.POST)
-    public ObjResponse eliminarCuentaUsuario(@RequestParam Long idUsuario,
-                                                     @RequestParam Rol rol){
+    public ObjResponse eliminarCuentaUsuario(@RequestParam Long idUsuario, @RequestParam Rol rol){
         return admServ.eliminarCuentaUsuario(idUsuario, rol);
     }
 }
