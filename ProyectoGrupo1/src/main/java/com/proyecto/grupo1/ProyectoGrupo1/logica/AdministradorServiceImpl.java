@@ -1,15 +1,12 @@
 package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
-import com.proyecto.grupo1.ProyectoGrupo1.dao.AdministradorDao;
-import com.proyecto.grupo1.ProyectoGrupo1.dao.ClienteDao;
-import com.proyecto.grupo1.ProyectoGrupo1.dao.ProductoDao;
-import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
+import com.proyecto.grupo1.ProyectoGrupo1.dao.*;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtUsuarioBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtVendedorBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.*;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +25,18 @@ public class AdministradorServiceImpl implements AdministradorService{
     final AdministradorDao administradorDao;
     final
     ProductoDao prodDao;
+    final
+    CompraDao compraDao;
+    final ProductoDao pdao;
 
-    public AdministradorServiceImpl(VendedorDao vendedorDao, MailService mailService, ClienteDao cliDao, AdministradorDao administradorDao, ProductoDao prodDao) {
+    public AdministradorServiceImpl(VendedorDao vendedorDao, MailService mailService, ClienteDao cliDao, AdministradorDao administradorDao, ProductoDao prodDao, CompraDao compraDao, ProductoDao pdao) {
         this.vendedorDao = vendedorDao;
         this.mailService = mailService;
         this.cliDao = cliDao;
         this.administradorDao = administradorDao;
         this.prodDao = prodDao;
+        this.compraDao = compraDao;
+        this.pdao = pdao;
     }
 
 
@@ -132,6 +134,7 @@ public class AdministradorServiceImpl implements AdministradorService{
         }
         if(!vendedores.isEmpty()){
             for(Vendedor v : vendedores){
+
                 listado.add(v.dtBackOfficeAdmin());
             }
         }
@@ -280,6 +283,79 @@ public class AdministradorServiceImpl implements AdministradorService{
             obj = new ObjResponse("Error inesperado",HttpStatus.INTERNAL_SERVER_ERROR.value(), 0L, null, "Error Inesperado" );
         }
         return obj;
+    }
+
+    @Override
+    public ObjResponse eliminarCuentaUsuario(Long idUser, Rol rol) {
+        if(rol == Rol.ROL_CLIENTE){
+            try{
+                Cliente c = cliDao.findClienteById(idUser);
+                if(c == null)
+                    return auxResponseNoResult();
+
+                if(c.getVendedor() != null) {
+                    Vendedor v = c.getVendedor();
+                    List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra.ENTREGA_DEFINIDA, v);
+                    if (compras.isEmpty()) {
+                        v.setEliminado(true);
+                        List<Producto> productos = pdao.getAllByVendedor_Id(v.getId());
+                        for (Producto p : productos) {
+                            p.setActivo(false);
+                        }
+                        vendedorDao.save(v);
+                        pdao.saveAll(productos);
+                    }else{
+                        return new ObjResponse("Error, no se ha eliminado la cuenta, el usuario es vendedor y tiene compras pendientes",HttpStatus.BAD_REQUEST.value(),  0L, null, "Error" );
+                    }
+                }
+                c.setEliminado(true);
+                cliDao.save(c);
+                return new ObjResponse("Exito, se ha eliminado la cuenta de usuario",HttpStatus.OK.value(), 0L, null, "Exito" );
+            }catch (Exception e){
+                return new ObjResponse("Error inesperado", HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+            }
+        } else if (rol == Rol.ROL_VENDEDOR) {
+            try{
+                Cliente c = cliDao.findClienteById(idUser);
+                if(c == null)
+                    return auxResponseNoResult();
+                Vendedor v = vendedorDao.findVendedorByCliente(c);
+                if(v == null)
+                    return  auxResponseNoResult();
+
+                List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra.ENTREGA_DEFINIDA, v);
+                if(compras.isEmpty()){
+                    v.setEliminado(true);
+                    c.setEliminado(true);
+                    List<Producto> productos = pdao.getAllByVendedor_Id(v.getId());
+                    for(Producto p : productos){
+                        p.setActivo(false);
+                    }
+                    pdao.saveAll(productos);
+                    vendedorDao.save(v);
+                    cliDao.save(c);
+                    return new ObjResponse("Exito, se ha eliminado la cuenta de usuario",HttpStatus.OK.value(), 0L, null, "Exito" );
+                }else{
+                    return new ObjResponse("Error, no se ha eliminado la cuenta de usuario, el vendedor tiene compras pendientes",HttpStatus.BAD_REQUEST.value(),  0L, null, "Error" );
+                }
+
+            }catch (Exception e){
+                return new ObjResponse("Error inesperado", HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error");
+            }
+        } else if (rol == Rol.ROL_ADMIN) {
+            try {
+                Administrador adm = administradorDao.findAdministradorById(idUser);
+                if(adm == null)
+                    return auxResponseNoResult();
+                adm.setEliminado(true);
+                administradorDao.save(adm);
+                return new ObjResponse("Exito, se ha eliminado la cuenta de usuario",HttpStatus.OK.value(), 0L, null, "Exito" );
+            }catch (Exception e){
+                return new ObjResponse("Error inesperado", HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error");
+            }
+        }else{
+            return new ObjResponse("No se ha encontrado usuario", HttpStatus.BAD_REQUEST.value(), null);
+        }
     }
 
     public String enviarMailVendedor(String correo, String asunto, String mensaje){

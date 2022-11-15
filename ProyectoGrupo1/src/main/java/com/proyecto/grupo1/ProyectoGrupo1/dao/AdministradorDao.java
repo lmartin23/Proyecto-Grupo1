@@ -10,5 +10,5 @@ public interface AdministradorDao extends CrudRepository<Administrador, String> 
     Administrador findAdministradorByCorreoIgnoreCaseAndEliminadoIsFalse(String correo);
     Administrador findAdministradorByDocumentoIgnoreCase(String documento);
     List<Administrador> findAllByEliminadoIsFalse();
-
+    Administrador findAdministradorById(Long id);
 }

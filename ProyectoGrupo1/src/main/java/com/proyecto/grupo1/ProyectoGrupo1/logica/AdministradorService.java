@@ -2,6 +2,7 @@ package com.proyecto.grupo1.ProyectoGrupo1.logica;
 
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtUsuarioBO;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 
 public interface AdministradorService {
 
@@ -12,5 +13,6 @@ public interface AdministradorService {
     public ObjResponse listarUsuarios();
     public ObjResponse buscarUsuarios(DtUsuarioBO dtUsuarioBO);
     public ObjResponse bloquearDesbloquerUsuarios(String correo, String rol, boolean bloqueado);
+    public ObjResponse eliminarCuentaUsuario(Long idUser, Rol rol);
 
 }

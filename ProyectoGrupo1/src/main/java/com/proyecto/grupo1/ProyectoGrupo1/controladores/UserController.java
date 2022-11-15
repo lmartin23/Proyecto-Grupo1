@@ -42,10 +42,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/eliminarCuenta", method = RequestMethod.POST)
-    public ObjResponse eliminarCuenta(@RequestParam Long idUsuario, @RequestParam String rol){
+    public ObjResponse eliminarCuenta(@RequestParam Long idUsuario){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserGeneric usr = (UserGeneric) authentication.getPrincipal(); //Obtengo el userGeneric con los datos del usuario que esta loguado
-        if(usr.getIdUsr() == idUsuario && usr.getRol().toString().equals(rol)){
+        if(usr.getIdUsr() == idUsuario){
             return usuServ.eliminarCuenta(usr.getIdUsr(),usr.getRol());
         }
         return new ObjResponse("Error, datos incorrectos", HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error");
