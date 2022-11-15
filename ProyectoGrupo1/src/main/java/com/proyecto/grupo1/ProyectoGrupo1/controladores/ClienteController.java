@@ -1,9 +1,6 @@
 package com.proyecto.grupo1.ProyectoGrupo1.controladores;
 
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroDireccion;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroVendedor;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.*;
 import com.proyecto.grupo1.ProyectoGrupo1.logica.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +16,20 @@ public class ClienteController {
     public ObjResponse insertar(@RequestBody DtRegistroDireccion dt) {
         return cliService.ingresarDireccion(dt);
     }
+    @RequestMapping(value = "api/cliente/modificarDatos", method = RequestMethod.PUT)
+    public ObjResponse modificarDatos(@RequestBody DtCliente dtCliente) {
+        return cliService.modificarDatosCliente(dtCliente);
+    }
     @RequestMapping(value = "api/cliente/consultarDirecciones", method = RequestMethod.GET)
-    public ObjResponse consultar(@RequestParam Long idCliente) {
+    public ObjResponse consultarDireccion(@RequestParam Long idCliente) {
         return cliService.consultarDirecciones(idCliente);
     }
     @RequestMapping(value = "api/cliente/modificarDireccion", method = RequestMethod.PUT)
-    public ObjResponse modificar(@RequestBody DtDireccion dtD) {
+    public ObjResponse modificarDireccion(@RequestBody DtDireccion dtD) {
         return cliService.modificarDireccion(dtD);
     }
     @RequestMapping(value = "api/cliente/eliminarDireccion", method = RequestMethod.DELETE)
-    public ObjResponse modificar(@RequestParam Long idDireccion) {
+    public ObjResponse eliminarDireccion(@RequestParam Long idDireccion) {
         return cliService.eliminarDireccion(idDireccion);
     }
 }

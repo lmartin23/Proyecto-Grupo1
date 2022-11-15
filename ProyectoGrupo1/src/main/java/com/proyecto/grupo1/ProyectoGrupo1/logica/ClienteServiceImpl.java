@@ -3,14 +3,12 @@ package com.proyecto.grupo1.ProyectoGrupo1.logica;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.ClienteDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.DireccionDao;
 import com.proyecto.grupo1.ProyectoGrupo1.dao.VendedorDao;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtDireccion;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroDireccion;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.DtRegistroVendedor;
-import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
+import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.*;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoUsuario;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Cliente;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Direccion;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.Vendedor;
+import com.proyecto.grupo1.ProyectoGrupo1.seguridad.PasswordSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,12 +21,12 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Autowired
     ClienteDao clienteDao;
-
     @Autowired
     VendedorDao vendedorDao;
-
     @Autowired
     DireccionDao dirDao;
+    @Autowired
+    PasswordSevice passService;
 
     @Override
     public ObjResponse ingresarDireccion(DtRegistroDireccion dt) {
@@ -111,6 +109,35 @@ public class ClienteServiceImpl implements ClienteService{
         try{
             dirDao.delete(direccion);
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
+        }catch (Exception e){
+            return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
+        }
+    }
+
+    @Override
+    public ObjResponse modificarDatosCliente(DtCliente dtCliente) {
+        Cliente cliente = clienteDao.findClienteById(dtCliente.getId());
+
+        //cambio de contraseña
+        if(dtCliente.getContrasenaNueva() != null && dtCliente.getContrasena() != null &&
+                passService.verificarHash(cliente.getContrasena(), dtCliente.getContrasena())){
+            cliente.setContrasena(passService.hashearPassword(dtCliente.getContrasenaNueva()));
+        } else if (dtCliente.getContrasenaNueva() != null && dtCliente.getContrasena() != null &&
+                !passService.verificarHash(cliente.getContrasena(), dtCliente.getContrasena())){
+            return new ObjResponse("Error. Contraseña ingresada no coincide con la actual.", HttpStatus.BAD_REQUEST.value(), null);
+        } else if (dtCliente.getContrasenaNueva() == null && dtCliente.getContrasena() != null ||
+                dtCliente.getContrasenaNueva() != null && dtCliente.getContrasena() == null ){
+            return new ObjResponse("Error. Contraseña ingresada no coincide con la actual.", HttpStatus.BAD_REQUEST.value(), null);
+        }
+
+        cliente.setDocumento(dtCliente.getDocumento());
+        cliente.setNombre(dtCliente.getNombre());
+        cliente.setApellido(dtCliente.getApellido());
+        cliente.setFechaNacimiento(dtCliente.getFechaNacimiento());
+
+        try{
+            clienteDao.save(cliente);
+            return new ObjResponse("Exito", HttpStatus.OK.value(), cliente.obtenerDt().getId());
         }catch (Exception e){
             return new ObjResponse("Error genérico", HttpStatus.BAD_REQUEST.value(), null);
         }
