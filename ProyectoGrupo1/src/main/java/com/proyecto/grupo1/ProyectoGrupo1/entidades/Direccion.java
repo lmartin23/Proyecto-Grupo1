@@ -76,6 +76,6 @@ public class Direccion {
     }
 
     public DtDireccion obtenerDtDireccion(){
-        return new DtDireccion(this.calle, this.numero, this.apto, this.barrio, this.ciudad, this.departamento);
+        return new DtDireccion(this.id, this.calle, this.numero, this.apto, this.barrio, this.ciudad, this.departamento);
     }
 }

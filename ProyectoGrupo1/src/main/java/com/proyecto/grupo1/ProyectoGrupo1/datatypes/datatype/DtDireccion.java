@@ -46,6 +46,17 @@ public class DtDireccion {
 
     }
 
+    public DtDireccion(Long id,String calle, int numero, String apto, String barrio, String ciudad, String departamento) {
+        this.id = id;
+        this.calle = calle;
+        this.numero = numero;
+        this.apto = apto;
+        this.barrio = barrio;
+        this.ciudad = ciudad;
+        this.departamento = departamento;
+
+    }
+
     public DtDireccion() {
     }
 }
