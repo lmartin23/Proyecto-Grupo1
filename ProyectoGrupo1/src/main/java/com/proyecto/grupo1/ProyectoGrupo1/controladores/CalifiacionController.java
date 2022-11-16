@@ -26,7 +26,7 @@ public class CalifiacionController {
         return calificacionService.modificar(dtC);
     }
 
-    @RequestMapping(value = "/eliminar", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/eliminar", method = RequestMethod.PUT)
     public ObjResponse eliminar(
             @RequestBody DtCalificacion dtC
     ){
