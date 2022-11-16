@@ -44,8 +44,8 @@ public class InvitadoController {
         return serviceInv.recuperarContrasena(correo);
     }
 
-    @RequestMapping(value = "api/invitado/registrarAdmin", method = RequestMethod.POST)
+    /*@RequestMapping(value = "api/invitado/registrarAdmin", method = RequestMethod.POST)
     public ObjResponse registrarAdmin(@RequestParam String correo, @RequestParam String pass){
         return serviceInv.registrarAdministrador(correo, pass);
-    }
+    }*/
 }

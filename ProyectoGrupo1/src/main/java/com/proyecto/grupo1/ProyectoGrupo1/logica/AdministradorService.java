@@ -14,5 +14,6 @@ public interface AdministradorService {
     public ObjResponse buscarUsuarios(String correo);
     public ObjResponse bloquearDesbloquerUsuarios(String correo, String rol, boolean bloqueado);
     public ObjResponse eliminarCuentaUsuario(Long idUser, Rol rol);
+    public ObjResponse registrarAdministrador(String correo, String contra);
 
 }

@@ -11,5 +11,5 @@ public interface InvitadoService {
     public DtAuxLogin login(DtLogin dtLogin);
     public DtCliente obtenerCliente(Long id);
     public ObjResponse recuperarContrasena(String correo);
-    public ObjResponse registrarAdministrador(String correo, String contra);
+    //public ObjResponse registrarAdministrador(String correo, String contra);
 }

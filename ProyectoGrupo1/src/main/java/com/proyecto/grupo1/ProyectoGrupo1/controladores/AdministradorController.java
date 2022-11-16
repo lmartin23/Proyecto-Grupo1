@@ -46,4 +46,8 @@ public class AdministradorController {
     public ObjResponse eliminarCuentaUsuario(@RequestParam Long idUsuario, @RequestParam Rol rol){
         return admServ.eliminarCuentaUsuario(idUsuario, rol);
     }
+    @RequestMapping(value = "api/administrador/registrarAdmin", method = RequestMethod.POST)
+    public ObjResponse registrarAdmin(@RequestParam String correo, @RequestParam String pass){
+        return admServ.registrarAdministrador(correo, pass);
+    }
 }

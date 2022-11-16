@@ -171,6 +171,7 @@ public class InvitadoServiceImpl implements InvitadoService{
 
     }
 
+    /*
     @Override
     public ObjResponse registrarAdministrador(String correo, String contra) {
 
@@ -188,5 +189,5 @@ public class InvitadoServiceImpl implements InvitadoService{
             }
         }
         return new ObjResponse("Error, ya existe un usuario registrado con los datos ingresados documento o correo", HttpStatus.BAD_REQUEST.value(), null);
-    }
+    }*/
 }

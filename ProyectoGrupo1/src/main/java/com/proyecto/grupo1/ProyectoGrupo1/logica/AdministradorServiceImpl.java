@@ -7,6 +7,7 @@ import com.proyecto.grupo1.ProyectoGrupo1.datatypes.datatype.ObjResponse;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.Rol;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.*;
+import com.proyecto.grupo1.ProyectoGrupo1.seguridad.PasswordSevice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,8 @@ public class AdministradorServiceImpl implements AdministradorService{
     final
     CompraDao compraDao;
     final ProductoDao pdao;
-
-    public AdministradorServiceImpl(VendedorDao vendedorDao, MailService mailService, ClienteDao cliDao, AdministradorDao administradorDao, ProductoDao prodDao, CompraDao compraDao, ProductoDao pdao) {
+    final PasswordSevice passService;
+    public AdministradorServiceImpl(VendedorDao vendedorDao, MailService mailService, ClienteDao cliDao, AdministradorDao administradorDao, ProductoDao prodDao, CompraDao compraDao, ProductoDao pdao, PasswordSevice passService) {
         this.vendedorDao = vendedorDao;
         this.mailService = mailService;
         this.cliDao = cliDao;
@@ -37,6 +38,7 @@ public class AdministradorServiceImpl implements AdministradorService{
         this.prodDao = prodDao;
         this.compraDao = compraDao;
         this.pdao = pdao;
+        this.passService = passService;
     }
 
 
@@ -288,6 +290,24 @@ public class AdministradorServiceImpl implements AdministradorService{
             return new ObjResponse("No se ha encontrado usuario", HttpStatus.BAD_REQUEST.value(), null);
         }
     }
+    @Override
+    public ObjResponse registrarAdministrador(String correo, String contra) {
+
+        if (!correoRegistrado(correo)) {
+            String pass = passService.hashearPassword(contra);
+            String[] parts = correo.split("@");
+            String nombre = parts[0]; // seteo la parte anteriro al @ del correo como nombre
+
+            Administrador admin = new Administrador(nombre, correo, pass);
+            try {
+                administradorDao.save(admin);
+                return new ObjResponse("Exito", HttpStatus.CREATED.value(), 0L, null, "Exito");
+            } catch (Exception e) {
+                return new ObjResponse("Error inesperado", HttpStatus.BAD_REQUEST.value(), null);
+            }
+        }
+        return new ObjResponse("Error, ya existe un usuario registrado con los datos ingresados documento o correo", HttpStatus.BAD_REQUEST.value(), null);
+    }
 
     public String enviarMailVendedor(String correo, String asunto, String mensaje){
         MailRequest mail = new MailRequest();
@@ -316,5 +336,8 @@ public class AdministradorServiceImpl implements AdministradorService{
 
     public ObjResponse auxResponseNoResult() {
         return new ObjResponse("No se ha encontrado el usuarios ha bloquear, error en los datos o rol", HttpStatus.BAD_REQUEST.value(),0L, null,"Error");
+    }
+    public boolean correoRegistrado(String correo){
+        return cliDao.findClienteByCorreoIgnoreCaseAndEliminadoIsFalse(correo) != null || administradorDao.findAdministradorByCorreoIgnoreCaseAndEliminadoIsFalse(correo) != null;
     }
 }
