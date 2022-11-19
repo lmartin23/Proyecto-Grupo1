@@ -8,7 +8,7 @@ public enum CategoProd {
     INSTRUMENTOS("Instrumentos"),
     LIBROS("Libros"),
     ACCESORIOS("Accesorios"),
-    CALZADO("Calzado");
+    CALZADOS("Calzados");
 
     private final String descripcion;
 

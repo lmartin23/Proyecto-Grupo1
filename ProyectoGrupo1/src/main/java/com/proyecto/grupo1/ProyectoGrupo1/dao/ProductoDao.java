@@ -9,6 +9,7 @@ import java.util.List;
 public interface ProductoDao extends CrudRepository<Producto, Long> {
     Producto findProductoById(Long id);
     List<Producto> getAllBy();
+    List<Producto> findAll();
     List<Producto> getAllByActivo(Boolean status);
     List<Producto> findProductoByNombreContainingAndActivoIsTrue(String nombre);
     List<Producto> findProductoByNombreContainingAndVendedor_Id(String nombre, Long idVendedor);
