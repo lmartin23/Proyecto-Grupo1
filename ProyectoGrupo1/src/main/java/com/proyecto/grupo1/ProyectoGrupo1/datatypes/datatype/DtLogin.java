@@ -9,4 +9,8 @@ public class DtLogin {
 
     @Getter @Setter
     public String contrasena;
+
+    @Getter @Setter
+    public String mobileToken;
+
 }

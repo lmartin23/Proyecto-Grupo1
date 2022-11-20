@@ -9,6 +9,8 @@ import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.CategoProd;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.EstadoCompra;
 import com.proyecto.grupo1.ProyectoGrupo1.datatypes.enums.TipoNotificacion;
 import com.proyecto.grupo1.ProyectoGrupo1.entidades.*;
+import com.sun.xml.bind.v2.schemagen.xmlschema.NoFixedFacet;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class VentaServiceImpl implements VentaService{
     @Autowired
     MailService mailService;
     @Autowired
-    NotificacionDao notificacionDao;
+    PushService pushService;
     @Autowired
     CalificacionDao calificacionDao;
     @Override
@@ -158,17 +160,24 @@ public class VentaServiceImpl implements VentaService{
         mail.setSubject("Compra lista para ser recibida. Id: "+compra.getId());
         mail.setText(mensaje);
 
-        //armo notificación push
+        /*//armo notificación push
         Notificacion push = new Notificacion(
                 TipoNotificacion.MENSAJE,
                 mensaje,
                 false,
                 compra.getProductoCarrito().getCliente().getId()
+        );*/
+
+        //armo nueva push
+        PushRequest push = new PushRequest(
+            compra.getProductoCarrito().getCliente().getMobileToken(),
+            new Notificacion(TipoNotificacion.PUSH, "Click-Store", mensaje, compra.getProductoCarrito().getCliente().getId())
         );
 
         try {
             compraDao.save(compra);
             mailService.sendMail(mail);
+            pushService.sendPush(push);
             //notificacionDao.save(push);
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
         }catch (Exception e){

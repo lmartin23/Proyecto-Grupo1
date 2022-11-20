@@ -71,6 +71,10 @@ public class InvitadoServiceImpl implements InvitadoService{
         if(c!=null){
             if(!c.isBloqueado()){
                 if (passService.verificarHash(c.getContrasena(), dtLogin.getContrasena())){
+                    if(dtLogin.getMobileToken() != null) {
+                        c.setMobileToken(dtLogin.mobileToken);
+                        clienteDao.save(c);
+                    }
                     return new DtAuxLogin(true, "Exito");
                 }
             }else{
