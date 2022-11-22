@@ -72,7 +72,7 @@ public class PushServiceImpl implements PushService{
         switch (post.getStatus()) {
             case 200:
                 log.info("Push enviada. Response: " + responseJson);
-                notificacionDao.save(request.getNotification());
+                //notificacionDao.save(request.getNotification());
                 return ResponseEntity.ok("Push enviada. Response: " + responseJson);
             default:
                 log.warn("Error enviando push");
