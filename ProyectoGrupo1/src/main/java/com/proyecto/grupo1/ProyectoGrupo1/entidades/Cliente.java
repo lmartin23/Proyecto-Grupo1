@@ -19,6 +19,8 @@ public class Cliente  extends Usuario {
     private Rol rol;
     private double saldo;
     private boolean envioDomicilio;
+    private String mobileToken;
+
 
     @OneToMany(mappedBy = "cliente", cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Calificacion> calificacionesCliente = new ArrayList<Calificacion>();

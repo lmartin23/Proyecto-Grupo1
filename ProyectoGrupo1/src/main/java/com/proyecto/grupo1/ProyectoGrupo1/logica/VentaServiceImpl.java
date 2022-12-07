@@ -29,10 +29,12 @@ public class VentaServiceImpl implements VentaService{
     @Autowired
     MailService mailService;
     @Autowired
+    PushService pushService;
+    @Autowired
     NotificacionDao notificacionDao;
     @Autowired
     CalificacionDao calificacionDao;
-    @Override
+        @Override
     public ObjResponse listarVentasEntregaPendienteSinMarcar(Long idVendedor) {
         Vendedor vendedor = vendedorDao.findVendedorById(idVendedor);
         List<Compra> compras = compraDao.findCompraByEstadoAndProductoCarrito_Producto_Vendedor(EstadoCompra.ENTREGA_DEFINIDA, vendedor);
@@ -158,18 +160,18 @@ public class VentaServiceImpl implements VentaService{
         mail.setSubject("Compra lista para ser recibida. Id: "+compra.getId());
         mail.setText(mensaje);
 
-        //armo notificación push
-        Notificacion push = new Notificacion(
-                TipoNotificacion.MENSAJE,
-                mensaje,
-                false,
-                compra.getProductoCarrito().getCliente().getId()
+        //armo nueva push
+        PushRequest push = new PushRequest(
+            compra.getProductoCarrito().getCliente().getMobileToken(),
+            new Notificacion(TipoNotificacion.PUSH, "Click-Store", mensaje, compra.getProductoCarrito().getCliente().getId())
         );
 
         try {
             compraDao.save(compra);
+            //notificaciones
             mailService.sendMail(mail);
-            //notificacionDao.save(push);
+            notificacionDao.save(push.getNotification());
+            pushService.sendPush(push);
             return new ObjResponse("Exito", HttpStatus.OK.value(), null);
         }catch (Exception e){
             return new ObjResponse("Error", HttpStatus.BAD_REQUEST.value(),null);

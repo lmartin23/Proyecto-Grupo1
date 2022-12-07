@@ -30,6 +30,10 @@ public class ProductoServiceImpl implements ProductoService {
     public ObjResponse altaProducto(DtProducto dtP){
         Vendedor vendedor = vendedorDao.findVendedorById(dtP.getIdVendedor());
 
+        if(dtP.getImagenesUrl() == null || dtP.getImagenesUrl().size() == 0 ){
+            return new ObjResponse("Error. No se ingresaron imagenes para el producto.", HttpStatus.BAD_REQUEST.value(),null);
+        }
+
         Producto producto = new Producto(
                 dtP.getNombre(),
                 dtP.getDescripcion(),
@@ -79,10 +83,10 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setStock(dtP.getStock());
         producto.setCategoria(CategoProd.valueOf(dtP.getCategoria()));
         producto.setActivo(dtP.isActivo());
-        setImagenesProducto(producto, dtP.getImagenesUrl());
-
+        //setImagenesProducto(producto, dtP.getImagenesUrl());
 
         try {
+            productoDao.save(producto);
             Producto p = productoDao.findProductoById(producto.getId());
             return new ObjResponse("Exito", HttpStatus.CREATED.value(),p.obtenerDtProducto());
         }catch (Exception e) {

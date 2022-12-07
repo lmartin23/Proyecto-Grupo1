@@ -17,20 +17,19 @@ import java.util.Date;
 public class Notificacion {
     @Enumerated(EnumType.STRING)
     private TipoNotificacion tipo;
-    private String descripcion;
-    private Date fecha;
-    private boolean vista;
-
+    private String title;
+    private String body;
+    private Date fecha = Calendar.getInstance().getTime();
+    private boolean vista = false;
     private Long idCliente;
 
     public Notificacion() {
     }
 
-    public Notificacion(TipoNotificacion tipo, String descripcion, boolean vista, Long idCliente) {
+    public Notificacion(TipoNotificacion tipo, String title, String body, Long idCliente) {
         this.tipo = tipo;
-        this.descripcion = descripcion;
-        this.fecha = Calendar.getInstance().getTime();
-        this.vista = vista;
+        this.title = title;
+        this.body = body;
         this.idCliente = idCliente;
     }
 }
