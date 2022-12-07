@@ -82,7 +82,7 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setPrecio(dtP.getPrecio());
         producto.setStock(dtP.getStock());
         producto.setCategoria(CategoProd.valueOf(dtP.getCategoria()));
-        //producto.setActivo(dtP.isActivo());
+        producto.setActivo(dtP.isActivo());
         //setImagenesProducto(producto, dtP.getImagenesUrl());
 
         try {
